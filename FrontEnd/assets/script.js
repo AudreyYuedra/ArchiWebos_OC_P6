@@ -14,7 +14,7 @@ const works = fetch("http://localhost:5678/api/works").then(function() {
 console.log(works);
 
 /********** VARIABLES **********/
-
+let counter = 0;
 
 
 /********** FONCTIONS **********/
@@ -26,8 +26,11 @@ function afficherWorks(i) {
     //position éléments
     gallery.appendChild(figure);
     figure.appendChild(img, figcaption);
-    //lien CSS
+    //ajout style CSS
     img.classList.add("gallery img");
+    //liens d'affcihage contentu works
+    img.src = works[counter].imageUrl;
+    title.innerHTML = works[counter].title;
 }
 
 function filtreEvent () {
