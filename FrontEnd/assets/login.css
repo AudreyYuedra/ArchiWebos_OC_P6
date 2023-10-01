@@ -6,6 +6,9 @@
 main {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 700px;
 }
 h2 {
     text-align: center;
@@ -13,32 +16,46 @@ h2 {
 form {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    margin: 15px;
+    align-items: center;
+    width: 40%;
+    margin: 35px;
+    margin-left: 50px;
 }
 form label {
     font-size: 16px;
-    justify-content: center;
+    margin-bottom: 5px;
+}
+form .mail {
+    position: relative;
+    left: -198px;
+}
+form .mdp {
+    position: relative;
+    left: -172px;
 }
 form input {
     height: 40px;
-    width: 250px;
-    justify-content: center;
+    width: 100%;
+    margin-bottom: 40px;
+    border: none;
+    box-shadow: 0 2px 5px #B1663C;
+    opacity: 0.2;
 }
 form #btn-login {
+    display: flex;
     justify-content: center;
-}
-form a {
-    justify-content: center;
-    color: black;
-}
-#btn-login {
     width: 150px;
+    border: none;
     border-radius: 50px;
     background-color: #1D6154;
     color: white;
     font-size: 16px;
     text-align: center;
     padding: 10px 0;
-    margin: 25px 0;
 }
+form a {
+    justify-content: center;
+    color: black;
+    margin-top: 30px;
+}
+
