@@ -58,4 +58,7 @@ form a {
     color: black;
     margin-top: 30px;
 }
-
+.error {
+    background-color: red;
+    opacity: 0.6;
+}
