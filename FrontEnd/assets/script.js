@@ -1,10 +1,9 @@
 /********** CONSTANTES **********/
 //récupération DOM
-const filtres = document.querySelectorAll("filtres div");
-const tous = document.getElementById("tous");
-const objets = document.getElementById("objets");
-const appartements = document.getElementById("appartements");
-const hotelResto = document.getElementById("hotelResto");
+const categorie0 = document.getElementById("tous");
+const categorie1 = document.getElementById("objets");
+const categorie2 = document.getElementById("appartements");
+const categorie3 = document.getElementById("hotelResto");
 const gallery = document.getElementsByClassName("gallery");
 
 //requête API ressource works
@@ -33,39 +32,61 @@ function afficherWorks(i) {
     title.innerHTML = works[counter].title;
 }
 
-function filtreEvent () {
-    if ("click") {
-        //ajout style CSS
-        filtres.classList.add(".filtre_selected");
-    }
-};
 
 /********** AUTRES **********/
 for (i = 0; i > works.length; i++) {
     afficherWorks(i)
 }
 
+//SI filtre d'orifgine sélectionné
+if (i === /*blabla*/) {
+    categorie0.classList.add("filtre_selected");
+}
 
-tous.addEventListener("click", function () {
+categorie0.addEventListener("click", function () {
    const filtreTous = works.filter(function (works) {
        return works;
    });
+   //enlever CSS
+   categorie.classList.remove("filtre_selected");
+   //ajout CSS
+   categorie0.classList.add("filtre_selected");
+
+   console.log("Filtre Tous affiché.");
 });
 
-objets.addEventListener("click", function () {
+categorie1.addEventListener("click", function () {
    const filtreObjets = works.filter(function (works) {
-       return works.;
+       return works.1;
    });
+    //enlever CSS
+    categorie.classList.remove("filtre_selected");
+    //ajout CSS
+    categorie1.classList.add("filtre_selected");
+
+    console.log("Filtre Objets affiché.");
 });
 
-appartements.addEventListener("click", function () {
+categorie2.addEventListener("click", function () {
     const filtreAppartements = works.filter(function (works) {
-        return works.;
+        return works.2;
     });
+    //enlever CSS
+    categorie.classList.remove("filtre_selected");
+    //ajout CSS
+    categorie2.classList.add("filtre_selected");
+    
+    console.log("Filtre Appartements affiché.");
  });
 
- hotelResto.addEventListener("click", function () {
+categorie3.addEventListener("click", function () {
     const filtreHotelResto = works.filter(function (works) {
-        return works.;
+        return works.3;
     });
+   //enlever CSS
+    categorie.classList.remove("filtre_selected");
+    //ajout CSS
+    categorie3.classList.add("filtre_selected");
+    
+    console.log("Filtre Hôtels & Restaurants affiché.");
  });
