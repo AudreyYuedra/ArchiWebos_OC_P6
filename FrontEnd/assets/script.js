@@ -1,49 +1,53 @@
 /********** CONSTANTES **********/
 //récupération DOM
-const categorie0 = document.getElementById("tous");
-const categorie1 = document.getElementById("objets");
-const categorie2 = document.getElementById("appartements");
-const categorie3 = document.getElementById("hotelResto");
-const gallery = document.getElementsByClassName("gallery");
+const categories = document.querySelectorAll(".category");
+const gallery = document.querySelector(".gallery");
 
-//requête API ressource works
-const works = fetch("http://localhost:5678/api/works").then(function() {
-    const reponse = works.json();
-});
-console.log(works);
 
 /********** VARIABLES **********/
-let counter = 0;
 
 
 /********** FONCTIONS **********/
-function afficherWorks(i) {
-    //création éléments
-    let work = document.createElement("figure");
-    let img = document.createElement("img");
-    let title = document.createElement("figcaption");
-    //position éléments
-    gallery.appendChild(figure);
-    figure.appendChild(img, figcaption);
-    //ajout style CSS
-    img.classList.add("gallery img");
-    //liens d'affcihage contentu works
-    img.src = works[counter].imageUrl;
-    title.innerHTML = works[counter].title;
+//requête API ressource works
+function fetchWorks(){
+    return fetch("http://localhost:5678/api/works")
+        .then(response => response.json()) //mettre paraenthèse pour contenu
+        .catch(error => {
+            console.error("Erreur de récupération de travaux.", error)
+        });
+    
+}
+
+
+function afficherWorks(works) {
+    //efface le contenu html
+    gallery.innerHTML = "";
+    console.log("works", works);
+    //création éléments via boucle
+    works.forEach(work => {
+        const figure = document.createElement("figure");
+        const img = document.createElement("img");
+        const figcaption = document.createElement("figcaption");
+        //assignements
+        img.src = work.imageUrl  //pas de guillemets
+        img.alt = work.title   //pas de guillemets
+        figcaption.textcontent = work.title
+        //position éléments
+        figure.appendChild(img);
+        figure.appendChild(figcaption);
+        gallery.appendChild(figure);
+    })
 }
 
 
 /********** AUTRES **********/
-for (i = 0; i > works.length; i++) {
-    afficherWorks(i)
-}
 
 //SI filtre d'orifgine sélectionné
-if (i === /*blabla*/) {
+/*if (i === ) {
     categorie0.classList.add("filtre_selected");
-}
+}*/
 
-categorie0.addEventListener("click", function () {
+/*categorie0.addEventListener("click", function () {
    const filtreTous = works.filter(function (works) {
        return works;
    });
@@ -89,4 +93,11 @@ categorie3.addEventListener("click", function () {
     categorie3.classList.add("filtre_selected");
     
     console.log("Filtre Hôtels & Restaurants affiché.");
+ });*/
+
+ document.addEventListener("DOMContentLoaded", () => {
+    fetchWorks()
+        .then(works => {
+            afficherWorks(works);
+        });
  });
