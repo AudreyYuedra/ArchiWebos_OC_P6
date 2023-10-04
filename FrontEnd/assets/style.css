@@ -160,10 +160,11 @@ li:hover {
 	grid-column-gap: 20px;
 	grid-row-gap: 20px;
 }
-
 .gallery img {
 	width: 100%;
-
+}
+.gallery figcaption {
+	margin-top : 5px;
 }
 #contact {
 	width: 50%;

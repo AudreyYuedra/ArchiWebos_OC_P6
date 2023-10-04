@@ -18,7 +18,6 @@ function fetchWorks(){
     
 }
 
-
 function afficherWorks(works) {
     //efface le contenu html
     gallery.innerHTML = "";
@@ -29,9 +28,9 @@ function afficherWorks(works) {
         const img = document.createElement("img");
         const figcaption = document.createElement("figcaption");
         //assignements
-        img.src = work.imageUrl  //pas de guillemets
-        img.alt = work.title   //pas de guillemets
-        figcaption.textcontent = work.title
+        img.src = work.imageUrl
+        img.alt = work.title
+        figcaption.innerText = work.title
         //position éléments
         figure.appendChild(img);
         figure.appendChild(figcaption);
