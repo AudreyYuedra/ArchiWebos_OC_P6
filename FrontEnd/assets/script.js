@@ -1,7 +1,7 @@
 /********** CONSTANTES **********/
 //récupération DOM
-const portfolio = document.getElementById("portfolio");
 const gallery = document.querySelector(".gallery");
+const filters = document.querySelector(".filters");
 
 
 /********** VARIABLES **********/
@@ -49,15 +49,12 @@ function fetchCategories(){
 function afficherCategories(categories) {
     console.log("catégories", categories);
     //création élements
-    const filters = document.createElement("filters");
     const filterAll = document.createElement("tous");
     //position élément
-    portfolio.appendChild(filters);
     filters.appendChild(filterAll);
     //nom
     filterAll.innerText = "Tous"
     //lien CSS
-    filters.classList.add("filters");
     filterAll.classList.add("btnFilter");
     //création éléments via boucle
     categories.forEach(category => {
