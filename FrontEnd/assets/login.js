@@ -1,9 +1,12 @@
 /********** CONSTANTES **********/
 //récupération DOM
-const form = document.querySelector("form");
+const main = document.querySelector("main");
 const baliseMail = document.getElementById("mail");
 const baliseMdp = document.getElementById("mdp");
-const btnEnvoie = document.getElementById("btn-login");
+const btnEnvoie = document.getElementById("btn_login");
+
+const mail = "sophie.bluel@test.tld";
+const mdp = "S0phie";
 
 
 /********** VARIABLES **********/
@@ -40,9 +43,28 @@ function verifierMdp(baliseMdp) {
     }
 }
 
-/********** AUTRES ***********/
+function login(baliseMail, baliseMdp) {
+    btnEnvoie.innerText = "Se connecter";
+    btnEnvoie.classList.add("btn_login");
+
+    if (baliseMail === mail & baliseMdp === mdp) {
+        //changement de page
+        // ... (index.html)
+    } else {
+        //affiche erreur
+        const txtError = document.createElement("txt_error");
+        main.appendChild("txtError");
+        txtError.innerHTML = "Erreur d'identifiant ou de mot de passe.";
+        txtError.classList.add("txt_error");
+
+        console.log("Erreur de connexion.");
+    }
+}
+
+
+    /********** AUTRES ***********/
 //connexion login
-form.addEventListener("submit", (event) => {
+btnEnvoie.addEventListener("submit", (event) => {
     //empêcher comportement par défaut
     event.preventDefault();
 
@@ -50,6 +72,5 @@ form.addEventListener("submit", (event) => {
     verifierEmail();
     verifierMdp();
 
-    //redirection si login OK
-    
+    login();
 });

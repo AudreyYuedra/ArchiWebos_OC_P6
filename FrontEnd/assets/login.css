@@ -41,7 +41,7 @@ form input {
     box-shadow: 0 2px 5px #B1663C;
     opacity: 0.2;
 }
-form #btn-login {
+form .btn_login {
     display: flex;
     justify-content: center;
     width: 150px;
@@ -52,13 +52,18 @@ form #btn-login {
     font-size: 16px;
     text-align: center;
     padding: 10px 0;
+    opacity: 1;
 }
 form a {
-    justify-content: center;
+    font-family: 'Work Sans';
     color: black;
     margin-top: 30px;
 }
 .error {
     background-color: red;
     opacity: 0.6;
+}
+.txt_error {
+    color: red;
+    font-size: 18px;
 }
