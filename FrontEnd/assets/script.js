@@ -2,6 +2,7 @@
 //récupération DOM
 const gallery = document.querySelector(".gallery");
 const filters = document.querySelector(".filters");
+const btn = document.querySelectorAll("button");
 
 
 /********** VARIABLES **********/
@@ -72,60 +73,55 @@ function afficherCategories(categories) {
 // affichage filtre
 function filterAll(categories) {
     //affichage de base
-    const btnAll = document.querySelector("button");
+    btn[0].classList.add(".filter_selected"); //prb nom btn
+    //affiche tous les travaux
+    const btnAll = categories.filter(function(category) {
+        return category.id === 1 + 2 + 3;  // j'hésite avec &
+    });
+    //lien CSS
+    btn.classList.remove("filter_selected");
     btnAll.classList.add(".filter_selected");
-    //SI click dessus
-    if ("click") {
-        //affiche tous les travaux
-        categories.filter((category) => category.id);
-        //lien CSS
-        btn.classList.remove("filter_selected");
-        btnAll.classList.add(".filter_selected");
 
-        console.log("Vous avez cliqué sur le filtre \"Tous\".");
-    }
+    console.log("Vous avez cliqué sur le filtre \"Tous\".");
 }
 
 function filterObject(categories) {
-    //affichage de base
-    const btnObject = btnFilter[0];
-    //SI click dessus
-    if ("click") {
-        categories.filter((category) => category.id[1]);
-        //lien CSS
-        btn.classList.remove("filter_selected");
-        btnObject.classList.add("filter_selected");
+    //affiche travux type objets
+    const btnObject = btn[1];  //prb nom btn
+    btnObject = categories.filter(function(category) {
+        return category.id === 1;
+    });
+    //lien CSS
+    btn.classList.remove("filter_selected");
+    btnObject.classList.add("filter_selected");
 
-        console.log("Vous avez cliqué sur le filtre \"Objets\".");
-    }
+    console.log("Vous avez cliqué sur le filtre \"Objets\".");
 }
 
 function filterAppart(categories) {
-    //affichage de base
-    const btnAppart = btnFilter[1];
-    //SI click dessus
-    if ("click") {
-        categories.filter((category) => category.id[2]);
-        //lien CSS
-        btn.classList.remove("filter_selected");
-        btnAppart.classList.add("filter_selected");
+    //affiche travaux type appartements
+    const btnAppart = btnFilter[1];   //prb nom btn
+    btnAppart = categories.filter(function(category) {
+        return category.id === 2;
+    });
+    //lien CSS
+    btn.classList.remove("filter_selected");
+    btnAppart.classList.add("filter_selected");
 
-        console.log("Vous avez cliqué sur le filtre \"Appartements\".");
-    }
+    console.log("Vous avez cliqué sur le filtre \"Appartements\".");
 }
 
 function filterHotelResto(categories) {
-    //affichage de base
-    const btnHotelResto = btnFilter[2];
-    //SI click dessus
-    if ("click") {
-        categories.filter((category) => category.id[3]);
-        //lien CSS
-        btn.classList.remove("filter_selected");
-        btnHotelresto.classList.add("filter_selected");
+    //affiche type hotels & resto
+    const btnHotelResto = btnFilter[2];   //prb nom btn
+    btnHotelResto = categories.filter(function(category) {
+        return category.id === 3;
+    });
+    //lien CSS
+    btn.classList.remove("filter_selected");
+    btnHotelResto.classList.add("filter_selected");
 
-        console.log("Vous avez cliqué sur le filtre \"Hôtels & Restaurants\".");
-    }
+    console.log("Vous avez cliqué sur le filtre \"Hôtels & Restaurants\".");
 }
 
 /********** AUTRES **********/
@@ -138,6 +134,7 @@ function filterHotelResto(categories) {
         .then(categories => {
             afficherCategories(categories);
         });
+    filterAll();
  });
 
  button.addEventListener("click", () => {
