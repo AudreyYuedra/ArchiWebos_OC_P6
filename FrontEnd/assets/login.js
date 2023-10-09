@@ -43,7 +43,7 @@ function verifierMdp(baliseMdp) {
     }
 }
 
-function login(baliseMail, baliseMdp) {
+async function login(baliseMail, baliseMdp) {
     btnEnvoie.innerText = "Se connecter";
     btnEnvoie.classList.add("btn_login");
 
@@ -64,7 +64,7 @@ function login(baliseMail, baliseMdp) {
 
     /********** AUTRES ***********/
 //connexion login
-btnEnvoie.addEventListener("submit", (event) => {
+form.addEventListener("submit", (event) => {
     //empêcher comportement par défaut
     event.preventDefault();
 

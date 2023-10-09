@@ -2,11 +2,10 @@
 //récupération DOM
 const gallery = document.querySelector(".gallery");
 const filters = document.querySelector(".filters");
-const btn = document.querySelectorAll("button");
 
 
 /********** VARIABLES **********/
-
+let works = [];
 
 /********** FONCTIONS **********/
 //requête API ressource works
@@ -24,7 +23,7 @@ function afficherWorks(works) {
     gallery.innerHTML = "";
     console.log("works", works);
     //création éléments via boucle
-    works.forEach(work => {
+    works.forEach((work) => {   //mettre les parenthèses par défaut
         const figure = document.createElement("figure");
         const img = document.createElement("img");
         const figcaption = document.createElement("figcaption");
@@ -58,6 +57,8 @@ function afficherCategories(categories) {
     filterAll.innerText = "Tous"
     //lien CSS
     filterAll.classList.add("btnFilter");
+    //ajout attribut
+    filterAll.dataset.categoryId = "0";
     //création éléments via boucle
     categories.forEach(category => {
         const btnFilter = document.createElement("button");
@@ -67,79 +68,42 @@ function afficherCategories(categories) {
         filters.appendChild(btnFilter);
         //lien CSS
         btnFilter.classList.add("btnFilter");
+        //ajout attribut
+        btnFilter.dataset.categoryId = category.id;
     })
 }
 
-// affichage filtre
-function filterAll(categories) {
-    //affichage de base
-    btn[0].classList.add(".filter_selected"); //prb nom btn
-    //affiche tous les travaux
-    const btnAll = categories.filter(function(category) {
-        return category.id === 1 + 2 + 3;  // j'hésite avec &
-    });
-    //lien CSS
-    btn.classList.remove("filter_selected");
-    btnAll.classList.add(".filter_selected");
 
-    console.log("Vous avez cliqué sur le filtre \"Tous\".");
-}
-
-function filterObject(categories) {
-    //affiche travux type objets
-    const btnObject = btn[1];  //prb nom btn
-    btnObject = categories.filter(function(category) {
-        return category.id === 1;
-    });
-    //lien CSS
-    btn.classList.remove("filter_selected");
-    btnObject.classList.add("filter_selected");
-
-    console.log("Vous avez cliqué sur le filtre \"Objets\".");
-}
-
-function filterAppart(categories) {
-    //affiche travaux type appartements
-    const btnAppart = btnFilter[1];   //prb nom btn
-    btnAppart = categories.filter(function(category) {
-        return category.id === 2;
-    });
-    //lien CSS
-    btn.classList.remove("filter_selected");
-    btnAppart.classList.add("filter_selected");
-
-    console.log("Vous avez cliqué sur le filtre \"Appartements\".");
-}
-
-function filterHotelResto(categories) {
-    //affiche type hotels & resto
-    const btnHotelResto = btnFilter[2];   //prb nom btn
-    btnHotelResto = categories.filter(function(category) {
-        return category.id === 3;
-    });
-    //lien CSS
-    btn.classList.remove("filter_selected");
-    btnHotelResto.classList.add("filter_selected");
-
-    console.log("Vous avez cliqué sur le filtre \"Hôtels & Restaurants\".");
-}
-
-/********** AUTRES **********/
+/********** ECOUTEURS D'EVENEMENTS **********/
  document.addEventListener("DOMContentLoaded", () => {
     fetchWorks()
-        .then(works => {
+        .then((data) => {
+            works = data;   //
             afficherWorks(works);
         });
     fetchCategories()
         .then(categories => {
             afficherCategories(categories);
         });
-    filterAll();
  });
 
- button.addEventListener("click", () => {
-    filterAll();
-    filterObject();
-    filterAppart();
-    filterHotelResto();
- });
+//filters foctionnels
+filters.addEventListener("click", (event) => {
+    const target = event.target
+    if (target.tagName === "BUTTON") {    //majuscules pour récupération
+        const allButtons = document.querySelectorAll(".btnFilter");
+        allButtons.forEach ((btn) => {
+            btn.classList.remove("filter_selected")
+        });
+        const categoryId = parseInt (target.dataset.categoryId) //parset => parcourt attribut sur element cliqué
+        if (categoryId === 0) {
+            afficherWorks(works);
+        } else {
+            const filteredWorks = works.filter ((work) => {
+                return work.categoryId === categoryId
+            })
+        afficherWorks(filteredWorks);
+    } 
+    target.classList.add("filter_selected");
+}
+});
