@@ -53,6 +53,7 @@ form .btn_login {
     text-align: center;
     padding: 10px 0;
     opacity: 1;
+    box-shadow: 0 0 0 #1D6154;
 }
 form a {
     font-family: 'Work Sans';
