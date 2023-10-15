@@ -1,5 +1,6 @@
 /********** CONSTANTES **********/
 const headband = document.querySelector(".headband");
+const edit = document.querySelector("edit");
 
 // login ok
 //token placé ici
@@ -9,7 +10,7 @@ const headband = document.querySelector(".headband");
 
 
 /********** FONCTIONS **********/
-function showHeadband () {}
+function showEdition () {}
 
 
 /********** AUTRES **********/
