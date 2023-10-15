@@ -17,7 +17,12 @@ html {
     align-items: center;
     justify-content: center;
     background-color: black;
+}
+.headband a {
+    display: flex;
+    flex-direction: row;
     gap: 5px;
+    text-decoration: none;
 }
 .headband p,
 .headband .fa-regular {
@@ -33,6 +38,7 @@ html {
     position: relative;
     top: -50px;
     left: 700px;
+    text-decoration: none;
 }
 
 
@@ -50,9 +56,37 @@ html {
 }
 
 .modal-wrapper {
+    display: flex;
+    justify-content: center;
     overflow: auto;
     width: 630px;
     height: 690px;
     background-color: white;
     padding: 20px;
+}
+
+.fa-xmark {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    color: black;
+}
+
+#title-modal {
+    font-family: 'Work Sans';
+    color: black;
+    font-weight: 500;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.works-modal {
+    width: 90%;
+    height: 70%;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-column-gap: 5px;
+	grid-row-gap: 5px;
+    border-bottom: rgba(0, 0, 0, 0.6);
+    margin-bottom: 25px;
 }
