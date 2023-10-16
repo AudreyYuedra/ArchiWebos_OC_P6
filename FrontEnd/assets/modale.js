@@ -1,6 +1,7 @@
 /********** IMPORT **********/
 import {filters} from "./script.js";
 import {fetchWorks} from "./script.js";
+import {token} from "./script.js";
 
 
 /********** CONSTANTES **********/
@@ -22,11 +23,11 @@ const worksModal = document.querySelector("works-modal");
 /********** FONCTIONS **********/
 //affiche mode édition quand connecté
 function showEdition () {
-    headband.style.display = "none";
-    headband.setAttribute("aria-hidden", "true");
+    headband.style.display = "null";
+    headband.removeAttribute("aria-hidden");
 
-    edit.style.display = "none";
-    edit.setAttribute("aria-hidden", "true");
+    edit.style.display = "null";
+    edit.removeAttribute("aria-hidden");
 }
 
 //cache filtres quand connecté
@@ -61,22 +62,20 @@ function openModal () {
 }
 
 function closeModal () {
-    if (modal === null) {
-        return;
-    }
-
     modal.style.display = "none";
     modal.setAttribute("aria-hidden", "true");
     modal.removeAttribute("aria-modal");
-    modal = null;
+
 }
 
 
-/********** AUTRES **********/
+/********** ECOUTEURS D'EVENEMENTS **********/
 //modif quand connecté
 document.addEventListener("DOMContentLoaded", () => {
-    showEdition();
-    hiddenFilters();
+    if (token) {
+        showEdition();
+        hiddenFilters();
+    }
 });
 
 document.addEventListener("DOMContentLoaded", () => {

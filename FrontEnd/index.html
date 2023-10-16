@@ -18,7 +18,7 @@
 	<link rel="stylesheet" href="./assets/modale.css">
 </head>
 <body>
-	<div class="headband"> <!-- caché tant que pas connecté -->
+	<div class="headband" aria-hidden="true" style="display: none;"> <!-- caché tant que pas connecté -->
 		<a href="#modal" class="js-modal">
 			<i class="fa-regular fa-pen-to-square"></i>
 			<p>Mode édition</p>
@@ -59,7 +59,8 @@
 	</section>
 	<section id="portfolio">
 		<h2>Mes Projets</h2>
-		<a href="#modal" class="edit js-modal"> <!-- caché tant que pas connecté -->
+		<a href="#modal" class="edit js-modal" 
+			aria-hidden="true" style="display: none;"> <!-- caché tant que pas connecté -->
 			<i class="fa-regular fa-pen-to-square"></i>
 			<p>modifier</p>
 		</a>
