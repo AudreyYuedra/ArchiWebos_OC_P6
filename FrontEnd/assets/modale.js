@@ -1,31 +1,42 @@
+/********** IMPORT **********/
+import {filters} from "./script.js";
+import {fetchWorks} from "./script.js";
+
+
 /********** CONSTANTES **********/
 const headband = document.querySelector(".headband");
 const edit = document.querySelector("edit");
+
+const jsModal = document.querySelectorAll("js-modal");
+const modal = document.getElementById("modal");
+const xmark = document.querySelector("fa-xmark");
+
 const worksModal = document.querySelector("works-modal");
 
-// login ok
-//token placé ici
+// login ok => token placé ici
 
 
 /********** VARIABLES **********/
-let modal = null;
-let works = [];
+
 
 /********** FONCTIONS **********/
 //affiche mode édition quand connecté
-function showEdition () {}
+function showEdition () {
+    headband.style.display = "none";
+    headband.setAttribute("aria-hidden", "true");
 
-//requête API ressource works
-function fetchWorks(){
-    return fetch("http://localhost:5678/api/works")
-        .then(response => response.json()) //mettre paraenthèse pour contenu
-        .catch(error => {
-            console.error("Erreur de récupération de travaux.", error)
-        });
+    edit.style.display = "none";
+    edit.setAttribute("aria-hidden", "true");
+}
+
+//cache filtres quand connecté
+function hiddenFilters () {
+    filters.style.display = "none";
+    filters.setAttribute("aria-hidden", "true");
 }
 
 //affiche works dans modale
-function afficherWorks(works) {
+function modifWorks(works) {
     //efface le contenu html
     worksModal.innerHTML = "";
     console.log("works", works);
@@ -43,39 +54,42 @@ function afficherWorks(works) {
 }
 
 //ouvertute & fermeture modale
-function openModal (event) {
-    event.preventDefault();
-
-    const target = document.querySelector(event.target.getAttribute("href"))
-    target.style.display = null;
-    target.removeAttribute("aria-hidden");
-    target.setAttribute("aria-modal", "true");
-    modal = target;
-    modal.addEventListener("clicl", closeModal);
-    modal.querySelector("fa-xmark").addEventListener("click", closeModal);
-    modal.querySelector("fa-xmark").addEventListener("click", stopPropagation);
+function openModal () {
+    modal.style.display = null;
+    modal.removeAttribute("aria-hidden");
+    modal.setAttribute("aria-modal", "true");
 }
 
-function closeModal (event) {
+function closeModal () {
     if (modal === null) {
         return;
     }
-    event.preventDefault();
 
     modal.style.display = "none";
     modal.setAttribute("aria-hidden", "true");
     modal.removeAttribute("aria-modal");
-    modal.removeEventListener("clicl", closeModal);
-    modal.querySelector("fa-xmark").removeEventListener("click", closeModal);
-    modal.querySelector("fa-xmark").removeEventListener("click", stopPropagation);
-    modal =null;
+    modal = null;
 }
 
-function stopPropagation (event) {
-    event.stopPropagation();
-}
+
 /********** AUTRES **********/
-document.querySelectorAll("js-modal").forEach(a => {
-    a.addEventListener("click", openModal);
-    
-})
+//modif quand connecté
+document.addEventListener("DOMContentLoaded", () => {
+    showEdition();
+    hiddenFilters();
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    modifWorks();
+});
+
+//ouverture & fermeture modale
+jsModal.addEventListener("click", (event) => {
+    event.preventDefault();
+    openModal();
+});
+
+xmark.addEventListener("clic", (event) => {
+    event.preventDefault();
+    closeModal();
+});
