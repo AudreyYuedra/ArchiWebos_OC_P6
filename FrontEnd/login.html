@@ -25,12 +25,12 @@
     </header>
     <main>
         <h2>Log In</h2>
-        <form>
+        <form action="#" method="post">
             <label class="mail">E-mail</label></br>
-            <input type="email" id="email"></br>
+            <input type="email" id="email" name="email"></br>
             <label class="mdp">Mot de passe</label></br>
-            <input type="text" id="mdp">
-            <input type="submit" id="btn_login" value="Se connecter" class="btn_login"></input>
+            <input type="password" id="password" name="password"> <!-- cache les caractères -->
+            <input type="submit" id="btn_login" value="Se connecter"></input>
             <a href="#">Mot de passe oublié</a>
         </form>
         <div class="txt_error"></div>

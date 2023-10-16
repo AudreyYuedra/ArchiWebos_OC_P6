@@ -41,7 +41,7 @@ form input {
     box-shadow: 0 2px 5px #B1663C;
     opacity: 0.2;
 }
-form .btn_login {
+form #btn_login {
     display: flex;
     justify-content: center;
     width: 150px;
