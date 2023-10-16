@@ -1,57 +1,71 @@
 /********** CONSTANTES **********/
 //récupération DOM
 const form = document.querySelector("form");
-const txtError = document.querySelector("txt_error");
 const email = document.querySelector("#email");
 const password = document.querySelector("#password");
 
-/********** VARIABLES **********/
-
 
 /********** FONCTIONS **********/
-/*async function verifLogin () {
-    const login = {
-        user: event.target.querySelector("[id=email]").value,
-        password: event.target.querySelector("[id=mdp]").value,
-    };
-    
-    
-    
+function verifEmail() {
+    //conformité email
+    let emailRegExp = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\.[a-z0-9._-]+");
 
-    if (login.user === mail.value & login.password === mdp.value) {
-        //changement de page
-        window.location.href = "./index.html";
+    if (email !== email.value || email !== emailRegExp) {
+        email.classList.add("error");
     } else {
-        throw error;
+        console.log("L'email est valide !");
     }
-}*/
+};
 
-    /********** AUTRES ***********/
+function verifPassword() {
+    if (password !== password.value) {
+        password.classList.add("error");
+    } else {
+        console.log("Le mot de passe est valide !");
+    }
+}
+
+function verifLogin() {
+    if (email !== email.value && password !== password.value) {
+        email.classList.add("error");
+        password.classList.add("error");
+    } else {
+        console.log("Le login est valide !")
+    }
+}
+
+/********** ECOUTEURS D'EVENEMENTS ***********/
 //connexion login
 form.addEventListener("submit", async (event) => {
     //empêcher comportement par défaut
     event.preventDefault();
 
-    //if (email.value && password.value) {
+    // requête API envoie login
+    fetch ("http://localhost:5678/api/users/login", {
+    method: "POST",
+    headers: {"Content-type": "application/json"},
+    body: JSON.stringify({
+        email: email.value,
+        password: password.value})
+    }).then(response => response.json())
+    .then (data => {
+        //récupération token dans API
+        const token = data.token;
+        //stockage token dans navigateur
+        localStorage.setItem("Token", token);
+        //changement de page
+        if (token) {
+            window.location.replace("index.html");
+        } else {
+            //txtError.innerText = "Il y a une erreur !";
+        }
 
-        fetch ("http://localhost:5678/api/users/login", {
-        method: "POST",
-        headers: {"Content-type": "application/json"},
-        body: JSON.stringify({
-            email: email.value,
-            password: password.value})
-        }).then(response => response.json())
-        .then (data => {
-            const token = data.token;
-            localStorage.setItem("Token", token);
-            if (token) {
-                window.location.replace("index.html");
-            } else {
-                const message = txtError;
-            }
-        })
-    }
-);
+        //vérification email & password
+        verifEmail();
+        verifPassword();
+        verifLogin();
+    })
+});
 
 
     /*verifierChamp();
@@ -105,3 +119,17 @@ function verifierMdp(baliseMdp) {
             console.log("L'un des champs est vide.");
         }
     }*/
+
+    /*async function verifLogin () {
+    const login = {
+        user: event.target.querySelector("[id=email]").value,
+        password: event.target.querySelector("[id=mdp]").value,
+    };
+    
+    if (login.user === mail.value & login.password === mdp.value) {
+        //changement de page
+        window.location.href = "./index.html";
+    } else {
+        throw error;
+    }
+}*/
