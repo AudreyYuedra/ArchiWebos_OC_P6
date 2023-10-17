@@ -1,10 +1,9 @@
 /********** IMPORT **********/
 import {filters} from "./script.js";
-//import {fetchWorks} from "./script.js";
-//import {token} from "./script.js";
+
 
 /********** CONSTANTES **********/
-const localStorage = sessionStorage.getItem("Token");
+const online = sessionStorage.getItem("Token")?.toString(); // ? => opérateur optionel
 
 const headband = document.querySelector(".headband");
 const edit = document.querySelector("edit");
@@ -30,7 +29,7 @@ function hiddenFilters () {
 /********** ECOUTEURS D'EVENEMENTS **********/
 //modif quand connecté
 document.addEventListener("DOMContentLoaded", () => {
-    if (localStorage.getItem("Token")) {
+    if (online) {
         showEdition();
         hiddenFilters();
     }
