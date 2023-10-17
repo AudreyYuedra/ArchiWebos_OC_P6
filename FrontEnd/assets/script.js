@@ -3,6 +3,7 @@
 const gallery = document.querySelector(".gallery");
 const filters = document.querySelector(".filters");
 
+export {filters};
 
 /********** VARIABLES **********/
 let works = [];

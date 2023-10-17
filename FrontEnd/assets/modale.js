@@ -1,41 +1,19 @@
-/********** IMPORT **********/
-import {filters} from "./script.js";
-import {fetchWorks} from "./script.js";
-import {token} from "./script.js";
+
 
 
 /********** CONSTANTES **********/
-const headband = document.querySelector(".headband");
-const edit = document.querySelector("edit");
-
 const jsModal = document.querySelectorAll("js-modal");
 const modal = document.getElementById("modal");
 const xmark = document.querySelector("fa-xmark");
 
 const worksModal = document.querySelector("works-modal");
 
-// login ok => token placé ici
-
 
 /********** VARIABLES **********/
 
 
 /********** FONCTIONS **********/
-//affiche mode édition quand connecté
-function showEdition () {
-    headband.style.display = "null";
-    headband.removeAttribute("aria-hidden");
-
-    edit.style.display = "null";
-    edit.removeAttribute("aria-hidden");
-}
-
-//cache filtres quand connecté
-function hiddenFilters () {
-    filters.style.display = "none";
-    filters.setAttribute("aria-hidden", "true");
-}
-
+/*
 //affiche works dans modale
 function modifWorks(works) {
     //efface le contenu html
@@ -52,7 +30,7 @@ function modifWorks(works) {
         figure.appendChild(img);
         worksModal.appendChild(figure);
     })
-}
+}*/
 
 //ouvertute & fermeture modale
 function openModal () {
@@ -70,14 +48,6 @@ function closeModal () {
 
 
 /********** ECOUTEURS D'EVENEMENTS **********/
-//modif quand connecté
-document.addEventListener("DOMContentLoaded", () => {
-    if (token) {
-        showEdition();
-        hiddenFilters();
-    }
-});
-
 document.addEventListener("DOMContentLoaded", () => {
     modifWorks();
 });
