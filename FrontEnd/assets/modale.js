@@ -2,11 +2,17 @@
 
 
 /********** CONSTANTES **********/
-const jsModal = document.querySelectorAll("js-modal");
-const modal = document.getElementById("modal");
-const xmark = document.querySelector("fa-xmark");
+const jsModal = document.querySelectorAll(".js-modal");
 
-const worksModal = document.querySelector("works-modal");
+const modal = document.getElementById("modal");
+const windowOne = document.getElementById("modal-window-1");
+const windowTwo = document.getElementById("modal-window-2");
+
+const xmark = document.querySelector(".fa-xmark");
+const arrowLeft = document.querySelector(".fa-arrow-left");
+
+const modalWorks = document.querySelector(".modal-works");
+const modalForm = document.querySelector(".form-modal");
 
 
 /********** VARIABLES **********/
@@ -33,8 +39,8 @@ function modifWorks(works) {
 }*/
 
 //ouvertute & fermeture modale
-function openModal () {
-    modal.style.display = null;
+function openModalOne () {
+    modal.style.display = "block";
     modal.removeAttribute("aria-hidden");
     modal.setAttribute("aria-modal", "true");
 }
@@ -45,6 +51,11 @@ function closeModal () {
     modal.removeAttribute("aria-modal");
 
 }
+
+//supprimer works
+
+
+//switch windows-modal
 
 
 /********** ECOUTEURS D'EVENEMENTS **********/
