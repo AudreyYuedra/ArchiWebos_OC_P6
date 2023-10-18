@@ -3,19 +3,19 @@ import {filters} from "./script.js";
 
 
 /********** CONSTANTES **********/
-const online = sessionStorage.getItem("Token")?.toString(); // ? => opérateur optionel
+const online = localStorage.getItem("Token");
 
 const headband = document.querySelector(".headband");
-const edit = document.querySelector("edit");
+const edit = document.querySelector(".edit");
 
 
 /********** FONCTIONS **********/
 //affiche mode édition quand connecté
 function showEdition () {
-    headband.style.display = "null";
+    headband.style.display = "inline-block";
     headband.removeAttribute("aria-hidden");
 
-    edit.style.display = "null";
+    edit.style.display = "inline-block";
     edit.removeAttribute("aria-hidden");
 }
 
