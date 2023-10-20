@@ -58,20 +58,13 @@ html {
     flex-direction: column;
     align-items: center;
     position: relative;
-    top: 25%;
+    top: 20%;
     left: 30%;
     width: 630px;
     height: 680px;
     background-color: white;
     padding: 30px;
     overflow: auto;
-}
-
-#modal1 .fa-xmark {
-    font-size: 24px;
-    display: flex;
-    align-items: end;
-    color: black;
 }
 
 h3 {
@@ -88,6 +81,14 @@ h3 {
     border-bottom: solid 1px rgba(0, 0, 0, 0.5);
     margin-top: 40px;
     margin-bottom: 35px;
+}
+
+/* WindowOne */
+#modal1 .fa-xmark {
+    font-size: 24px;
+    display: flex;
+    align-items: end;
+    color: black;
 }
 
 .modal-works {
@@ -121,4 +122,52 @@ h3 {
     background-color: #1D6154;
     border-radius: 20px;
     border: none;
+}
+
+/* WindowTwo */
+#modal2 .modal-window {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.navModal {
+    display: flex;
+    justify-content: space-between;
+    font-size: 17px;
+    margin-bottom: 20px;
+}
+
+.form_modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 75%;
+    height: 65%;
+}
+
+.choixPhoto {
+    width: 420px;
+    height: 170px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background-color: #E8F1F6;
+    padding: 20px;
+}
+
+.choixPhoto .fa-image {
+    font-size: 68px;
+    color: #B9C5CC;
+}
+
+.choixPhoto #ajoutPhoto {
+    width: 173px;
+    height: 36px;
+    border-radius: 25px;
+    border: none;
+}
+
+.choixPhoto p {
+    font-size: 10px;
 }

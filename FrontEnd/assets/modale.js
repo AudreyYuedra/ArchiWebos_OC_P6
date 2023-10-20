@@ -10,9 +10,10 @@ const windowTwo = document.getElementById("modal2");
 
 const closeMark = document.getElementById("close");
 const arrowLeft = document.getElementById("arrowLeft");
+const btnAjouter = document.getElementById("btnAjouter");
 
-const modalWorks = document.querySelector(".modal-works");
 const modalForm = document.querySelector(".form-modal");
+const btnAjoutPhoto = document.getElementById("ajoutPhoto");
 
 
 /********** FONCTIONS **********/
@@ -42,18 +43,34 @@ function modifWorks(works) {
 function openModal () {
     modal.style.display = "block";
     modifWorks(works);
-}
+};
 
 function closeModal () {
     modal.style.display = "none";
-}
-
-
+};
 
 //switch windows-modal
+function openModalTwo () {
+    windowOne.style.display = "none";
+    windowTwo.style.display = "block";
+};
+
+function precedentModal () {
+    windowTwo.style.display = "none";
+    windowOne.style.display = "block";
+}
+
+//ajouter photo
+function ajouterPhoto () {
+    //ouvrir fenêtre windows pour récupérer photo
+};
 
 
 /********** ECOUTEURS D'EVENEMENTS **********/
+document.addEventListener("DOMContentLoaded", () => {
+    modifWorks();
+});
+
 //ouverture & fermeture modale
 jsModal.addEventListener("click", (event) => {
     event.preventDefault();
@@ -70,7 +87,16 @@ closeMark.addEventListener("click", () => {
     closeModal();
 });
 
-//
-document.addEventListener("DOMContentLoaded", () => {
-    modifWorks();
+//switch window modal
+btnAjouter.addEventListener("click", () => {
+    openModalTwo();
 });
+
+arrowLeft.addEventListener("click", () => {
+    precedentModal();
+});
+
+//ajouter photo
+/*btnAjoutPhoto.addEventListener("click", () => {
+    ajouterPhoto();
+});*/

@@ -44,28 +44,30 @@
 		<div class="modal-works cadre-modal">
 			<!-- travaux incorporés en JS -->
 		</div>
-		<button href="#modal2" class="btnModal">Ajouter une photo</button>
+		<button href="#modal2" id="btnAjouter" class="btnModal">Ajouter une photo</button>
 	</div>
 	<div id="modal2" class="modal-window" style="display: none;">
 		<div class="navModal">
-			<i class="fa-solid fa-arrow-left" id="arrowLeft"></i>
-			<i class="fa-solid fa-xmark" id="close"></i>
+			<a id="arrowLeft">
+				<i class="fa-solid fa-arrow-left"></i>
+			</a>
+			<a id="close">
+				<i class="fa-solid fa-xmark"></i>
+			</a>
 		</div>
 		<h3>Ajout photo</h3>
-		<div class="cadre-modal">
-			<form class="form_modal">
-				<div class="choixPhoto">
-					<i class="fa-regular fa-image"></i>
-					<button>+ Ajouter photo</button>
-					<p>jpg, png : 4mo max</p>
-				</div>
-				<label>Titre</label>
-				<input type="text">
-				<label>Catégorie</label>
-				<input>
-				<input type="submit" value="Valider" class="btnValider">
-			</form>
-		</div>
+		<form class="form_modal cadre-modal">
+			<div class="choixPhoto">
+				<i class="fa-regular fa-image"></i>
+				<button id="ajoutPhoto">+ Ajouter photo</button>
+				<p>jpg, png : 4mo max</p>
+			</div>
+			<label>Titre</label>
+			<input type="text">
+			<label>Catégorie</label>
+			<input>
+			<input type="submit" value="Valider" class="btnValider">
+		</form>
 	</div>
 </aside>
 <main>
