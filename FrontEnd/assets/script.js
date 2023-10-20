@@ -16,7 +16,6 @@ function fetchWorks(){
         .catch(error => {
             console.error("Erreur de récupération de travaux.", error)
         });
-    
 }
 
 function afficherWorks(works) {
@@ -38,6 +37,7 @@ function afficherWorks(works) {
         gallery.appendChild(figure);
     })
 }
+export {works};
 
 //requête API ressource categories
 function fetchCategories(){

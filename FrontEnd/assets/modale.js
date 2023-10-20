@@ -1,5 +1,5 @@
-
-
+/********** IMPORTS **********/
+import {works} from "./script.js";
 
 /********** CONSTANTES **********/
 const jsModal = document.getElementById("js-modal");
@@ -15,23 +15,27 @@ const modalWorks = document.querySelector(".modal-works");
 const modalForm = document.querySelector(".form-modal");
 
 
-/********** VARIABLES **********/
-
-
 /********** FONCTIONS **********/
 //affiche works dans modale
 function modifWorks(works) {
     const modalWorks = document.querySelector(".modal-works");
-    const figureWorks = document.createElement("figureWorks");
-    modalWorks.appendChild("figureWorks");
-    figureWorks = datas.forEach(works);
-
-}
+    modalWorks.innerHTML = "";
+    
+    works.forEach((work) => {
+        const figure = document.createElement("figure");
+        const img = document.createElement("img");
+        img.src = work.imageUrl
+        img.alt = work.title    
+        figure.appendChild(img);
+        modalWorks.appendChild(figure);
+        
+    }
+)};
 
 //ouvertute & fermeture modale
 function openModal () {
     modal.style.display = "block";
-    modifWorks();
+    modifWorks(works);
 }
 
 function closeModal () {
@@ -39,7 +43,6 @@ function closeModal () {
 
 }
 
-//supprimer works
 
 
 //switch windows-modal
