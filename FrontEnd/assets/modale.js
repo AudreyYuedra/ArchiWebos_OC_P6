@@ -28,9 +28,15 @@ function modifWorks(works) {
         img.alt = work.title    
         figure.appendChild(img);
         modalWorks.appendChild(figure);
-        
-    }
-)};
+        //supprimer works
+        const deleteIcon = document.createElement("a");
+        deleteIcon.forEach((figure) => {
+        deleteIcon.classList.add(".fa-trash-can");
+        deleteIcon.innerHTML = "<i class=\"fa-solid fa-trash-can\"></i>";
+        figure.appendChild(deleteIcon);
+        });    
+    })
+};
 
 //ouvertute & fermeture modale
 function openModal () {
