@@ -46,7 +46,6 @@ function openModal () {
 
 function closeModal () {
     modal.style.display = "none";
-
 }
 
 
@@ -61,8 +60,13 @@ jsModal.addEventListener("click", (event) => {
     openModal();
 });
 
-closeMark.addEventListener("clic", (event) => {
-    event.preventDefault();
+modal.addEventListener("click", (event) => {
+    if (event.target === modal) {
+        closeModal();
+    };
+});
+
+closeMark.addEventListener("click", () => {
     closeModal();
 });
 
