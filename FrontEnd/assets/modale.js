@@ -2,14 +2,14 @@
 
 
 /********** CONSTANTES **********/
-const jsModal = document.querySelectorAll(".js-modal");
+const jsModal = document.getElementById("js-modal");
 
 const modal = document.getElementById("modal");
-const windowOne = document.getElementById("modal-window-1");
-const windowTwo = document.getElementById("modal-window-2");
+const windowOne = document.getElementById("modal1");
+const windowTwo = document.getElementById("modal2");
 
-const xmark = document.querySelector(".fa-xmark");
-const arrowLeft = document.querySelector(".fa-arrow-left");
+const closeMark = document.getElementById("close");
+const arrowLeft = document.getElementById("arrowLeft");
 
 const modalWorks = document.querySelector(".modal-works");
 const modalForm = document.querySelector(".form-modal");
@@ -19,36 +19,23 @@ const modalForm = document.querySelector(".form-modal");
 
 
 /********** FONCTIONS **********/
-/*
 //affiche works dans modale
 function modifWorks(works) {
-    //efface le contenu html
-    worksModal.innerHTML = "";
-    console.log("works", works);
-    //création éléments via boucle
-    works.forEach((work) => {   //mettre les parenthèses par défaut
-        const figure = document.createElement("figure");
-        const img = document.createElement("img");
-        //assignements
-        img.src = work.imageUrl
-        img.alt = work.title
-        //position éléments
-        figure.appendChild(img);
-        worksModal.appendChild(figure);
-    })
-}*/
+    const modalWorks = document.querySelector(".modal-works");
+    const figureWorks = document.createElement("figureWorks");
+    modalWorks.appendChild("figureWorks");
+    figureWorks = datas.forEach(works);
+
+}
 
 //ouvertute & fermeture modale
-function openModalOne () {
+function openModal () {
     modal.style.display = "block";
-    modal.removeAttribute("aria-hidden");
-    modal.setAttribute("aria-modal", "true");
+    modifWorks();
 }
 
 function closeModal () {
     modal.style.display = "none";
-    modal.setAttribute("aria-hidden", "true");
-    modal.removeAttribute("aria-modal");
 
 }
 
@@ -59,17 +46,18 @@ function closeModal () {
 
 
 /********** ECOUTEURS D'EVENEMENTS **********/
-document.addEventListener("DOMContentLoaded", () => {
-    modifWorks();
-});
-
 //ouverture & fermeture modale
 jsModal.addEventListener("click", (event) => {
     event.preventDefault();
     openModal();
 });
 
-xmark.addEventListener("clic", (event) => {
+closeMark.addEventListener("clic", (event) => {
     event.preventDefault();
     closeModal();
+});
+
+//
+document.addEventListener("DOMContentLoaded", () => {
+    modifWorks();
 });

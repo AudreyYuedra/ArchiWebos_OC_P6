@@ -18,8 +18,8 @@
 	<link rel="stylesheet" href="./assets/modale.css">
 </head>
 <body>
-	<div class="headband js-modal" aria-hidden="true" style="display: none;"> <!-- caché tant que pas connecté -->
-		<a href="#modal">
+	<div class="headband" aria-hidden="true" style="display: none;"> <!-- caché tant que pas connecté -->
+		<a href="#modal" id="js-modal">
 			<i class="fa-regular fa-pen-to-square"></i>
 			<p>Mode édition</p>
 		</a>
@@ -35,20 +35,20 @@
 		</ul>
 	</nav>
 </header>
-<aside id="modal" aria-hidden="true" role="dialog" style="display: none;"> 
-	<div class="modal-window-1">
+<aside id="modal" style="display: none;"> 
+	<div id="modal1" class="modal-window">
 		<div class="navModal">
-			<i class="fa-solid fa-xmark"></i>
+			<i class="fa-solid fa-xmark" id="close"></i>
 		</div>
 		<h3>Galerie photo</h3>
 		<div class="modal-works cadre-modal"></div>
 		<!-- <i class="fa-solid fa-trash-can"></i> -->
-		<button href="#modalBis" class="btnModal"></button>
+		<button href="#modal2" class="btnModal">Ajouter une photo</button>
 	</div>
-	<div id="modalBis" class="modal-window-2" aria-hidden="true" style="display: none;">
+	<div id="modal2" class="modal-window" style="display: none;">
 		<div class="navModal">
-			<i class="fa-solid fa-arrow-left"></i>
-			<i class="fa-solid fa-xmark"></i>
+			<i class="fa-solid fa-arrow-left" id="arrowLeft"></i>
+			<i class="fa-solid fa-xmark" id="close"></i>
 		</div>
 		<h3>Ajout photo</h3>
 		<div class="cadre-modal">
@@ -81,10 +81,10 @@
 	</section>
 	<section id="portfolio">
 		<h2>Mes Projets</h2>
-		<a href="#modal" class="edit js-modal" 
+		<a href="#modal" id="js-modal" class="edit" 
 			aria-hidden="true" style="display: none;"> <!-- caché tant que pas connecté -->
 			<i class="fa-regular fa-pen-to-square"></i>
-			<p>modifier</p>
+			modifier
 		</a>
 		<div class="filters">
 			<!-- filtres incoporés en JS -->

@@ -49,44 +49,61 @@ html {
     left: 0;
     width: 100%;
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgb(0, 0, 0, 0.8);
+    background: rgb(0, 0, 0, 0.5);
+    z-index: 1;
 }
 
-.modal-wrapper {
+.modal-window {
     display: flex;
-    justify-content: center;
-    overflow: auto;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    top: 25%;
+    left: 30%;
     width: 630px;
     height: 690px;
     background-color: white;
     padding: 20px;
+    overflow: auto;
 }
 
-.fa-xmark {
+#modal1 .navModal {
     display: flex;
-    justify-content: end;
-    align-items: center;
+    align-items: end;
     color: black;
 }
 
-#title-modal {
+h3 {
     font-family: 'Work Sans';
     color: black;
+    text-align: center;
+    font-size: 26px;
     font-weight: 500;
     margin-top: 20px;
     margin-bottom: 15px;
 }
 
-.works-modal {
-    width: 90%;
-    height: 70%;
+.cadre-modal {
+    border-bottom: solid 1px rgba(0, 0, 0, 0.5);
+    margin-bottom: 25px;
+}
+
+.modal-works {
+    width: 80%;
+    height: 75%;
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 	grid-column-gap: 5px;
 	grid-row-gap: 5px;
-    border-bottom: rgba(0, 0, 0, 0.6);
-    margin-bottom: 25px;
+}
+
+.btnModal {
+    width: 235px;
+    height: 35px;
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    background-color: #1D6154;
+    border-radius: 20px;
+    border: none;
 }
