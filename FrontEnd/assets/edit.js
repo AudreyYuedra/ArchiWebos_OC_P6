@@ -4,6 +4,7 @@ import {filters} from "./script.js";
 
 /********** CONSTANTES **********/
 const online = localStorage.getItem("Token");
+export {online};
 
 const headband = document.querySelector(".headband");
 const edit = document.querySelector(".edit");
