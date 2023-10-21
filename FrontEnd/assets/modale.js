@@ -2,103 +2,32 @@
 import {works} from "./script.js";
 import {online} from "./edit.js";
 
-/********** CONSTANTES **********/
-const jsModal = document.getElementById("js-modal");
 
-const modal = document.getElementById("modal");
-const windowOne = document.getElementById("modal1");
-const windowTwo = document.getElementById("modal2");
+//***** Ajout works dans modale *********************************
+const modalWorks = document.querySelector(".modal-works");
 
-const closeMark = document.getElementById("close");
-const arrowLeft = document.getElementById("arrowLeft");
-const btnAjouter = document.getElementById("btnAjouter");
-const deleteIcon = document.createElement("a");
-
-const modalForm = document.querySelector(".form-modal");
-const btnAjoutPhoto = document.getElementById("ajoutPhoto");
-
-
-/********** FONCTIONS **********/
-//affiche works dans modale
 function modifWorks(works) {
-    const modalWorks = document.querySelector(".modal-works");
     modalWorks.innerHTML = "";
-    
     works.forEach((work) => {
-        const figure = document.createElement("figure");
+        const figureModal = document.createElement("figure-modal");
         const img = document.createElement("img");
         img.src = work.imageUrl
         img.alt = work.title    
-        figure.appendChild(img);
-        modalWorks.appendChild(figure);  
+        figureModal.appendChild(img);
+        modalWorks.appendChild(figureModal);  
     });
-    ajoutDeleteIcon(works);
 };
 
-//affiche btn suppr works
-function ajoutDeleteIcon (works) {
-    const figure = querySelectorAll("figure");
+
+//***** Ajout icône suprr works + Suppression works ***********************
+const figureModal = document.querySelectorAll("figure-modal");
+const deleteIcon = document.createElement("a");
+
+function ajoutDeleteIcon () {
     deleteIcon.innerHTML = "<i class=\"fa-solid fa-trash-can\"></i>";
     deleteIcon.classList.add(".fa-trash-can");
-    figure.appendChild(deleteIcon);
+    figureModal.appendChild(deleteIcon);
 };
-
-//ouvertute & fermeture modale
-function openModal () {
-    modal.style.display = "block";
-    modifWorks(works);
-};
-
-function closeModal () {
-    modal.style.display = "none";
-};
-
-//switch windows-modal
-function openModalTwo () {
-    windowOne.style.display = "none";
-    windowTwo.style.display = "block";
-};
-
-function precedentModal () {
-    windowTwo.style.display = "none";
-    windowOne.style.display = "block";
-}
-
-//ajouter photo
-function ajouterPhoto () {
-    //ouvrir fenêtre windows pour récupérer photo
-};
-
-
-/********** ECOUTEURS D'EVENEMENTS **********/
-document.addEventListener("DOMContentLoaded", () => {
-    modifWorks();
-});
-
-//ouverture & fermeture modale
-jsModal.addEventListener("click", (event) => {
-    event.preventDefault();
-    openModal();
-});
-
-modal.addEventListener("click", (event) => {
-    if (event.target === modal) {
-        closeModal();
-    };
-});
-
-closeMark.addEventListener("click", () => {
-    closeModal();
-});
-
-//switch window modal
-btnAjouter.addEventListener("click", () => {
-    openModalTwo();
-});
-
-arrowLeft.addEventListener("click", () => {
-    precedentModal();
-});
 
 deleteIcon.addEventListener("click", () => {
     fetch("http://localhost:5678/api/works" + works.id, {
@@ -110,7 +39,91 @@ deleteIcon.addEventListener("click", () => {
         });
 });
 
-//ajouter photo
-/*btnAjoutPhoto.addEventListener("click", () => {
+
+//***** Affiche modal-works *********************************************
+document.addEventListener("DOMContentLoaded", () => {
+    modifWorks();
+    ajoutDeleteIcon();
+});
+
+//***** Ouverture de la modale ****************************************
+const jsModal = document.getElementById("js-modal");
+
+function openModal () {
+    modal.style.display = "block";
+    modifWorks(works);
+};
+
+jsModal.addEventListener("click", (event) => {
+    event.preventDefault();
+    openModal();
+});
+
+
+//***** Fermeture de la modale ****************************************
+const modal = document.getElementById("modal");
+const closeMark = document.getElementById("close");
+
+function closeModal () {
+    modal.style.display = "none";
+};
+
+modal.addEventListener("click", (event) => {
+    if (event.target === modal) {
+        closeModal();
+    };
+});
+
+closeMark.addEventListener("click", () => {
+    closeModal();
+});
+
+
+//***** Switch window-modal **************************************************
+const windowOne = document.getElementById("modal1");
+const windowTwo = document.getElementById("modal2");
+const btnAjouter = document.getElementById("btnAjouter");
+const arrowLeft = document.getElementById("arrowLeft");
+
+function openModalTwo () {
+    windowOne.style.display = "none";
+    windowTwo.style.display = "block";
+};
+
+function precedentModal () {
+    windowTwo.style.display = "none";
+    windowOne.style.display = "block";
+};
+
+btnAjouter.addEventListener("click", () => {
+    openModalTwo();
+});
+
+arrowLeft.addEventListener("click", () => {
+    precedentModal();
+});
+
+
+//***** Ajouter photo (window-modal-2) ******************************************
+const btnAjoutPhoto = document.getElementById("ajoutPhoto");
+
+function ajouterPhoto () {
+    //ouvrir fenêtre Windows pour récupérer photo
+};
+
+btnAjoutPhoto.addEventListener("click", () =>{
     ajouterPhoto();
-});*/
+})
+
+
+//***** Affiche catégories dans menu déroulant **********************************
+
+
+
+//***** Vérif champs remplis ************************************************
+
+
+
+//***** Envoie form ajout photo **********************************************
+const modalForm = document.querySelector(".form-modal");
+
