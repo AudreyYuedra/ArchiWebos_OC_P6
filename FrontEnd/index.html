@@ -63,14 +63,16 @@
 		<form class="form_modal cadre-modal">
 			<div class="choixPhoto">
 				<i class="fa-regular fa-image"></i>
-				<button id="ajoutPhoto">+ Ajouter photo</button>
+				<input type="file" id="ajoutPhoto" value="+ Ajouter photo"> <!-- ouvre fenêtre Windows -->
 				<p>jpg, png : 4mo max</p>
 			</div>
 			<label>Titre</label>
 			<input type="text">
 			<label>Catégorie</label>
-			<input>
-			<input type="submit" value="Valider" class="btnValider">
+			<select id="selectCategories">
+				<option value=""></option>
+			</select>
+			<input type="submit" value="Valider" id="btnValider">
 		</form>
 	</div>
 </aside>

@@ -108,22 +108,60 @@ arrowLeft.addEventListener("click", () => {
 const btnAjoutPhoto = document.getElementById("ajoutPhoto");
 
 function ajouterPhoto () {
-    //ouvrir fenêtre Windows pour récupérer photo
+    //afficher photo choisie à la place de l'icône img
 };
 
-btnAjoutPhoto.addEventListener("click", () =>{
+btnAjoutPhoto.addEventListener("click", (event) =>{
     ajouterPhoto();
+    event.preventDefault();
+
 })
 
 
 //***** Affiche catégories dans menu déroulant **********************************
+const selectCategories = document.getElementById("selectCategories");
 
+function choixCategory () {
+    categories.forEach(category => {
+        const choixCategory = document.createElement("option");
+        choixCategory.innerText = category.name
+        choixCategory.appendChild(selectCategories);
+    })
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+    choixCategory();
+});
 
 
 //***** Vérif champs remplis ************************************************
+function verifImage () {
+    //obligation de choisir image
+};
 
+function verifTilte () {
+    //obligation d'avoir le cahmp rempli
+};
+
+function verifCategory () {
+    //obligation de choisir une catégorie
+};
+
+//SI champ complets => changer couleur btnValider
 
 
 //***** Envoie form ajout photo **********************************************
 const modalForm = document.querySelector(".form-modal");
 
+modalForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if(verifImage() && verifTilte() && verifCategory()) {
+        fetch("http://localhost:5678/api/works", {
+            method: "POST",
+            headers: {"Content-type": "application/json"},
+            body: //je ne sais pas quoi mettre
+            }).then(response => response.json())
+            .then ()
+    };
+});
