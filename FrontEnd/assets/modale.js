@@ -1,5 +1,5 @@
 /********** IMPORTS **********/
-import {works} from "./script.js";
+import {works, categories} from "./script.js";
 import {online} from "./edit.js";
 
 
@@ -44,6 +44,7 @@ deleteIcon.addEventListener("click", () => {
 document.addEventListener("DOMContentLoaded", () => {
     modifWorks();
     ajoutDeleteIcon();
+    choixCategory();
 });
 
 //***** Ouverture de la modale ****************************************
@@ -112,8 +113,8 @@ function ajouterPhoto () {
 };
 
 btnAjoutPhoto.addEventListener("click", (event) =>{
-    ajouterPhoto();
     event.preventDefault();
+    ajouterPhoto();
 
 })
 
@@ -128,10 +129,6 @@ function choixCategory () {
         choixCategory.appendChild(selectCategories);
     })
 };
-
-document.addEventListener("DOMContentLoaded", () => {
-    choixCategory();
-});
 
 
 //***** Vérif champs remplis ************************************************

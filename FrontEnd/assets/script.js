@@ -73,6 +73,7 @@ function afficherCategories(categories) {
         btnFilter.dataset.categoryId = category.id;
     })
 }
+export {categories};
 
 
 /********** ECOUTEURS D'EVENEMENTS **********/
