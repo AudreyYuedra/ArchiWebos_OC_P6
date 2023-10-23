@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 log.addEventListener("click", () => {
     //suppr token
-    localStorage.removeItem("Token", token);
+    localStorage.removeItem("Token");
     //rediretion
     window.location.replace("login.html");
 })
