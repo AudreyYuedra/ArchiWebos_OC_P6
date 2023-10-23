@@ -1,11 +1,7 @@
-/********** CONSTANTES **********/
-//récupération DOM
-const form = document.querySelector("form");
+//****** Vérification des champs *********************************
 const email = document.querySelector("#email");
 const password = document.querySelector("#password");
 
-
-/********** FONCTIONS **********/
 function verifEmail() {
     //conformité email
     let emailRegExp = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\.[a-z0-9._-]+");
@@ -23,7 +19,7 @@ function verifPassword() {
     } else {
         console.log("Le mot de passe est valide !");
     }
-}
+};
 
 function verifLogin() {
     if (email !== email.value && password !== password.value) {
@@ -32,10 +28,12 @@ function verifLogin() {
     } else {
         console.log("Le login est valide !")
     }
-}
+};
 
-/********** ECOUTEURS D'EVENEMENTS ***********/
-//connexion login
+
+//****** Connection Login *****************************************
+const form = document.querySelector("form");
+
 form.addEventListener("submit", async (event) => {
     //empêcher comportement par défaut
     event.preventDefault();

@@ -1,14 +1,10 @@
-/********** CONSTANTES **********/
-//récupération DOM
+        /////////////////////////////////////////////////
+        /******************** INDEX ********************/
+
+//****** Ajout works dans portfolio ***************************************
 const gallery = document.querySelector(".gallery");
-const filters = document.querySelector(".filters");
-
-export {filters};
-
-/********** VARIABLES **********/
 let works = [];
 
-/********** FONCTIONS **********/
 //requête API ressource works
 function fetchWorks(){
     return fetch("http://localhost:5678/api/works")
@@ -16,7 +12,7 @@ function fetchWorks(){
         .catch(error => {
             console.error("Erreur de récupération de travaux.", error)
         });
-}
+};
 
 function afficherWorks(works) {
     //efface le contenu html
@@ -36,17 +32,30 @@ function afficherWorks(works) {
         figure.appendChild(figcaption);
         gallery.appendChild(figure);
     })
-}
-//export {works};
+};
 
-//requête API ressource categories
+document.addEventListener("DOMContentLoaded", () => {
+    fetchWorks()
+        .then((data) => {
+            works = data;   //
+            afficherWorks(works);
+        });
+    fetchCategories()
+        .then(categories => {
+            afficherCategories(categories);
+        });
+});
+
+//******* Ajout filtres pour les catégories ********************************
+const filters = document.querySelector(".filters");
+
 function fetchCategories(){
     return fetch("http://localhost:5678/api/categories")
         .then(response => response.json()) //mettre paraenthèse pour contenu
         .catch(error => {
             console.error("Erreur de récupération des catégories.", error)
         });
-}
+};
 
 function afficherCategories(categories) {
     console.log("catégories", categories);
@@ -72,24 +81,8 @@ function afficherCategories(categories) {
         //ajout attribut
         btnFilter.dataset.categoryId = category.id;
     })
-}
-//export {categories};
+};
 
-
-/********** ECOUTEURS D'EVENEMENTS **********/
- document.addEventListener("DOMContentLoaded", () => {
-    fetchWorks()
-        .then((data) => {
-            works = data;   //
-            afficherWorks(works);
-        });
-    fetchCategories()
-        .then(categories => {
-            afficherCategories(categories);
-        });
- });
-
-//filters foctionnels
 filters.addEventListener("click", (event) => {
     const target = event.target
     if (target.tagName === "BUTTON") {    //majuscules pour récupération
@@ -111,8 +104,58 @@ filters.addEventListener("click", (event) => {
 });
 
 
-//////////////////////////////////////////////
-///////////////////////////////////
+
+        /////////////////////////////////////////////////
+        /******************** EDIT ********************/
+
+//****** Option modif visible ********************************************
+const headband = document.querySelector(".headband");
+const edit = document.querySelector(".edit");
+
+function showEdition () {
+    headband.style.display = "inline-block";
+    headband.removeAttribute("aria-hidden");
+
+    edit.style.display = "inline-block";
+    edit.removeAttribute("aria-hidden");
+};
+
+function hiddenFilters () {
+    filters.style.display = "none";
+    filters.setAttribute("aria-hidden", "true");
+};
+
+
+//****** Affiche mode édition quand connecté ********************************
+const online = localStorage.getItem("Token");
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (online) {
+        showEdition();
+        hiddenFilters();
+        logout();
+    }
+});
+
+
+//****** Affiche btn déconnection *******************************************
+const log = document.getElementById("log");
+
+function logout () {
+    log.innerText = "logout";
+};
+
+log.addEventListener("click", () => {
+    //suppr token
+    localStorage.removeItem("Token");
+    //rediretion
+    window.location.replace("login.html");
+});
+
+
+
+        /////////////////////////////////////////////////
+        /******************** MODALE ********************/
 
 //***** Ajout works dans modale *********************************
 const modalWorks = document.querySelector(".modal-works");
@@ -230,7 +273,7 @@ btnAjoutPhoto.addEventListener("click", (event) =>{
     event.preventDefault();
     ajouterPhoto();
 
-})
+});
 
 
 //***** Affiche catégories dans menu déroulant **********************************
