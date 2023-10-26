@@ -210,6 +210,8 @@ function modifWorks() {
                     console.error("Erreur de récupération de travaux.", error)
             });
         });
+
+        //garder la suppr même après F5
     });
 };
 
