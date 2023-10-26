@@ -43,7 +43,7 @@ html {
 
 
 /****** MODALE ******/
-#modal {
+/*#modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -51,7 +51,7 @@ html {
     height: 100%;
     background: rgb(0, 0, 0, 0.5);
     z-index: 1;
-}
+}*/
 
 .modal-window {
     display: flex;

@@ -158,7 +158,7 @@ log.addEventListener("click", () => {
         /******************** MODALE ********************/
 
 //***** Ajout works dans modale *********************************
-const modalWorks = document.querySelector(".modal-works");
+/*const modalWorks = document.querySelector(".modal-works");
 const deleteIcon = document.createElement("a");
 
 function modifWorks(works) {
@@ -217,12 +217,14 @@ document.addEventListener("DOMContentLoaded", () => {
     modifWorks();
     choixCategory();
 });
+*/
 
 //***** Ouverture de la modale ****************************************
 const jsModal = document.getElementById("js-modal");
+const modal = document.querySelector("dialog");
 
 function openModal () {
-    modal.style.display = "block";
+    //modal.style.display = "block";
     modifWorks(works);
 };
 
@@ -233,7 +235,6 @@ jsModal.addEventListener("click", (event) => {
 
 
 //***** Fermeture de la modale ****************************************
-const modal = document.getElementById("modal");
 const closeMark = document.getElementById("close");
 
 function closeModal () {
