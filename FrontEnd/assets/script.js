@@ -157,34 +157,36 @@ log.addEventListener("click", () => {
         /////////////////////////////////////////////////
         /******************** MODALE ********************/
 
-//***** Ajout works dans modale *********************************
+//***** Affichage et Suppression works dans modale *********************************
 const modalWorks = document.querySelector(".modal-works");
 
-function modifWorks(works) {
+function modifWorks() {
     modalWorks.innerHTML = "";
     works.forEach((work) => {
         const figureModal = document.createElement("figure-modal");
         const img = document.createElement("img");
         img.src = work.imageUrl
-        img.alt = work.title    
+        img.alt = work.title
         figureModal.appendChild(img);
         modalWorks.appendChild(figureModal);
-        //suppr icône
+        //btn suppr works
         const deleteIcon = document.createElement("a");
         deleteIcon.innerHTML = `<i class="fa-solid fa-trash-can" data-id="${work.id}"></i>`;
-        deleteIcon.classList.add(".fa-trash-can");
         figureModal.appendChild(deleteIcon);
+        deleteIcon.classList.add(".fa-trash-can");
 
+        //suppression works
         deleteIcon.addEventListener("click", () => {
             //récupére attribut icône suppr
             const workId = deleteIcon.getAttribute("data-id");
-    
+        
             fetch("http://localhost:5678/api/works/" + workId, {
                 method: "DELETE",
-                headers: {Authorization: "Bearer " + online.token},
+                headers: {"Authorization" : `Bearer ${online.token}`}
             }).then(response => {
                 //récupérer element sur lequel on a cliqué
-                var index = works.findindex((work) => {work.id === workId});
+                let index = (work) => {work.id === workId};
+                //works.findindex(index);
                 //suppr element html
                 deleteIcon.parentElement.remove();
                 //suppr element tableau
@@ -211,6 +213,8 @@ function modifWorks(works) {
         });
     });
 };
+
+
 
 
 //***** Affiche modal-works *********************************************
