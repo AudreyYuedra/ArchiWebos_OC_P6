@@ -175,24 +175,38 @@ function modifWorks(works) {
         img.appendChild(deleteIcon);
 
         deleteIcon.addEventListener("click", () => {
-            //récupére attribut ic^ne suppr
+            //récupére attribut icône suppr
             const workId = deleteIcon.getAttribute("data-id");
     
             fetch("http://localhost:5678/api/works/" + workId, {
                 method: "DELETE",
                 headers: {Authorization: "Bearer " + online.token},
-                }).then(response => {
-                    //récupéer element sur lequer on a cliqué
-                    //delet incon. paretnElement.remove()
-                    //var index = works.findindex(work => {work.id} == workId)
-                    //works.splice(index, 1)
-                    // function refresh projet (works)
-                    //query selctoe galery => la vider
+            }).then(response => {
+                //récupérer element sur lequel on a cliqué
+                var index = works.findindex((work) => {work.id === workId});
+                //suppr element html
+                deleteIcon.parentElement.remove();
+                //suppr element tableau
+                works.splice(index, 1);
+                //rafraîchi contenu works après suppr
+                function refreshProjet (works) {
+                    modalWorks.innerHTML = "";
                     //bouche et afficher chauque img avec forEach comen haut avec new tabl
-                })
-                .catch(error => {
+                    works.forEach((work) => {
+                        const figureModal = document.createElement("figure-modal");
+                        const img = document.createElement("img");
+                        img.src = work.imageUrl
+                        img.alt = work.title    
+                        figureModal.appendChild(img);
+                        modalWorks.appendChild(figureModal);
+                        //suppr icône
+                        deleteIcon.innerHTML = `<i class="fa-solid fa-trash-can" data-id="${work.id}"></i>`;
+                        img.appendChild(deleteIcon);
+                    });
+                };
+            }).catch(error => {
                     console.error("Erreur de récupération de travaux.", error)
-                });
+            });
         });
     });
 };
