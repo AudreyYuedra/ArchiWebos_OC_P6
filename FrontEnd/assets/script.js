@@ -279,15 +279,21 @@ arrowLeft.addEventListener("click", () => {
 
 //***** Ajouter photo (window-modal-2) ******************************************
 const btnAjoutPhoto = document.getElementById("ajoutPhoto");
+const imgPhoto = document.querySelector(".fa-image");
+const limiteFormat = document.querySelector("choixPhoto p");
 
 function ajouterPhoto () {
+    btnAjoutPhoto.style.display = "none";
+    limiteFormat.style.display = "none";
+    imgPhoto.style.display = "none"
     //afficher photo choisie à la place de l'icône img
+    let choixWorkImg = input.files.value;
+    choixWorkImg.classList.add("choixImg");
 };
 
 btnAjoutPhoto.addEventListener("click", (event) =>{
     event.preventDefault();
     ajouterPhoto();
-
 });
 
 
@@ -304,20 +310,45 @@ function choixCategory () {
 
 
 //***** Vérif champs remplis ************************************************
+const choixTilte = document.getElementById("choixTilte");
+const selectCategory = document.querySelector("select");
+const btnValider = document.getElementById("btnValider");
+
 function verifImage () {
     //obligation de choisir image
+    if (imgPhoto) {
+        //l'image est considéré comme non choisie
+        imgPhoto.style = "color: red";
+        console.log("L'image n'a pas été choisie.");
+    } else {
+        choixWorkImg === true;
+    }
 };
 
 function verifTilte () {
-    //obligation d'avoir le cahmp rempli
+    //obligation d'avoir le champ rempli
+    if (choixTilte === "") {
+        choixTilte.classList.add("errorTilte");
+        console.log("Le champ Titre est vide.");
+    } else {
+        choixTilte === true;
+    }
 };
 
 function verifCategory () {
     //obligation de choisir une catégorie
+    if (selectCategory === "") {
+        selectCategory.classList.add("errorSelect");
+        console.log("La catégorie n'a pas été choisie.");
+    } else {
+        selectCategory === true;
+    }
 };
 
 //SI champ complets => changer couleur btnValider
-
+if (verifImage() && verifTilte() && verifCategory()) {
+    btnValider.style.replace("color: #B9C5CC", "color: 1D6154");
+};
 
 //***** Envoie form ajout photo **********************************************
 const modalForm = document.querySelector(".form-modal");

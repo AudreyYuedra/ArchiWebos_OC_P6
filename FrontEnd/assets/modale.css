@@ -161,6 +161,11 @@ h3 {
     color: #B9C5CC;
 }
 
+.choixImg {
+    height: 170px;
+    width: 85px;
+}
+
 .choixPhoto #ajoutPhoto {
     width: 173px;
     height: 36px;
@@ -170,4 +175,28 @@ h3 {
 
 .choixPhoto p {
     font-size: 10px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+input[text],
+select {
+    width: 100%;
+    border: none;
+}
+
+.errorTilte {
+    background-color: rgb(255, 0, 0, 0.5);
+}
+
+.errorSelect {
+    border: solide 1px red 0.6;
+}
+
+#btnValider {
+    color: #B9C5CC;
+    padding: 5px;
 }
