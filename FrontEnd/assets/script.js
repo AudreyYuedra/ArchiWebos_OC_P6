@@ -186,7 +186,6 @@ function modifWorks() {
             }).then(response => {
                 //récupérer element sur lequel on a cliqué
                 let index = (work) => {work.id === workId};
-                //works.findindex(index);
                 //suppr element html
                 deleteIcon.parentElement.remove();
                 //suppr element tableau
@@ -213,15 +212,6 @@ function modifWorks() {
         });
     });
 };
-
-
-
-
-//***** Affiche modal-works *********************************************
-document.addEventListener("DOMContentLoaded", () => {
-    modifWorks();
-    choixCategory();
-});
 
 
 //***** Ouverture de la modale ****************************************
@@ -257,6 +247,7 @@ const arrowLeft = document.getElementById("arrowLeft");
 function openModalTwo () {
     windowOne.style.display = "none";
     windowTwo.style.display = "block";
+    choixSelectCategory();
 };
 
 function precedentModal () {
@@ -278,30 +269,35 @@ const btnAjoutPhoto = document.getElementById("ajoutPhoto");
 const imgPhoto = document.querySelector(".fa-image");
 const limiteFormat = document.querySelector("choixPhoto p");
 
-function ajouterPhoto () {
-    btnAjoutPhoto.style.display = "none";
-    limiteFormat.style.display = "none";
-    imgPhoto.style.display = "none"
+/*function ajouterPhoto () {
+    //btnAjoutPhoto.style.display = "none";
+    //limiteFormat.style.display = "none";
+    //imgPhoto.style.display = "none"
     //afficher photo choisie à la place de l'icône img
     let choixWorkImg = input.files.value;
     choixWorkImg.classList.add("choixImg");
-};
+};*/
 
 btnAjoutPhoto.addEventListener("click", (event) =>{
     event.preventDefault();
-    ajouterPhoto();
+    //ajouterPhoto();
 });
 
 
 //***** Affiche catégories dans menu déroulant **********************************
 const selectCategories = document.getElementById("selectCategories");
 
-function choixCategory () {
-    categories.forEach(category => {
+function choixSelectCategory () {
+    //option par défaut
+    const choixVide = document.createElement("option");
+    choixVide = appendChild(selectCategories);
+    choixVide.innerText = "Sélectionnez une catégorie"
+    //option choix de catégorie
+    categories.forEach((category) => {
         const choixCategory = document.createElement("option");
         choixCategory.innerText = category.name
         choixCategory.appendChild(selectCategories);
-    })
+    });
 };
 
 
