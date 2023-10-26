@@ -158,8 +158,7 @@ log.addEventListener("click", () => {
         /******************** MODALE ********************/
 
 //***** Ajout works dans modale *********************************
-/*const modalWorks = document.querySelector(".modal-works");
-const deleteIcon = document.createElement("a");
+const modalWorks = document.querySelector(".modal-works");
 
 function modifWorks(works) {
     modalWorks.innerHTML = "";
@@ -171,8 +170,10 @@ function modifWorks(works) {
         figureModal.appendChild(img);
         modalWorks.appendChild(figureModal);
         //suppr icône
+        const deleteIcon = document.createElement("a");
         deleteIcon.innerHTML = `<i class="fa-solid fa-trash-can" data-id="${work.id}"></i>`;
-        img.appendChild(deleteIcon);
+        deleteIcon.classList.add(".fa-trash-can");
+        figureModal.appendChild(deleteIcon);
 
         deleteIcon.addEventListener("click", () => {
             //récupére attribut icône suppr
@@ -217,38 +218,29 @@ document.addEventListener("DOMContentLoaded", () => {
     modifWorks();
     choixCategory();
 });
-*/
+
 
 //***** Ouverture de la modale ****************************************
 const jsModal = document.getElementById("js-modal");
-const modal = document.querySelector("dialog");
-
-function openModal () {
-    //modal.style.display = "block";
-    modifWorks(works);
-};
+const modal = document.getElementById("modal");
 
 jsModal.addEventListener("click", (event) => {
-    event.preventDefault();
-    openModal();
+    modal.showModal();
+    modifWorks(works);
 });
 
 
 //***** Fermeture de la modale ****************************************
 const closeMark = document.getElementById("close");
 
-function closeModal () {
-    modal.style.display = "none";
-};
-
 modal.addEventListener("click", (event) => {
     if (event.target === modal) {
-        closeModal();
+        modal.closeModal();
     };
 });
 
 closeMark.addEventListener("click", () => {
-    closeModal();
+    modal.close();
 });
 
 

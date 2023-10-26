@@ -43,28 +43,25 @@ html {
 
 
 /****** MODALE ******/
-/*#modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgb(0, 0, 0, 0.5);
-    z-index: 1;
-}*/
+dialog {
+    position: relative;
+    top: 20%;
+    left: 30%;
+}
+    
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
 
 .modal-window {
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
-    top: 20%;
-    left: 30%;
+    justify-content: center;
     width: 630px;
     height: 680px;
     background-color: white;
     padding: 30px;
-    overflow: auto;
 }
 
 h3 {
@@ -87,7 +84,7 @@ h3 {
 #modal1 .fa-xmark {
     font-size: 24px;
     display: flex;
-    align-items: end;
+    justify-content: flex-end;
     color: black;
 }
 
@@ -106,11 +103,23 @@ h3 {
     height: 102px;
 }
 
+.modal-works a {
+    display: flex;
+    justify-content: flex-end;
+    z-index: 2;
+    position: relative;
+    bottom: 100px;
+    right: 4px;
+}
+
 .fa-trash-can {
-    font-size: 17px;
+    height: 17px;
+    width: 17px;
+    font-size: 12px;
+    text-align: center;
+    vertical-align: middle;
     color: white;
     background-color: black;
-    z-index: 2;
 }
 
 .btnModal {
@@ -125,6 +134,9 @@ h3 {
 }
 
 /* WindowTwo */
+#modal2 {
+    display: none;
+}
 #modal2 .modal-window {
     display: flex;
     flex-direction: column;
