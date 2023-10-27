@@ -226,6 +226,7 @@ const modal = document.getElementById("modal");
 jsModal.addEventListener("click", (event) => {
     modal.showModal();
     modifWorks(works);
+    choixSelectCategory();
 });
 
 
@@ -261,7 +262,6 @@ function precedentModal () {
 
 btnAjouter.addEventListener("click", () => {
     openModalTwo();
-    choixSelectCategory();
 });
 
 arrowLeft.addEventListener("click", () => {
@@ -321,19 +321,23 @@ btnAjoutPhoto.addEventListener("change", () => {
 
 
 //***** Affiche catégories dans menu déroulant **********************************
-const selectCategories = document.getElementById("selectCategories");
-
 function choixSelectCategory () {
+    const selectCategories = document.getElementById("selectCategories");
+    let optionCategories = [];
+
     //option par défaut
     const choixVide = document.createElement("option");
-    choixVide.appendChild(selectCategories);
-    choixVide.innerText = "Sélectionnez une catégorie"
+    choixVide.innerText = "Sélectionnez une catégorie";
+    choixVide.appendChild(optionCategories);
     //option choix de catégorie
     categories.forEach((category) => {
-        const choixCategory = document.createElement("option");
-        choixCategory.innerText = category.name
-        choixCategory.appendChild(selectCategories);
+        const option = document.createElement("option");
+        option.innerText = category.name
+        option.appendChild(optionCategories);
+        //récupération attribut
+        option.dataset.categoryId = category.id;
     });
+    optionCategories.appendChild(selectCategories);
 };
 
 
