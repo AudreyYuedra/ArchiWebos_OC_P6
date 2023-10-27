@@ -174,8 +174,10 @@ h3 {
 }
 
 .choixImg {
+    display: flex;
     height: 170px;
     width: 85px;
+    z-index: 3;
 }
 
 .choixPhoto #ajoutPhoto {
@@ -185,8 +187,12 @@ h3 {
     border: none;
 }
 
-.choixPhoto p {
+#limiteFormat {
     font-size: 10px;
+}
+
+.errorPhoto {
+    color: red;
 }
 
 label {

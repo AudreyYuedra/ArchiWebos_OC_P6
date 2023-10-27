@@ -269,23 +269,54 @@ arrowLeft.addEventListener("click", () => {
 });
 
 
-//***** Ajouter photo (window-modal-2) ******************************************
+//***** Ajouter et vérif photo(window-modal-2) ******************************************
 const btnAjoutPhoto = document.getElementById("ajoutPhoto");
 const imgPhoto = document.querySelector(".fa-image");
-const limiteFormat = document.querySelector("choixPhoto p");
+const limiteFormat = document.querySelector("limiteFormat");
+const choixPhoto = document.querySelector(".choixPhoto");
 
-/*function ajouterPhoto () {
-    //btnAjoutPhoto.style.display = "none";
-    //limiteFormat.style.display = "none";
-    //imgPhoto.style.display = "none"
-    //afficher photo choisie à la place de l'icône img
-    let choixWorkImg = input.files.value;
-    choixWorkImg.classList.add("choixImg");
-};*/
+//limite format
+function fileType(file) {
+    let fileTypes = ["image/jpeg", "image/pjpeg", "image/png"];
+    if (file.type === fileTypes[i]) {
+        return true;
+    } else {
+        //return false;
+        const typeWarning = createElement("p");
+        typeWarning.innerText = "Le format n'est pas valide !"
+        typeWarning.appendChild(limiteFormat);
+        typeWarning.classList.add(".errorPhoto");
+    };
+};
 
-btnAjoutPhoto.addEventListener("click", (event) =>{
-    event.preventDefault();
-    //ajouterPhoto();
+ //limite taille
+ function fileSize(number) {
+    number = curFiles[i].size;
+    if (number > 4000000 /*octets*/) {
+        return true;
+    } else {
+        //return false;
+        const sizeWarning = createElement("p");
+        sizeWarning.innerText = "La taille est trop grande !"
+        sizeWarning.appendChild(limiteFormat);
+        sizeWarning.classList.add(".errorPhoto");
+    }
+}
+
+btnAjoutPhoto.addEventListener("change", () => {
+    //vider le contenu de choixPhoto
+    while (miniphoto.firstChild) {
+        miniPhoto.removeChild(miniPhoto.firstChild);
+    };
+    //récupération info fichier
+    let curFiles = input.files;
+    //affichage miniature photo
+    if (fileType(file) && fileSize(number)) {
+        const miniPhoto = createElement("img");
+        miniPhoto.src = window.URL.createObjectURL(curFiles[i]);
+        choixPhoto.appendChild(miniPhoto);
+        miniPhoto.classList.add(".choixImg");
+    };
 });
 
 
@@ -311,15 +342,6 @@ const choixTilte = document.getElementById("choixTilte");
 const selectCategory = document.querySelector("select");
 const btnValider = document.getElementById("btnValider");
 
-function verifImage () {
-    //obligation de choisir image
-    if (imgPhoto) {
-        //l'image est considéré comme non choisie
-        imgPhoto.style = "color: red";
-        console.log("L'image n'a pas été choisie.");
-    };
-};
-
 function verifTilte () {
     //obligation d'avoir le champ rempli
     if (choixTilte === "") {
@@ -336,16 +358,26 @@ function verifCategory () {
     };
 };
 
-//SI champ complets => changer couleur btnValider
+/*//SI champ complets => changer couleur btnValider
 if (verifImage() && verifTilte() && verifCategory()) {
     btnValider.style.replace("color: #B9C5CC", "color: 1D6154");
-};
+};*/
 
 //***** Envoie form ajout photo **********************************************
 const modalForm = document.querySelector(".form-modal");
 
 /*modalForm.addEventListener("submit", async (event) => {
     event.preventDefault();
+
+
+//obligation de choisir image pour post
+    if (curFiles.length === 0) {
+        //l'image est considéré comme non choisie
+        imgPhoto.style = "color: red";
+        console.log("L'image n'a pas été choisie.");
+    };
+
+
 
     if(verifImage() && verifTilte() && verifCategory()) {
         fetch("http://localhost:5678/api/works", {

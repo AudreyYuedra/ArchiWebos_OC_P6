@@ -60,11 +60,12 @@
 			</a>
 		</div>
 		<h3>Ajout photo</h3>
-		<form class="form_modal cadre-modal">
+		<form method="post" class="form_modal cadre-modal">
 			<div class="choixPhoto">
 				<i class="fa-regular fa-image"></i>
-				<input type="file" id="ajoutPhoto" value="+ Ajouter photo"> <!-- ouvre fenêtre Windows -->
-				<p>jpg, png : 4mo max</p>
+				<input type="file" id="ajoutPhoto" value="+ Ajouter photo" 
+					name="Photo" accept=".jpg, .jpeg, .png"> <!-- ouvre fenêtre Windows -->
+				<p id="limiteFormat">jpg, png : 4mo max</p>
 			</div>
 			<label>Titre</label>
 			<input type="text" id="choixTilte">
