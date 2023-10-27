@@ -275,7 +275,6 @@ const imgPhoto = document.querySelector(".fa-image");
 const limiteFormat = document.querySelector("limiteFormat");
 const choixPhoto = document.querySelector(".choixPhoto");
 
-//limite format
 function fileType(file) {
     let fileTypes = ["image/jpeg", "image/pjpeg", "image/png"];
     if (file.type === fileTypes[i]) {
@@ -289,7 +288,6 @@ function fileType(file) {
     };
 };
 
- //limite taille
  function fileSize(number) {
     number = curFiles[i].size;
     if (number > 4000000 /*octets*/) {
@@ -304,14 +302,13 @@ function fileType(file) {
 }
 
 btnAjoutPhoto.addEventListener("change", () => {
-    //vider le contenu de choixPhoto
-    while (miniphoto.firstChild) {
-        miniPhoto.removeChild(miniPhoto.firstChild);
-    };
     //récupération info fichier
     let curFiles = input.files;
-    //affichage miniature photo
+    //SI ficher ok
     if (fileType(file) && fileSize(number)) {
+        //vider le contenu de choixPhoto
+        choixPhoto.innerHTML = "";
+        //affichage miniature
         const miniPhoto = createElement("img");
         miniPhoto.src = window.URL.createObjectURL(curFiles[i]);
         choixPhoto.appendChild(miniPhoto);
@@ -321,8 +318,9 @@ btnAjoutPhoto.addEventListener("change", () => {
 
 
 //***** Affiche catégories dans menu déroulant **********************************
+const selectCategories = document.getElementById("selectCategories");
+
 function choixSelectCategory () {
-    const selectCategories = document.getElementById("selectCategories");
     let optionCategories = [];
 
     //option par défaut
@@ -341,54 +339,54 @@ function choixSelectCategory () {
 };
 
 
-//***** Vérif champs remplis ************************************************
-const choixTilte = document.getElementById("choixTilte");
-const selectCategory = document.querySelector("select");
-const btnValider = document.getElementById("btnValider");
+//***** Vérif champs Tilte rempli ************************************************
+const choixTitle = document.getElementById("choixTitle");
 
-function verifTilte () {
-    //obligation d'avoir le champ rempli
-    if (choixTilte === "") {
-        choixTilte.classList.add("errorTilte");
-        console.log("Le champ Titre est vide.");
-    };
+function verifTitle () {
+    //conformité titre
+    let titleRegExp = new RegExp("[a-z._-]+@");
+    if (choixTitle !== titleRegExp) {
+        choixTitle.classList.add(".errorTitle");
+    } else {
+        return true;
+    }
 };
 
-function verifCategory () {
-    //obligation de choisir une catégorie
-    if (selectCategory === "") {
-        selectCategory.classList.add("errorSelect");
-        console.log("La catégorie n'a pas été choisie.");
-    };
-};
-
-/*//SI champ complets => changer couleur btnValider
-if (verifImage() && verifTilte() && verifCategory()) {
-    btnValider.style.replace("color: #B9C5CC", "color: 1D6154");
-};*/
 
 //***** Envoie form ajout photo **********************************************
 const modalForm = document.querySelector(".form-modal");
+const btnValider = document.getElementById("btnValider");
 
-/*modalForm.addEventListener("submit", async (event) => {
+modalForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-
-//obligation de choisir image pour post
-    if (curFiles.length === 0) {
-        //l'image est considéré comme non choisie
-        imgPhoto.style = "color: red";
-        console.log("L'image n'a pas été choisie.");
-    };
-
-
-
-    if(verifImage() && verifTilte() && verifCategory()) {
+    if (btnAjoutPhoto(curFiles[i]) && choixSelectCategory(category.id) && verifTitle() === true) {
+        //envoie formulaire à API
         fetch("http://localhost:5678/api/works", {
             method: "POST",
             headers: {"Content-type": "application/json"},
-            body: //je ne sais pas quoi mettre
-            }).then(response => response.json())
-            .then ()
-    };
-});*/
+            body: JSON.stringify({
+                btnAjoutPhoto: curFiles.src,
+                choixTitle: choixTitle.value,
+                selectCategories: category.name})
+        }).then(response => response.json())
+        .then({/* à remplir*/})
+    } else {
+        //obligation de choisir image pour post
+        if (curFiles.length === 0) {
+            //l'image est considéré comme non choisie
+            imgPhoto.style = "color: red";
+            console.log("L'image n'a pas été choisie.");
+        };
+        //obligation de choisir une catégorie
+        if (choixSelectCategoryelectCategory === choixVide) {
+            choixSelectCategoryelectCategory.classList.add("errorSelect");
+            console.log("La catégorie n'a pas été choisie.");
+        };
+        //obligation d'avoir le champ rempli
+        if (choixTitle === "") {
+            choixTitle.classList.add("errorTilte");
+            console.log("Le champ Titre est vide.");
+        };
+    }
+});
