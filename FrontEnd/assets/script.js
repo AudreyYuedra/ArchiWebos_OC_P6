@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 });
 
+
 //******* Ajout filtres pour les catégories ********************************
 const filters = document.querySelector(".filters");
 
@@ -185,11 +186,12 @@ function modifWorks() {
                 headers: {"Authorization" : `Bearer ${online.token}`}
             }).then(response => {
                 //récupérer element sur lequel on a cliqué
-                let index = (work) => {work.id === workId};
+                //let index = (work) => {work.id === workId};
                 //suppr element html
                 deleteIcon.parentElement.remove();
                 //suppr element tableau
-                works.splice(index, 1);
+                works.splice(workId, 1);
+
                 //rafraîchi contenu works après suppr
                 function refreshProjet (works) {
                     modalWorks.innerHTML = "";
@@ -201,9 +203,10 @@ function modifWorks() {
                         img.alt = work.title    
                         figureModal.appendChild(img);
                         modalWorks.appendChild(figureModal);
-                        //suppr icône
+                        //btn suppr works
                         deleteIcon.innerHTML = `<i class="fa-solid fa-trash-can" data-id="${work.id}"></i>`;
                         img.appendChild(deleteIcon);
+                        deleteIcon.classList.add(".fa-trash-can");
                     });
                 };
             }).catch(error => {
@@ -231,7 +234,7 @@ const closeMark = document.getElementById("close");
 
 modal.addEventListener("click", (event) => {
     if (event.target === modal) {
-        modal.closeModal();
+        modal.close();
     };
 });
 
@@ -249,7 +252,6 @@ const arrowLeft = document.getElementById("arrowLeft");
 function openModalTwo () {
     windowOne.style.display = "none";
     windowTwo.style.display = "block";
-    choixSelectCategory();
 };
 
 function precedentModal () {
@@ -259,6 +261,7 @@ function precedentModal () {
 
 btnAjouter.addEventListener("click", () => {
     openModalTwo();
+    choixSelectCategory();
 });
 
 arrowLeft.addEventListener("click", () => {
@@ -292,7 +295,7 @@ const selectCategories = document.getElementById("selectCategories");
 function choixSelectCategory () {
     //option par défaut
     const choixVide = document.createElement("option");
-    choixVide = appendChild(selectCategories);
+    choixVide.appendChild(selectCategories);
     choixVide.innerText = "Sélectionnez une catégorie"
     //option choix de catégorie
     categories.forEach((category) => {
@@ -314,9 +317,7 @@ function verifImage () {
         //l'image est considéré comme non choisie
         imgPhoto.style = "color: red";
         console.log("L'image n'a pas été choisie.");
-    } else {
-        choixWorkImg === true;
-    }
+    };
 };
 
 function verifTilte () {
@@ -324,9 +325,7 @@ function verifTilte () {
     if (choixTilte === "") {
         choixTilte.classList.add("errorTilte");
         console.log("Le champ Titre est vide.");
-    } else {
-        choixTilte === true;
-    }
+    };
 };
 
 function verifCategory () {
@@ -334,9 +333,7 @@ function verifCategory () {
     if (selectCategory === "") {
         selectCategory.classList.add("errorSelect");
         console.log("La catégorie n'a pas été choisie.");
-    } else {
-        selectCategory === true;
-    }
+    };
 };
 
 //SI champ complets => changer couleur btnValider
