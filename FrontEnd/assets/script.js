@@ -3,6 +3,7 @@
 
 //****** Ajout works dans portfolio ***************************************
 const gallery = document.querySelector(".gallery");
+const categoriesFilters = null;
 let works = [];
 
 //requête API ressource works
@@ -43,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchCategories()
         .then(categories => {
             afficherCategories(categories);
+            categoriesFilters = categories;
         });
 });
 
@@ -161,6 +163,23 @@ log.addEventListener("click", () => {
 //***** Affichage et Suppression works dans modale *********************************
 const modalWorks = document.querySelector(".modal-works");
 
+function deleteWork(workId, deleteIcon) {
+    console.log("workId => deleteWork", workId);
+    console.log("token", online);
+
+    fetch(`http://localhost:5678/api/works/${workId}`, {
+        method: "DELETE",
+        headers: {"Authorization" : `Bearer ${online}`}
+        }).then(response => {
+            if (response.ok) {
+                deleteIcon.parentElement.remove();
+                works = works.filter(work => work.id !== workId) ;
+            }
+        }).catch(error => {
+                    console.error("Erreur de récupération de travaux.", error)
+            });
+};
+
 function modifWorks() {
     modalWorks.innerHTML = "";
     works.forEach((work) => {
@@ -177,44 +196,13 @@ function modifWorks() {
         deleteIcon.classList.add(".fa-trash-can");
 
         //suppression works
-        deleteIcon.addEventListener("click", () => {
+        deleteIcon.addEventListener("click", (event) => {
+            console.log("deleteIcon", deleteIcon);
             //récupére attribut icône suppr
-            const workId = deleteIcon.getAttribute("data-id");
-        
-            fetch("http://localhost:5678/api/works/" + workId, {
-                method: "DELETE",
-                headers: {"Authorization" : `Bearer ${online.token}`}
-            }).then(response => {
-                //récupérer element sur lequel on a cliqué
-                //let index = (work) => {work.id === workId};
-                //suppr element html
-                deleteIcon.parentElement.remove();
-                //suppr element tableau
-                works.splice(workId, 1);
-
-                //rafraîchi contenu works après suppr
-                function refreshProjet (works) {
-                    modalWorks.innerHTML = "";
-                    //bouche et afficher chauque img avec forEach comen haut avec new tabl
-                    works.forEach((work) => {
-                        const figureModal = document.createElement("figure-modal");
-                        const img = document.createElement("img");
-                        img.src = work.imageUrl
-                        img.alt = work.title    
-                        figureModal.appendChild(img);
-                        modalWorks.appendChild(figureModal);
-                        //btn suppr works
-                        deleteIcon.innerHTML = `<i class="fa-solid fa-trash-can" data-id="${work.id}"></i>`;
-                        img.appendChild(deleteIcon);
-                        deleteIcon.classList.add(".fa-trash-can");
-                    });
-                };
-            }).catch(error => {
-                    console.error("Erreur de récupération de travaux.", error)
-            });
+            const workId = event.target.getAttribute("data-id");
+            console.log("workId", workId);
+            deleteWork(workId, deleteIcon);    
         });
-
-        //garder la suppr même après F5
     });
 };
 
@@ -321,21 +309,20 @@ btnAjoutPhoto.addEventListener("change", () => {
 const selectCategories = document.getElementById("selectCategories");
 
 function choixSelectCategory () {
-    let optionCategories = [];
+    selectCategories.innerHTML = "";
 
     //option par défaut
     const choixVide = document.createElement("option");
     choixVide.innerText = "Sélectionnez une catégorie";
-    choixVide.appendChild(optionCategories);
+    choixVide.value = "";
+    selectCategories.appendChild(choixVide);
     //option choix de catégorie
     categories.forEach((category) => {
         const option = document.createElement("option");
-        option.innerText = category.name
-        option.appendChild(optionCategories);
-        //récupération attribut
-        option.dataset.categoryId = category.id;
+        option.innerText = category.name;
+        option.value = category.id
+        selectCategories.appendChild(option);
     });
-    optionCategories.appendChild(selectCategories);
 };
 
 
@@ -370,7 +357,6 @@ modalForm.addEventListener("submit", async (event) => {
                 choixTitle: choixTitle.value,
                 selectCategories: category.name})
         }).then(response => response.json())
-        .then({/* à remplir*/})
     } else {
         //obligation de choisir image pour post
         if (curFiles.length === 0) {
