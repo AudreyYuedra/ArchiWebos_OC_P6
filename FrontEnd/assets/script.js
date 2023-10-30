@@ -1,12 +1,7 @@
         /////////////////////////////////////////////////
         /******************** INDEX ********************/
 
-//****** Ajout works dans portfolio ***************************************
-const gallery = document.querySelector(".gallery");
-const categoriesFilters = null;
-let works = [];
-
-//requête API ressource works
+//****** Appels API ***************************************
 function fetchWorks(){
     return fetch("http://localhost:5678/api/works")
         .then(response => response.json()) //mettre paraenthèse pour contenu
@@ -14,6 +9,20 @@ function fetchWorks(){
             console.error("Erreur de récupération de travaux.", error)
         });
 };
+
+function fetchCategories(){
+    return fetch("http://localhost:5678/api/categories")
+        .then(response => response.json()) //mettre paraenthèse pour contenu
+        .catch(error => {
+            console.error("Erreur de récupération des catégories.", error)
+        });
+};
+
+
+//****** Ajout works dans portfolio ***************************************
+const gallery = document.querySelector(".gallery");
+const categoriesFilters = null;
+let works = [];
 
 function afficherWorks(works) {
     //efface le contenu html
@@ -35,30 +44,10 @@ function afficherWorks(works) {
     })
 };
 
-document.addEventListener("DOMContentLoaded", () => {
-    fetchWorks()
-        .then((data) => {
-            works = data;   //
-            afficherWorks(works);
-        });
-    fetchCategories()
-        .then(categories => {
-            afficherCategories(categories);
-            categoriesFilters = categories;
-        });
-});
 
-
-//******* Ajout filtres pour les catégories ********************************
+//****** Ajout filtres pour les catégories ********************************
 const filters = document.querySelector(".filters");
-
-function fetchCategories(){
-    return fetch("http://localhost:5678/api/categories")
-        .then(response => response.json()) //mettre paraenthèse pour contenu
-        .catch(error => {
-            console.error("Erreur de récupération des catégories.", error)
-        });
-};
+let categories = [];
 
 function afficherCategories(categories) {
     console.log("catégories", categories);
@@ -107,39 +96,23 @@ filters.addEventListener("click", (event) => {
 });
 
 
+//****** Chargement works et categories ************************************
+document.addEventListener("DOMContentLoaded", () => {
+    fetchWorks()
+        .then((data) => {
+            works = data;   //
+            afficherWorks(works);
+        });
+    fetchCategories()
+        .then(categories => {
+            afficherCategories(categories);
+        });
+});
+
+
 
         /////////////////////////////////////////////////
         /******************** EDIT ********************/
-
-//****** Option modif visible ********************************************
-const headband = document.querySelector(".headband");
-const edit = document.querySelector(".edit");
-
-function showEdition () {
-    headband.style.display = "inline-block";
-    headband.removeAttribute("aria-hidden");
-
-    edit.style.display = "inline-block";
-    edit.removeAttribute("aria-hidden");
-};
-
-function hiddenFilters () {
-    filters.style.display = "none";
-    filters.setAttribute("aria-hidden", "true");
-};
-
-
-//****** Affiche mode édition quand connecté ********************************
-const online = localStorage.getItem("Token");
-
-document.addEventListener("DOMContentLoaded", () => {
-    if (online) {
-        showEdition();
-        hiddenFilters();
-        logout();
-    }
-});
-
 
 //****** Affiche btn déconnection *******************************************
 const log = document.getElementById("log");
@@ -156,9 +129,35 @@ log.addEventListener("click", () => {
 });
 
 
+//****** Affiche mode édition quand connecté ********************************
+const online = localStorage.getItem("Token");
+const headband = document.querySelector(".headband");
+const edit = document.querySelector(".edit");
+
+function showEdition () {
+    headband.style.display = "inline-block";
+    headband.removeAttribute("aria-hidden");
+
+    edit.style.display = "inline-block";
+    edit.removeAttribute("aria-hidden");
+};
+
+function hiddenFilters () {
+    filters.style.display = "none";
+    filters.setAttribute("aria-hidden", "true");
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (online) {
+        showEdition();
+        hiddenFilters();
+        logout();
+    }
+});
+
 
         /////////////////////////////////////////////////
-        /******************** MODALE ********************/
+        /******************* MODALE ********************/
 
 //***** Affichage et Suppression works dans modale *********************************
 const modalWorks = document.querySelector(".modal-works");
@@ -207,19 +206,15 @@ function modifWorks() {
 };
 
 
-//***** Ouverture de la modale ****************************************
+//***** Ouverture et Fermeture de la modale ****************************************
 const jsModal = document.getElementById("js-modal");
 const modal = document.getElementById("modal");
+const closeMark = document.getElementById("close");
 
-jsModal.addEventListener("click", (event) => {
+jsModal.addEventListener("click", () => {
     modal.showModal();
     modifWorks(works);
-    choixSelectCategory();
 });
-
-
-//***** Fermeture de la modale ****************************************
-const closeMark = document.getElementById("close");
 
 modal.addEventListener("click", (event) => {
     if (event.target === modal) {
@@ -241,6 +236,7 @@ const arrowLeft = document.getElementById("arrowLeft");
 function openModalTwo () {
     windowOne.style.display = "none";
     windowTwo.style.display = "block";
+    choixSelectCategory(categories);
 };
 
 function precedentModal () {
@@ -293,14 +289,16 @@ btnAjoutPhoto.addEventListener("change", () => {
     //récupération info fichier
     let curFiles = input.files;
     //SI ficher ok
-    if (fileType(file) && fileSize(number)) {
+    if (fileType(file.ok) && fileSize(number.ok)) {
         //vider le contenu de choixPhoto
         choixPhoto.innerHTML = "";
-        //affichage miniature
+        //affichage miniature photo choisie
         const miniPhoto = createElement("img");
         miniPhoto.src = window.URL.createObjectURL(curFiles[i]);
         choixPhoto.appendChild(miniPhoto);
         miniPhoto.classList.add(".choixImg");
+    } else {
+        return false;
     };
 });
 
@@ -308,21 +306,27 @@ btnAjoutPhoto.addEventListener("change", () => {
 //***** Affiche catégories dans menu déroulant **********************************
 const selectCategories = document.getElementById("selectCategories");
 
-function choixSelectCategory () {
+function choixSelectCategory (categories) {
     selectCategories.innerHTML = "";
-
     //option par défaut
     const choixVide = document.createElement("option");
     choixVide.innerText = "Sélectionnez une catégorie";
     choixVide.value = "";
     selectCategories.appendChild(choixVide);
     //option choix de catégorie
-    categories.forEach((category) => {
+    /*categories.forEach(category => {
         const option = document.createElement("option");
-        option.innerText = category.name;
+        option.innerText = category.name
         option.value = category.id
+        //option.dataset.categoryId = category.id;
         selectCategories.appendChild(option);
-    });
+    });*/
+    for (let i in categories) {
+        const choixOption = document.createElement("option");
+        choixOption.innerHTML = categories[i].name;
+        choixOption.value = categories[i].id;
+        selectCategories.appendChild(choixOption);
+    }
 };
 
 
@@ -331,7 +335,7 @@ const choixTitle = document.getElementById("choixTitle");
 
 function verifTitle () {
     //conformité titre
-    let titleRegExp = new RegExp("[a-z._-]+@");
+    let titleRegExp = new RegExp("[a-z._-]+");
     if (choixTitle !== titleRegExp) {
         choixTitle.classList.add(".errorTitle");
     } else {
