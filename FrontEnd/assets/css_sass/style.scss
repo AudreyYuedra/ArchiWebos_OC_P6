@@ -1,0 +1,88 @@
+//********** DESIGN SYSTEM **********//
+
+//*** Variables ***//
+
+//Colors
+$main-color: #000000;
+$primary-color: #FFFFFF;
+$third-title-color: #B1663C;
+
+//Text Configuration
+$main-font-family: 'Work Sans';
+$minor-font-family: 'Syne';
+
+$main-font-size : 14px;
+$name-title-size: 22px;
+
+
+//********** GENERAL **********//
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    max-width: 1440px;
+    font-family: $main-font-family;
+    font-size: $main-font-size;
+    color: $main-color;
+    @media (min-width: 1441px) {
+        margin: 0 2%;
+    }
+}
+
+
+
+//********** HEADER **********//
+header {
+    display: flex;
+	justify-content: space-between;
+	margin: 50px;
+    & h1 {
+        display: flex;
+	    flex-direction: column;
+	    font-family: 'Syne';
+	    font-size: $name-title-size;
+	    font-weight: 800;
+	    color: $third-title-color;
+        & span {
+            font-family: $main-font-family;
+            font-size:10px;
+	        letter-spacing: 0.1em;
+        }
+    }
+}
+
+nav ul {
+    display: flex;
+	align-items: center;
+	list-style-type: none;
+    & li {
+        padding: 0 10px;
+	    font-size: 1.2em;
+        &:hover {
+            color: $third-title-color;
+        }
+        & a {
+            text-decoration: none;
+	        color: $main-color;
+            &:hover {
+                color: $third-title-color;
+            }
+        }
+        & img {
+            width: 22px;
+            height: 22px;
+        }
+    }
+}
+
+//********** FOOTER **********//
+footer {
+    height: 60px;
+    & nav ul {
+	display: flex;
+	justify-content: flex-end;
+	margin: 2em 4em;
+    }
+}

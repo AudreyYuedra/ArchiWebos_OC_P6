@@ -1,0 +1,81 @@
+//********** DESIGN SYSTEM **********//
+
+//*** Variables ***//
+
+//Colors
+$main-color: #000000;
+$primary-color: #FFFFFF;
+$second-color : #1D6154;
+$third-title-color: #B1663C;
+$error-color: red;
+
+//Text Configuration
+$main-font-family: 'Work Sans';
+$minor-font-family: 'Syne';
+
+$main-font-size: 14px;
+$second-title-size: 30px;
+
+
+//********** GENERAL **********//
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 700px;
+}
+
+h2 {
+    font-family: $minor-font-family;
+    font-size: 30px;
+    color: $second-color;
+    font-weight: 700;
+    text-align: center;
+}
+
+//*** Formulaire
+form {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    margin: 35px;
+    margin-left: 50px;
+    & label {
+        font-size: 18px;
+        margin-bottom: 5px;
+    }
+    & input {
+        height: 30px;
+        margin-bottom: 30px;
+        border: none;
+        background: transparent;
+        box-shadow: 0 2px 5px rgba($third-title-color, 0.3);
+        & .error {
+            background-color: $error-color;
+            opacity: 0.6;
+        }
+    }
+    & .centerForm {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        & input[type="submit"] {
+            width: 150px;
+            border: none;
+            border-radius: 50px;
+            background-color: $second-color;
+            color: $primary-color;
+            font-size: 16px;
+        }
+        & a {
+            color: $main-color;
+        }
+    }
+}
+
+.txt_error {
+    color: $error-color;
+    font-size: 20px;
+}

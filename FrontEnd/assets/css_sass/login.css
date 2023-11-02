@@ -1,0 +1,60 @@
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 700px;
+}
+
+h2 {
+  font-family: "Syne";
+  font-size: 30px;
+  color: #1D6154;
+  font-weight: 700;
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  margin: 35px;
+  margin-left: 50px;
+}
+form label {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+form input {
+  height: 30px;
+  margin-bottom: 30px;
+  border: none;
+  background: transparent;
+  box-shadow: 0 2px 5px rgba(177, 102, 60, 0.3);
+}
+form input .error {
+  background-color: red;
+  opacity: 0.6;
+}
+form .centerForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+form .centerForm input[type=submit] {
+  width: 150px;
+  border: none;
+  border-radius: 50px;
+  background-color: #1D6154;
+  color: #FFFFFF;
+  font-size: 16px;
+}
+form .centerForm a {
+  color: #000000;
+}
+
+.txt_error {
+  color: red;
+  font-size: 20px;
+}/*# sourceMappingURL=login.css.map */

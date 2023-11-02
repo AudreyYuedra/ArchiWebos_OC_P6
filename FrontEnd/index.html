@@ -14,15 +14,17 @@
         integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- Lien CSS -->
-	<link rel="stylesheet" href="./assets/style.css">
-	<link rel="stylesheet" href="./assets/modale.css">
+	<link rel="stylesheet" href="./assets/css_sass/style.css">
+	<link rel="stylesheet" href="./assets/css_sass/index.css">
 </head>
 <body>
-	<div class="headband" aria-hidden="true" style="display: none;"> <!-- caché tant que pas connecté -->
-		<a href="#modal" id="js-modal">
-			<i class="fa-regular fa-pen-to-square"></i>
-			<p>Mode édition</p>
-		</a>
+	<div class="headband"> <!-- caché tant que pas connecté -->
+		<div class="center-headband">
+			<a href="#modal" id="js-modal">
+				<i class="fa-regular fa-pen-to-square"></i>
+				<p>Mode édition</p>
+			</a>
+		</div>
 	</div>
 
 <header>
@@ -38,43 +40,47 @@
 </header>
 
 <dialog id="modal"> 
-	<div id="modal1" class="modal-window">
-			<a id="close">
-				<i class="fa-solid fa-xmark"></i>
-			</a>
-		<h3>Galerie photo</h3>
-		<div class="modal-works cadre-modal">
-			<!-- icônes suppr incorporés en JS -->
-			<!-- travaux incorporés en JS -->
+	<div id="modal1" class="modal-window" style="display: none;">
+		<div class="center">
+			<i id="close" class="fa-solid fa-xmark"></i>
+			<h3>Galerie photo</h3>
+			<div class="modal-works cadre-modal">
+				<!-- icônes suppr incorporés en JS -->
+				<!-- travaux incorporés en JS -->
+			</div>
+			<button href="#modal2" id="btnAjouter" class="btnModal">Ajouter une photo</button>
 		</div>
-		<button href="#modal2" id="btnAjouter" class="btnModal">Ajouter une photo</button>
 	</div>
 	
-	<div id="modal2" class="modal-window">
-		<div class="navModal">
-			<a id="arrowLeft">
-				<i class="fa-solid fa-arrow-left"></i>
-			</a>
-			<a id="close">
-				<i class="fa-solid fa-xmark"></i>
-			</a>
-		</div>
-		<h3>Ajout photo</h3>
-		<form method="post" class="form_modal cadre-modal">
-			<div class="choixPhoto">
-				<i class="fa-regular fa-image"></i>
-				<input type="file" id="ajoutPhoto" value="+ Ajouter photo" 
-					name="Photo" accept=".jpg, .jpeg, .png"> <!-- ouvre fenêtre Windows -->
-				<p id="limiteFormat">jpg, png : 4mo max</p>
+	<div id="modal2" class="modal-window" style="display: none;">
+		<div class="center">
+			<div class="navModal">
+				<a id="arrowLeft">
+					<i class="fa-solid fa-arrow-left"></i>
+				</a>
+				<a id="close">
+					<i class="fa-solid fa-xmark"></i>
+				</a>
 			</div>
-			<label>Titre</label>
-			<input type="text" id="choixTitle">
-			<label>Catégorie</label>
-			<select id="selectCategories">
-				<!--<option value=""></option>-->
-			</select>
-			<input type="submit" value="Valider" id="btnValider">
-		</form>
+			<h3>Ajout photo</h3>
+			<form method="post" id="form-modal" class="cadre-modal">
+				<div class="choixPhoto">
+					<i class="fa-regular fa-image"></i>
+					<input type="file" id="ajoutPhoto" value="+ Ajouter photo" 
+						name="Photo" accept=".jpg, .jpeg, .png"> <!-- ouvre fenêtre Windows -->
+					<p id="limiteFormat">jpg, png : 4mo max</p>
+				</div>
+				<div>
+					<label>Titre</label>
+					<input type="text" id="choixTitle">
+					<label>Catégorie</label>
+					<select id="selectCategories">
+						<!--<option value=""></option>-->
+					</select>
+					<input type="submit" value="Valider" id="btnValider">
+				</div>
+			</form>
+		</div>
 	</div>
 </dialog>
 
@@ -92,12 +98,13 @@
 	</section>
 
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
-		<a href="#modal" id="js-modal" class="edit" 
-			aria-hidden="true" style="display: none;"> <!-- caché tant que pas connecté -->
-			<i class="fa-regular fa-pen-to-square"></i>
-			modifier
-		</a>
+		<div class="title-portfolio">
+			<h2>Mes Projets</h2>
+			<a href="#modal" id="js-modal" class="edit"> <!-- caché tant que pas connecté -->
+				<i class="fa-regular fa-pen-to-square"></i>
+				<p>modifier</p>
+			</a>
+		</div>
 		<div class="filters">
 			<!-- filtres incoporés en JS -->
 		</div>
@@ -129,7 +136,8 @@
 	</nav>
 </footer>
 
-<script type="module" src="./assets/script.js" defer></script>
-<script type="module" src="./assets/login.js" defer></script>
+<!-- Lien JS -->
+<script type="module" src="./assets/JS/script.js" defer></script>
+<script type="module" src="./assets/JS/login.js" defer></script>
 </body>
 </html>

@@ -135,16 +135,12 @@ const headband = document.querySelector(".headband");
 const edit = document.querySelector(".edit");
 
 function showEdition () {
-    headband.style.display = "inline-block";
-    headband.removeAttribute("aria-hidden");
-
-    edit.style.display = "inline-block";
-    edit.removeAttribute("aria-hidden");
+    headband.style.display = "block";
+    edit.style.visibility = "visible";
 };
 
 function hiddenFilters () {
     filters.style.display = "none";
-    filters.setAttribute("aria-hidden", "true");
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -182,17 +178,19 @@ function deleteWork(workId, deleteIcon) {
 function modifWorks() {
     modalWorks.innerHTML = "";
     works.forEach((work) => {
-        const figureModal = document.createElement("figure-modal");
+        const figureModal = document.createElement("figure");
         const img = document.createElement("img");
         img.src = work.imageUrl
         img.alt = work.title
         figureModal.appendChild(img);
         modalWorks.appendChild(figureModal);
         //btn suppr works
-        const deleteIcon = document.createElement("a");
+        const deleteIcon = document.createElement("div");
         deleteIcon.innerHTML = `<i class="fa-solid fa-trash-can" data-id="${work.id}"></i>`;
         figureModal.appendChild(deleteIcon);
-        deleteIcon.classList.add(".fa-trash-can");
+        deleteIcon.classList.add("delete");
+        //const trash = document.querySelectorAll("fa-trash-can");
+        //trash.classList.add("fa-trash-can");
 
         //suppression works
         deleteIcon.addEventListener("click", (event) => {
@@ -213,6 +211,7 @@ const closeMark = document.getElementById("close");
 
 jsModal.addEventListener("click", () => {
     modal.showModal();
+    windowOne.style.display = "block";
     modifWorks(works);
 });
 
@@ -240,8 +239,8 @@ function openModalTwo () {
 };
 
 function precedentModal () {
-    windowTwo.style.display = "none";
     windowOne.style.display = "block";
+    windowTwo.style.display = "none";
 };
 
 btnAjouter.addEventListener("click", () => {
@@ -259,8 +258,9 @@ const imgPhoto = document.querySelector(".fa-image");
 const limiteFormat = document.querySelector("limiteFormat");
 const choixPhoto = document.querySelector(".choixPhoto");
 
-function fileType(file) {
-    let fileTypes = ["image/jpeg", "image/pjpeg", "image/png"];
+function fileType() {
+    let file = "";
+    const fileTypes = ["image/jpeg", "image/pjpeg", "image/png"];
     if (file.type === fileTypes[i]) {
         return true;
     } else {
@@ -287,7 +287,7 @@ function fileType(file) {
 
 btnAjoutPhoto.addEventListener("change", () => {
     //récupération info fichier
-    let curFiles = input.files;
+    let curFiles = btnAjoutPhoto.files;
     //SI ficher ok
     if (fileType(file.ok) && fileSize(number.ok)) {
         //vider le contenu de choixPhoto
