@@ -51,27 +51,19 @@ let categories = [];
 
 function afficherCategories(categories) {
     console.log("catégories", categories);
-    //création élements
-    const filterAll = document.createElement("button");
-    //position élément
-    filters.appendChild(filterAll);
-    //nom
-    filterAll.innerText = "Tous"
-    //lien CSS
-    filterAll.classList.add("btnFilter");
-    //ajout attribut
-    filterAll.dataset.categoryId = "0";
+    
+    const filterAll = document.createElement("button"); //création élements
+    filters.appendChild(filterAll); //position élément
+    filterAll.innerText = "Tous"; //nom
+    filterAll.classList.add("btnFilter", "filter_selected"); //lien class CSS
+    filterAll.dataset.categoryId = "0"; //ajout attribut
     //création éléments via boucle
     categories.forEach(category => {
         const btnFilter = document.createElement("button");
-        //assignements
-        btnFilter.innerText = category.name
-        //position éléments
-        filters.appendChild(btnFilter);
-        //lien CSS
-        btnFilter.classList.add("btnFilter");
-        //ajout attribut
-        btnFilter.dataset.categoryId = category.id;
+        btnFilter.innerText = category.name; //assignements
+        filters.appendChild(btnFilter); //position éléments
+        btnFilter.classList.add("btnFilter"); //lien class CSS
+        btnFilter.dataset.categoryId = category.id; //ajout attribut
     })
 };
 
@@ -301,32 +293,34 @@ ajoutPhoto.addEventListener("change", () => {
     miniPhoto.style.display = "block";
 });
 
+//** Reset miniPhoto
+function resetMiniPhoto () {
+    imgPhoto.style.display = "block";
+    labelAjoutPhoto.style.display = "block";
+    ajoutPhoto.style.display = "block";
+    limiteFormat.style.display = "block";
+    miniPhoto.style.display = "none";
+}
 
 //***** Affiche catégories dans menu déroulant **********************************
 const selectCategories = document.getElementById("selectCategories");
 
 function choixSelectCategory (categories) {
-    selectCategories.innerHTML = "";
-    //option par défaut
+    //option par défaut visible
     const choixVide = document.createElement("option");
     choixVide.innerText = "Sélectionnez une catégorie";
     choixVide.value = "";
     selectCategories.appendChild(choixVide);
     //option choix de catégorie
-    /*categories.forEach(category => {
-        const option = document.createElement("option");
-        option.innerText = category.name
-        option.value = category.id
-        //option.dataset.categoryId = category.id;
-        selectCategories.appendChild(option);
-    });*/
-    for (let i in categories) {
+    categories.forEach(category => {
         const choixOption = document.createElement("option");
-        choixOption.innerHTML = categories[i].name;
-        choixOption.value = categories[i].id;
+        choixOption.innerText = category.name;
+        choixOption.value = category.id;
         selectCategories.appendChild(choixOption);
-    }
+        choixOption.style.display = "block";
+    });
 };
+
 
 
 //***** Vérif champs Tilte rempli ************************************************
