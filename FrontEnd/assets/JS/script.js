@@ -150,6 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
 //***** Affichage et Suppression works dans modale *********************************
 const modalWorks = document.querySelector(".modal-works");
 
+//** Suppr works via icone trash
 function deleteWork(workId, deleteIcon) {
     console.log("workId => deleteWork", workId);
     console.log("token", online);
@@ -167,6 +168,7 @@ function deleteWork(workId, deleteIcon) {
             });
 };
 
+//** Afficher works dans gallery-modale
 function modifWorks() {
     modalWorks.innerHTML = "";
     works.forEach((work) => {
@@ -176,9 +178,9 @@ function modifWorks() {
         img.alt = work.title
         figureModal.appendChild(img);
         modalWorks.appendChild(figureModal);
-        //btn suppr works
+        //ajout btn suppr
         const deleteIcon = document.createElement("a");
-        deleteIcon.innerHTML = `<i class="fa-solid fa-trash-can" data-id="${work.id}"></i>`;
+        deleteIcon.innerHTML = `<i class="fa-solid fa-trash-can data-id="${work.id}""></i>`;
         figureModal.appendChild(deleteIcon);
         deleteIcon.classList.add("delete");
 

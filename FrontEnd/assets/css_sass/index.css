@@ -183,7 +183,7 @@ dialog::backdrop {
   align-items: center;
 }
 
-#modal1 i {
+#modal1 #close {
   color: #000000;
   font-size: 24px;
   position: relative;
@@ -208,17 +208,17 @@ dialog::backdrop {
   height: 100%;
 }
 .modal-works figure .delete {
-  height: 17px;
-  width: 17px;
-  font-size: 12px;
+  height: 22px;
+  width: 22px;
   background-color: #000000;
-  color: #FFFFFF;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   bottom: 109px;
-  left: 61px;
+  left: 55px;
+  color: #FFFFFF;
+  font-size: 14px;
 }
 
 .btnModal {
