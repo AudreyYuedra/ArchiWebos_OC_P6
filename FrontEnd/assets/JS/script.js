@@ -198,16 +198,45 @@ function modifWorks() {
 
 //***** Ouverture et Fermeture de la modale ****************************************
 const jsModal = document.getElementById("js-modal");
+const jsModal2 = document.getElementById("js-modal2");
 const modal = document.getElementById("modal");
 const closeMark = document.getElementById("close");
+const closeMark2 = document.getElementById("close2");
 
-jsModal.addEventListener("click", () => {
+// Ouverture modale
+document.addEventListener("click", (event) => {
+    event.preventDefault(); //empêche le refresh auto
+    if (jsModal || jsModal2) {
+        modal.showModal(); //affiche élément
+        windowOne.style.display = "block";
+        modifWorks(works);
+    };
+});
+
+/*jsModal.addEventListener("click", () =>
     modal.showModal();
     windowOne.style.display = "block";
     modifWorks(works);
 });
 
-modal.addEventListener("click", (event) => {
+jsModalTwo.addEventListener("click", () => {
+    modal.showModal();
+    windowOne.style.display = "block";
+    modifWorks(works);
+});*/
+
+//Fermeture modale
+document.addEventListener("click", (event) => {
+    event.preventDefault();
+    if (modal) {
+        modal.close(); //ferme élément
+    };
+    if (closeMark || closeMark2) {
+        modal.close();
+    };
+});
+
+/*modal.addEventListener("click", (event) => {
     if (event.target === modal) {
         modal.close();
     };
@@ -216,6 +245,10 @@ modal.addEventListener("click", (event) => {
 closeMark.addEventListener("click", () => {
     modal.close();
 });
+
+closeMarkTwo.addEventListener("click", () => {
+    modal.close();
+});*/
 
 
 //***** Switch window-modal **************************************************
