@@ -185,12 +185,10 @@ function modifWorks() {
         figureModal.appendChild(img);
         modalWorks.appendChild(figureModal);
         //btn suppr works
-        const deleteIcon = document.createElement("div");
+        const deleteIcon = document.createElement("a");
         deleteIcon.innerHTML = `<i class="fa-solid fa-trash-can" data-id="${work.id}"></i>`;
         figureModal.appendChild(deleteIcon);
         deleteIcon.classList.add("delete");
-        //const trash = document.querySelectorAll("fa-trash-can");
-        //trash.classList.add("fa-trash-can");
 
         //suppression works
         deleteIcon.addEventListener("click", (event) => {
@@ -252,14 +250,16 @@ arrowLeft.addEventListener("click", () => {
 });
 
 
-//***** Ajouter et vérif photo(window-modal-2) ******************************************
-const btnAjoutPhoto = document.getElementById("ajoutPhoto");
-const imgPhoto = document.querySelector(".fa-image");
-const limiteFormat = document.querySelector("limiteFormat");
-const choixPhoto = document.querySelector(".choixPhoto");
+//***** Ajouter et vérif photo (window-modal-2) ******************************************
+const choixPhoto = document.querySelector(".choixPhoto"); //container
+const imgPhoto = document.querySelector(".fa-image"); //icone
+const labelAjoutPhoto = document.getElementById("labelPhoto"); //label
+const ajoutPhoto = document.getElementById("ajoutPhoto"); //input
+const miniPhoto = document.getElementById("miniPhoto"); // img (vide)
+const limiteFormat = document.getElementById("limiteFormat"); // p
 
+//** Vérif type img
 function fileType() {
-    let file = "";
     const fileTypes = ["image/jpeg", "image/pjpeg", "image/png"];
     if (file.type === fileTypes[i]) {
         return true;
@@ -272,6 +272,7 @@ function fileType() {
     };
 };
 
+//** Vérif taille img
  function fileSize(number) {
     number = curFiles[i].size;
     if (number > 4000000 /*octets*/) {
@@ -285,21 +286,19 @@ function fileType() {
     }
 }
 
-btnAjoutPhoto.addEventListener("change", () => {
-    //récupération info fichier
-    let curFiles = btnAjoutPhoto.files;
-    //SI ficher ok
-    if (fileType(file.ok) && fileSize(number.ok)) {
-        //vider le contenu de choixPhoto
-        choixPhoto.innerHTML = "";
-        //affichage miniature photo choisie
-        const miniPhoto = createElement("img");
-        miniPhoto.src = window.URL.createObjectURL(curFiles[i]);
-        choixPhoto.appendChild(miniPhoto);
-        miniPhoto.classList.add(".choixImg");
-    } else {
-        return false;
-    };
+ajoutPhoto.addEventListener("change", () => {
+    //récupération fichier
+    const selectedPhoto = ajoutPhoto.files[0];
+    const photo = document.createElement("img");
+    photo.src = URL.createObjectURL(selectedPhoto);
+    miniPhoto.src = photo.src;
+
+    //afficher photo dans choixPhoto
+    imgPhoto.style.display = "none";
+    labelAjoutPhoto.style.display = "none";
+    ajoutPhoto.style.display = "none";
+    limiteFormat.style.display = "none";
+    miniPhoto.style.display = "block";
 });
 
 

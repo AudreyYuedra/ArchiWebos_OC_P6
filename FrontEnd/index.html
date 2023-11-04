@@ -66,9 +66,11 @@
 			<form method="post" id="form-modal" class="cadre-modal">
 				<div class="choixPhoto">
 					<i class="fa-regular fa-image"></i>
-					<input type="file" id="ajoutPhoto" value="+ Ajouter photo" 
-						name="Photo" accept=".jpg, .jpeg, .png"> <!-- ouvre fenêtre Windows -->
+					<label for="ajoutPhoto" id="labelPhoto">+ Ajouter photo</label>
+					<input type="file" id="ajoutPhoto" name="Photo" 
+						accept="image/*" style="visibility: hidden;"> <!-- ouvre fenêtre Windows -->
 					<p id="limiteFormat">jpg, png : 4mo max</p>
+					<img id="miniPhoto" src="" alt="" style="display: none;">
 				</div>
 				<div>
 					<label>Titre</label>

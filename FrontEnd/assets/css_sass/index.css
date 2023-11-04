@@ -210,14 +210,15 @@ dialog::backdrop {
 .modal-works figure .delete {
   height: 17px;
   width: 17px;
+  font-size: 12px;
   background-color: #000000;
+  color: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
   bottom: 109px;
   left: 61px;
-}
-.modal-works figure .delete .fa-trash-can {
-  font-size: 12px;
-  color: #FFFFFF;
 }
 
 .btnModal {
@@ -266,19 +267,20 @@ dialog::backdrop {
 #form-modal .choixPhoto #limiteFormat {
   font-size: 10px;
 }
-#form-modal .choixPhoto input[type=file] {
+#form-modal .choixPhoto #labelPhoto {
   width: 173px;
-  height: 36px;
+  height: 50px;
   border-radius: 25px;
   border: none;
   color: #306685;
   background-color: #CBD6DC;
-}
-#form-modal .choixPhoto .choixImg {
   display: flex;
-  height: 170px;
-  width: 85px;
-  z-index: 3;
+  align-items: center;
+  justify-content: center;
+}
+#form-modal .choixPhoto #miniPhoto {
+  height: 150px;
+  width: auto;
 }
 #form-modal div {
   width: 100%;
