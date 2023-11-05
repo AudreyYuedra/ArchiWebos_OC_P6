@@ -340,7 +340,10 @@ selectCategories.addEventListener("change", () => {
 })*/
 
 const choixSelectCategory = async () => {
-    await fetchCategories();
+    //récupération API
+    const response = await fetch("http://localhost:5678/api/categories");
+    const data = await response.json();
+    categories = data;
     //option par défaut visible
     const choixVide = document.createElement("option");
     choixVide.innerText = "Sélectionnez une catégorie";
@@ -351,8 +354,7 @@ const choixSelectCategory = async () => {
         const choixOption = document.createElement("option");
         choixOption.innerText = category.name;
         choixOption.value = category.id;
-        selectCategories.appendChild(choixOption);
-        choixOption.style.display = "block";
+        selectCategories.add(choixOption);
     });
 };
 
