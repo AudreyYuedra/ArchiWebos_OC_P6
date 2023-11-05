@@ -284,7 +284,7 @@ arrowLeft.addEventListener("click", () => {
 });
 
 
-//***** Ajouter et vérif photo (window-modal-2) ******************************************
+//***** Ajouter photo (window-modal-2) ******************************************
 const choixPhoto = document.querySelector(".choixPhoto"); //container
 const imgPhoto = document.querySelector(".fa-image"); //icone
 const labelAjoutPhoto = document.getElementById("labelPhoto"); //label
@@ -361,38 +361,48 @@ const choixSelectCategory = async () => {
 
 //***** Vérif champs remplis ************************************************
 const choixTitle = document.getElementById("choixTitle");
+let file = [];
 
-//Image
-//** Vérif type img
+//** Image
 function fileType() {
     const fileTypes = ["image/jpeg", "image/pjpeg", "image/png"];
-    if(file.type === fileTypes[i]) {
-        return true;
-    } else {
-        //return false;
-        const typeWarning = createElement("p");
-        typeWarning.innerText = "Le format n'est pas valide !"
-        typeWarning.appendChild(limiteFormat);
-        typeWarning.classList.add(".errorPhoto");
+    for(let i = 0; i < file.length; i++) { // Ajout d'une boucle pour parcourir chaque fichier dans le tableau
+        if(!fileTypes.includes(file[i].type)) {
+            const typeWarning = document.createElement("p");
+            typeWarning.innerText = "Le format n'est pas valide !";
+            limiteFormat.appendChild(typeWarning);
+            typeWarning.classList.add("errorPhoto");
+        };
     };
 };
+fileType();
 
-//** Vérif taille img
  function fileSize(number) {
-    number = curFiles[i].size;
-    if(number > 4000000 /*octets*/) {
-        return true;
-    } else {
-        //return false;
-        const sizeWarning = createElement("p");
-        sizeWarning.innerText = "La taille est trop grande !"
-        sizeWarning.appendChild(limiteFormat);
-        sizeWarning.classList.add(".errorPhoto");
-    }
+    for(let i = 0; i < file.length; i++) { // Ajout d'une boucle pour parcourir chaque fichier dans le tableau
+        number = file[i].size;
+        if(number > 4000000 /*octets*/) {
+            return true;
+        } else {
+            const sizeWarning = createElement("p");
+            sizeWarning.innerText = "La taille est trop grande !"
+            limiteFormat.appendChild(sizeWarning);
+            sizeWarning.classList.add("errorPhoto");
+        };
+    };
 };
+fileSize();
 
-//Titre
-function verifTitle() {
+function verifFile() {
+    if(fileType(fileTypes[i].ok) && fileSize(number.ok)) {
+        console.log("L'image est valide.");
+    } else {
+        imgPhoto.style = "color: red";
+        console.log("L'image est invalide.");
+    }
+}
+
+//** Titre
+function conformTitle() {
     //conformité titre
     let titleRegExp = new RegExp("[a-z._-]+");
     if(choixTitle !== titleRegExp) {
@@ -401,44 +411,85 @@ function verifTitle() {
         return true;
     }
 };
+conformTitle();
 
-//Catégorie
-//**function verifCaetory() {} */
+function verifTitle() {
+    if(conformTitle() === choixTitle.ok) {
+        console.log("le titre est valide.");
+    } else {
+        choixTitle.classList.add("errorTilte");
+        console.log("Le titre n'est pas valide.");
+    }
+}
+
+//** Catégorie
+function verifCategory() {
+    if(choixSelectCategory() === choixOption.value) {
+        console.log("La catégorie " + choixOption.value + " a été choisie.");
+    };
+};
 
 
 //***** Envoie form ajout photo **********************************************
 const modalForm = document.querySelector(".form-modal");
 const btnValider = document.getElementById("btnValider");
 
-/*modalForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    if (btnAjoutPhoto(curFiles[i]) && choixSelectCategory(category.id) && verifTitle() === true) {
-        //envoie formulaire à API
-        fetch("http://localhost:5678/api/works", {
-            method: "POST",
-            headers: {"Content-type": "application/json"},
-            body: JSON.stringify({
-                ajoutPhoto: curFiles.src,
-                choixTitle: choixTitle.value,
-                choixSelectCategory: category.id})
-        }).then(response => response.json())
+//vérif formulaire rempli
+function verifForm() {
+    if(verifTitle() && verifFile() && verifCateory()) {
+        btnValider.style.backgroundColor = "#1D6154"; //change color du grisé au vert
+        console.log("le formulaire est correctement rempli.")
+        return true;
     } else {
-        //obligation de choisir image pour post
-        if (curFiles.length === 0) {
-            //l'image est considéré comme non choisie
-            imgPhoto.style = "color: red";
-            console.log("L'image n'a pas été choisie.");
-        };
-        //obligation de choisir une catégorie
-        if (choixSelectCategoryelectCategory === choixVide) {
-            choixSelectCategoryelectCategory.classList.add("errorSelect");
-            console.log("La catégorie n'a pas été choisie.");
-        };
-        //obligation d'avoir le champ rempli
-        if (choixTitle === "") {
+        if(!verifTitle()) {
             choixTitle.classList.add("errorTilte");
             console.log("Le champ Titre est vide.");
         };
-    }
-});*/
+        if(!verifFile()) {
+            imgPhoto.style.color = "red";
+        console.log("L'image n'a pas été choisie.");
+        };
+        if(!verifCategory()) {
+            selectCategories.classList.add("errorSelect");
+            console.log("La catégorie n'a pas été choisie.");
+        };
+        return false;
+    };
+}
+
+//assemblage objet formData
+function createFormData() {
+    const formData = new FormData();
+    formData.append("title", choixTitle.value);
+    formData.append("category", selectCategories.value);
+    formData.append("image", ajoutPhoto.files[0]);
+    return formData;
+};
+
+//envoie formulaire à API
+modalForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const online = localStorage.getItem("Token");
+
+    if (verifForm()) {
+        const formData = createFormData();
+        try {
+            const response = await fetch("http://localhost:5678/api/works", {
+                method: "POST",
+                headers: {Authorization: `Bearer ${online}`},
+                body: formData,
+            });
+            const works = await response.json();
+            gallery.innerHTML = "";
+            afficherWorks(works);
+            modifWorks();
+            console.log("Projet ajouté avec succès !");
+            windowTwo.style.display = "none";
+            windowOne.style.display = "block";
+        } catch (error) {
+            console.error("Une erreur s'est produite :", error);
+          }
+    } else {
+          console.log("Le formulaire n'est pas correctement rempli.");
+    };
+});
