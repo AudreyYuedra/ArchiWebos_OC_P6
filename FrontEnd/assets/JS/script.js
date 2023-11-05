@@ -69,13 +69,13 @@ function afficherCategories(categories) {
 
 filters.addEventListener("click", (event) => {
     const target = event.target
-    if (target.tagName === "BUTTON") {    //majuscules pour récupération
+    if(target.tagName === "BUTTON") {    //majuscules pour récupération
         const allButtons = document.querySelectorAll(".btnFilter");
-        allButtons.forEach ((btn) => {
+        allButtons.forEach((btn) => {
             btn.classList.remove("filter_selected")
         });
         const categoryId = parseInt (target.dataset.categoryId) //parset => parcourt attribut sur element cliqué
-        if (categoryId === 0) {
+        if(categoryId === 0) {
             afficherWorks(works);
         } else {
             const filteredWorks = works.filter ((work) => {
@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
 //****** Affiche btn déconnection *******************************************
 const log = document.getElementById("log");
 
-function logout () {
+function logout() {
     log.innerText = "logout";
 };
 
@@ -126,12 +126,12 @@ const online = localStorage.getItem("Token");
 const headband = document.querySelector(".headband");
 const edit = document.querySelector(".edit");
 
-function showEdition () {
+function showEdition() {
     headband.style.display = "block";
     edit.style.visibility = "visible";
 };
 
-function hiddenFilters () {
+function hiddenFilters() {
     filters.style.display = "none";
 };
 
@@ -196,80 +196,87 @@ function modifWorks() {
 };
 
 
-//***** Ouverture et Fermeture de la modale ****************************************
-const jsModal = document.getElementById("js-modal");
-const jsModal2 = document.getElementById("js-modal2");
+//***** Ouverture et Fermeture et Switch de la modale ****************************************
+const jsModal = document.getElementById("js-modal"); //lien bandeau edit
+const jsModal2 = document.getElementById("js-modal2"); // lien titre portfolio
+
 const modal = document.getElementById("modal");
-const closeMark = document.getElementById("close");
-const closeMark2 = document.getElementById("close2");
+const closeMark = document.getElementById("close"); //croix page 1 modale
+const closeMark2 = document.getElementById("close2"); //croix page 2 modale
+
+const windowOne = document.getElementById("modal1"); //page 1 modale
+const windowTwo = document.getElementById("modal2"); //page 2 modale
+const btnAjouter = document.getElementById("btnAjouter");
+const arrowLeft = document.getElementById("arrowLeft"); //flèche page 2 modale
 
 // Ouverture modale
-document.addEventListener("click", (event) => {
+/*document.addEventListener("click", (event) => {
     event.preventDefault(); //empêche le refresh auto
-    if (jsModal || jsModal2) {
+    if(jsModal || jsModal2) {
         modal.showModal(); //affiche élément
         windowOne.style.display = "block";
         modifWorks(works);
     };
-});
-
-/*jsModal.addEventListener("click", () =>
-    modal.showModal();
-    windowOne.style.display = "block";
-    modifWorks(works);
-});
-
-jsModalTwo.addEventListener("click", () => {
-    modal.showModal();
-    windowOne.style.display = "block";
-    modifWorks(works);
 });*/
 
-//Fermeture modale
-document.addEventListener("click", (event) => {
-    event.preventDefault();
-    if (modal) {
-        modal.close(); //ferme élément
-    };
-    if (closeMark || closeMark2) {
-        modal.close();
-    };
+jsModal.addEventListener("click", () => {
+    modal.showModal();
+    windowOne.style.display = "block";
+    modifWorks(works);
+    console.log("Ouverture de la première fenêtre de la modale.")
 });
 
-/*modal.addEventListener("click", (event) => {
+jsModal2.addEventListener("click", () => {
+    modal.showModal();
+    windowOne.style.display = "block";
+    modifWorks(works);
+    console.log("Ouverture de la première fenêtre de la modale.")
+});
+
+//Fermeture modale
+/*document.addEventListener("click", (event) => {
+    event.preventDefault();
+    if(modal) {
+        modal.close(); //ferme élément
+    };
+    if(closeMark || closeMark2) {
+        modal.close();
+    };
+});*/
+
+modal.addEventListener("click", (event) => {
     if (event.target === modal) {
         modal.close();
+        console.log("Fermeture de la modale.")
     };
 });
 
 closeMark.addEventListener("click", () => {
     modal.close();
+    console.log("Fermeture de la modale.")
 });
 
-closeMarkTwo.addEventListener("click", () => {
+closeMark2.addEventListener("click", () => {
     modal.close();
-});*/
+    console.log("Fermeture de la modale.")
+});
 
-
-//***** Switch window-modal **************************************************
-const windowOne = document.getElementById("modal1");
-const windowTwo = document.getElementById("modal2");
-const btnAjouter = document.getElementById("btnAjouter");
-const arrowLeft = document.getElementById("arrowLeft");
-
-function openModalTwo () {
+//switch window-modal
+function openModalTwo() {
     windowOne.style.display = "none";
     windowTwo.style.display = "block";
-    choixSelectCategory(categories);
+    console.log("Ouverture de la seconde fenêtre de la modale.")
 };
 
-function precedentModal () {
+function precedentModal() {
     windowOne.style.display = "block";
-    windowTwo.style.display = "none";
+   windowTwo.style.display = "none";
+   console.log("Ouverture de la première fenêtre de la modale.")
 };
 
 btnAjouter.addEventListener("click", () => {
     openModalTwo();
+    choixSelectCategory(categories);
 });
 
 arrowLeft.addEventListener("click", () => {
@@ -284,34 +291,6 @@ const labelAjoutPhoto = document.getElementById("labelPhoto"); //label
 const ajoutPhoto = document.getElementById("ajoutPhoto"); //input
 const miniPhoto = document.getElementById("miniPhoto"); // img (vide)
 const limiteFormat = document.getElementById("limiteFormat"); // p
-
-//** Vérif type img
-function fileType() {
-    const fileTypes = ["image/jpeg", "image/pjpeg", "image/png"];
-    if (file.type === fileTypes[i]) {
-        return true;
-    } else {
-        //return false;
-        const typeWarning = createElement("p");
-        typeWarning.innerText = "Le format n'est pas valide !"
-        typeWarning.appendChild(limiteFormat);
-        typeWarning.classList.add(".errorPhoto");
-    };
-};
-
-//** Vérif taille img
- function fileSize(number) {
-    number = curFiles[i].size;
-    if (number > 4000000 /*octets*/) {
-        return true;
-    } else {
-        //return false;
-        const sizeWarning = createElement("p");
-        sizeWarning.innerText = "La taille est trop grande !"
-        sizeWarning.appendChild(limiteFormat);
-        sizeWarning.classList.add(".errorPhoto");
-    }
-}
 
 ajoutPhoto.addEventListener("change", () => {
     //récupération fichier
@@ -329,7 +308,7 @@ ajoutPhoto.addEventListener("change", () => {
 });
 
 //** Reset miniPhoto
-function resetMiniPhoto () {
+function resetMiniPhoto() {
     imgPhoto.style.display = "block";
     labelAjoutPhoto.style.display = "block";
     ajoutPhoto.style.display = "block";
@@ -340,7 +319,28 @@ function resetMiniPhoto () {
 //***** Affiche catégories dans menu déroulant **********************************
 const selectCategories = document.getElementById("selectCategories");
 
-function choixSelectCategory (categories) {
+/*function choixSelectCategory(categories) {
+    //option par défaut visible
+    const choixVide = document.createElement("option");
+    choixVide.innerText = "Sélectionnez une catégorie";
+    choixVide.value = "";
+    selectCategories.appendChild(choixVide);
+    //option choix de catégorie
+    categories.forEach(category => {
+        const choixOption = document.createElement("option");
+        choixOption.innerText = category.name;
+        choixOption.value = category.id;
+        selectCategories.appendChild(choixOption);
+        choixOption.style.display = "block";
+    });
+};
+
+selectCategories.addEventListener("change", () => {
+    choixSelectCategory(categories);
+})*/
+
+const choixSelectCategory = async () => {
+    await fetchCategories();
     //option par défaut visible
     const choixVide = document.createElement("option");
     choixVide.innerText = "Sélectionnez une catégorie";
@@ -357,26 +357,58 @@ function choixSelectCategory (categories) {
 };
 
 
-
-//***** Vérif champs Tilte rempli ************************************************
+//***** Vérif champs remplis ************************************************
 const choixTitle = document.getElementById("choixTitle");
 
-function verifTitle () {
+//Image
+//** Vérif type img
+function fileType() {
+    const fileTypes = ["image/jpeg", "image/pjpeg", "image/png"];
+    if(file.type === fileTypes[i]) {
+        return true;
+    } else {
+        //return false;
+        const typeWarning = createElement("p");
+        typeWarning.innerText = "Le format n'est pas valide !"
+        typeWarning.appendChild(limiteFormat);
+        typeWarning.classList.add(".errorPhoto");
+    };
+};
+
+//** Vérif taille img
+ function fileSize(number) {
+    number = curFiles[i].size;
+    if(number > 4000000 /*octets*/) {
+        return true;
+    } else {
+        //return false;
+        const sizeWarning = createElement("p");
+        sizeWarning.innerText = "La taille est trop grande !"
+        sizeWarning.appendChild(limiteFormat);
+        sizeWarning.classList.add(".errorPhoto");
+    }
+};
+
+//Titre
+function verifTitle() {
     //conformité titre
     let titleRegExp = new RegExp("[a-z._-]+");
-    if (choixTitle !== titleRegExp) {
+    if(choixTitle !== titleRegExp) {
         choixTitle.classList.add(".errorTitle");
     } else {
         return true;
     }
 };
 
+//Catégorie
+//**function verifCaetory() {} */
+
 
 //***** Envoie form ajout photo **********************************************
 const modalForm = document.querySelector(".form-modal");
 const btnValider = document.getElementById("btnValider");
 
-modalForm.addEventListener("submit", async (event) => {
+/*modalForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     if (btnAjoutPhoto(curFiles[i]) && choixSelectCategory(category.id) && verifTitle() === true) {
@@ -385,9 +417,9 @@ modalForm.addEventListener("submit", async (event) => {
             method: "POST",
             headers: {"Content-type": "application/json"},
             body: JSON.stringify({
-                btnAjoutPhoto: curFiles.src,
+                ajoutPhoto: curFiles.src,
                 choixTitle: choixTitle.value,
-                selectCategories: category.name})
+                choixSelectCategory: category.id})
         }).then(response => response.json())
     } else {
         //obligation de choisir image pour post
@@ -407,4 +439,4 @@ modalForm.addEventListener("submit", async (event) => {
             console.log("Le champ Titre est vide.");
         };
     }
-});
+});*/
