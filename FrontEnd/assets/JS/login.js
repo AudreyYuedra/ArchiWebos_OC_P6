@@ -32,33 +32,32 @@ function verifLogin() {
 
 
 //****** Connection Login *****************************************
-const formLogin = document.querySelector("formLogin");
+document.addEventListener("DOMContentLoaded", () => {
+    const formLogin = document.getElementById("formLogin");
 
-formLogin.addEventListener("submit", async (event) => {
-    //empêcher comportement par défaut
-    event.preventDefault();
-
-    // requête API envoie login
-    fetch ("http://localhost:5678/api/users/login", {
-    method: "POST",
-    headers: {"Content-type": "application/json"},
-    body: JSON.stringify({
-        email: email.value,
-        password: password.value})
-    }).then(response => response.json())
-    .then (data => {
-        //récupération token dans API
-        const token = data.token;
-        //stockage token dans navigateur
-        localStorage.setItem("Token", token);
-        //changement de page
-        if (token) {
-            window.location.replace("index.html");
-        }
-
-        //vérification email & password
-        verifEmail();
-        verifPassword();
-        verifLogin();
-    })
+    formLogin.addEventListener("submit", async (event) => {
+        event.preventDefault(); //empêche comportement par défaut
+    
+        // requête API envoie login
+        fetch ("http://localhost:5678/api/users/login", {
+        method: "POST",
+        headers: {"Content-type": "application/json"},
+        body: JSON.stringify({
+            email: email.value,
+            password: password.value})
+        }).then(response => response.json())
+        .then (data => {
+            const token = data.token; //récupération token dans API
+            localStorage.setItem("Token", token); //stockage token dans navigateur
+            //changement de page
+            if (token) {
+                window.location.replace("index.html");
+            }
+    
+            //vérification email & password
+            verifEmail();
+            verifPassword();
+            verifLogin();
+        });
+    });
 });

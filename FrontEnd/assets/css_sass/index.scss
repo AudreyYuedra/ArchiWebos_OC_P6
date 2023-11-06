@@ -103,14 +103,16 @@ h2 {
         font-family: $minor-font-family;
 	    font-size: 16px;
 	    font-weight: 600;
-	    border: 2px solid;
+	    border: 2px solid $second-color;
 	    border-radius: 50px;
-	    color: $second-color;
 	    padding: 8px 12px;
-        & .filter_selected {
-            color:$primary-color;
-            background-color: $second-color;
-        }
+    }
+    & .filter_unselected {
+        color: $second-color;
+    }
+    & .filter_selected {
+        color:$primary-color;
+        background-color: $second-color;
     }
 }
 
@@ -342,13 +344,18 @@ dialog {
             height: 36px;
             font-size: 16px;
             color: $primary-color;
-            background-color: #A7A7A7;
             border: none;
             border-radius: 20px;
             padding: 5px;
             position: relative;
             top: 80px;
             left: 85px;
+            & .uncheck {
+                background-color: #A7A7A7;
+            }
+            & .check {
+                background-color: #1D6154;
+            }
         }
     }
 }

@@ -82,12 +82,14 @@ h2 {
   font-family: "Syne";
   font-size: 16px;
   font-weight: 600;
-  border: 2px solid;
+  border: 2px solid #1D6154;
   border-radius: 50px;
-  color: #1D6154;
   padding: 8px 12px;
 }
-.filters .btnFilter .filter_selected {
+.filters .filter_unselected {
+  color: #1D6154;
+}
+.filters .filter_selected {
   color: #FFFFFF;
   background-color: #1D6154;
 }
@@ -316,11 +318,16 @@ dialog::backdrop {
   height: 36px;
   font-size: 16px;
   color: #FFFFFF;
-  background-color: #A7A7A7;
   border: none;
   border-radius: 20px;
   padding: 5px;
   position: relative;
   top: 80px;
   left: 85px;
+}
+#form-modal div #btnValider .uncheck {
+  background-color: #A7A7A7;
+}
+#form-modal div #btnValider .check {
+  background-color: #1D6154;
 }/*# sourceMappingURL=index.css.map */

@@ -1,10 +1,10 @@
         /////////////////////////////////////////////////
         /******************** INDEX ********************/
 
-//****** Appels API ***************************************
+//****** Appels récupération API ***************************************
 function fetchWorks(){
     return fetch("http://localhost:5678/api/works")
-        .then(response => response.json()) //mettre paraenthèse pour contenu
+        .then(response => response.json()) //mettre parenthèses pour contenu
         .catch(error => {
             console.error("Erreur de récupération de travaux.", error)
         });
@@ -12,7 +12,7 @@ function fetchWorks(){
 
 function fetchCategories(){
     return fetch("http://localhost:5678/api/categories")
-        .then(response => response.json()) //mettre paraenthèse pour contenu
+        .then(response => response.json()) //mettre parenthèses pour contenu
         .catch(error => {
             console.error("Erreur de récupération des catégories.", error)
         });
@@ -25,19 +25,18 @@ const categoriesFilters = null;
 let works = [];
 
 function afficherWorks(works) {
-    //efface le contenu html
-    gallery.innerHTML = "";
+    gallery.innerHTML = ""; //efface le contenu html
     console.log("works", works);
-    //création éléments via boucle
+    //*Création éléments via boucle
     works.forEach((work) => {   //mettre les parenthèses par défaut
         const figure = document.createElement("figure");
         const img = document.createElement("img");
         const figcaption = document.createElement("figcaption");
-        //assignements
+        //*Assignements
         img.src = work.imageUrl
         img.alt = work.title
         figcaption.innerText = work.title
-        //position éléments
+        //*Position éléments
         figure.appendChild(img);
         figure.appendChild(figcaption);
         gallery.appendChild(figure);
@@ -57,12 +56,12 @@ function afficherCategories(categories) {
     filterAll.innerText = "Tous"; //nom
     filterAll.classList.add("btnFilter", "filter_selected"); //lien class CSS
     filterAll.dataset.categoryId = "0"; //ajout attribut
-    //création éléments via boucle
+    //*Création éléments via boucle
     categories.forEach(category => {
         const btnFilter = document.createElement("button");
         btnFilter.innerText = category.name; //assignements
         filters.appendChild(btnFilter); //position éléments
-        btnFilter.classList.add("btnFilter"); //lien class CSS
+        btnFilter.classList.add("btnFilter", "filter_unselected"); //lien class CSS
         btnFilter.dataset.categoryId = category.id; //ajout attribut
     })
 };
@@ -72,19 +71,22 @@ filters.addEventListener("click", (event) => {
     if(target.tagName === "BUTTON") {    //majuscules pour récupération
         const allButtons = document.querySelectorAll(".btnFilter");
         allButtons.forEach((btn) => {
-            btn.classList.remove("filter_selected")
+            btn.classList.remove("filter_selected");
+            btn.classList.add("filter_unselected");
         });
         const categoryId = parseInt (target.dataset.categoryId) //parset => parcourt attribut sur element cliqué
+        //*Affiche works selon filtre cliqué
         if(categoryId === 0) {
             afficherWorks(works);
         } else {
             const filteredWorks = works.filter ((work) => {
                 return work.categoryId === categoryId
-            })
+            });
         afficherWorks(filteredWorks);
-    } 
-    target.classList.add("filter_selected");
-}
+        };
+        target.classList.remove("filter_unselected");
+        target.classList.add("filter_selected");
+    };
 });
 
 
@@ -114,15 +116,13 @@ function logout() {
 };
 
 log.addEventListener("click", () => {
-    //suppr token
-    localStorage.removeItem("Token");
-    //rediretion
-    window.location.replace("login.html");
+    localStorage.removeItem("Token"); //suppr token
+    window.location.replace("login.html"); //rediretion
 });
 
 
 //****** Affiche mode édition quand connecté ********************************
-const online = localStorage.getItem("Token");
+const online = localStorage.getItem("Token"); //récupère infos login stockées
 const headband = document.querySelector(".headband");
 const edit = document.querySelector(".edit");
 
@@ -140,8 +140,9 @@ document.addEventListener("DOMContentLoaded", () => {
         showEdition();
         hiddenFilters();
         logout();
-    }
+    };
 });
+
 
 
         /////////////////////////////////////////////////
@@ -161,7 +162,8 @@ function deleteWork(workId, deleteIcon) {
         }).then(response => {
             if (response.ok) {
                 deleteIcon.parentElement.remove();
-                works = works.filter(work => work.id !== workId) ;
+                works = works.filter(work => work.id !== workId);
+                alert("Projet supprimé avec succès !")
             }
         }).catch(error => {
                     console.error("Erreur de récupération de travaux.", error)
@@ -178,19 +180,18 @@ function modifWorks() {
         img.alt = work.title
         figureModal.appendChild(img);
         modalWorks.appendChild(figureModal);
-        //ajout btn suppr
+        //*Ajout btn suppr
         const deleteIcon = document.createElement("a");
         deleteIcon.innerHTML = `<i class="fa-solid fa-trash-can data-id="${work.id}""></i>`;
         figureModal.appendChild(deleteIcon);
         deleteIcon.classList.add("delete");
 
-        //suppression works
+        //*Suppression works
         deleteIcon.addEventListener("click", (event) => {
             console.log("deleteIcon", deleteIcon);
-            //récupére attribut icône suppr
-            const workId = event.target.getAttribute("data-id");
+            const workId = event.target.getAttribute("data-id"); //récupére attribut icône suppr
             console.log("workId", workId);
-            deleteWork(workId, deleteIcon);    
+            deleteWork(workId, deleteIcon);
         });
     });
 };
@@ -209,16 +210,7 @@ const windowTwo = document.getElementById("modal2"); //page 2 modale
 const btnAjouter = document.getElementById("btnAjouter");
 const arrowLeft = document.getElementById("arrowLeft"); //flèche page 2 modale
 
-// Ouverture modale
-/*document.addEventListener("click", (event) => {
-    event.preventDefault(); //empêche le refresh auto
-    if(jsModal || jsModal2) {
-        modal.showModal(); //affiche élément
-        windowOne.style.display = "block";
-        modifWorks(works);
-    };
-});*/
-
+//** Ouverture modale
 jsModal.addEventListener("click", () => {
     modal.showModal();
     windowOne.style.display = "block";
@@ -233,17 +225,7 @@ jsModal2.addEventListener("click", () => {
     console.log("Ouverture de la première fenêtre de la modale.")
 });
 
-//Fermeture modale
-/*document.addEventListener("click", (event) => {
-    event.preventDefault();
-    if(modal) {
-        modal.close(); //ferme élément
-    };
-    if(closeMark || closeMark2) {
-        modal.close();
-    };
-});*/
-
+//** Fermeture modale
 modal.addEventListener("click", (event) => {
     if (event.target === modal) {
         modal.close();
@@ -261,7 +243,7 @@ closeMark2.addEventListener("click", () => {
     console.log("Fermeture de la modale.")
 });
 
-//switch window-modal
+//** Switch window-modal
 function openModalTwo() {
     windowOne.style.display = "none";
     windowTwo.style.display = "block";
@@ -289,17 +271,17 @@ const choixPhoto = document.querySelector(".choixPhoto"); //container
 const imgPhoto = document.querySelector(".fa-image"); //icone
 const labelAjoutPhoto = document.getElementById("labelPhoto"); //label
 const ajoutPhoto = document.getElementById("ajoutPhoto"); //input
-const miniPhoto = document.getElementById("miniPhoto"); // img (vide)
-const limiteFormat = document.getElementById("limiteFormat"); // p
+const miniPhoto = document.getElementById("miniPhoto"); //img (vide)
+const limiteFormat = document.getElementById("limiteFormat"); //p
 
 ajoutPhoto.addEventListener("change", () => {
-    //récupération fichier
+    //*Récupération fichier
     const selectedPhoto = ajoutPhoto.files[0];
     const photo = document.createElement("img");
     photo.src = URL.createObjectURL(selectedPhoto);
     miniPhoto.src = photo.src;
 
-    //afficher photo dans choixPhoto
+    //*Afficher photo dans choixPhoto
     imgPhoto.style.display = "none";
     labelAjoutPhoto.style.display = "none";
     ajoutPhoto.style.display = "none";
@@ -314,22 +296,23 @@ function resetMiniPhoto() {
     ajoutPhoto.style.display = "block";
     limiteFormat.style.display = "block";
     miniPhoto.style.display = "none";
-}
+};
+
 
 //***** Affiche catégories dans menu déroulant **********************************
 const selectCategories = document.getElementById("selectCategories");
 
 const choixSelectCategory = async () => {
-    //récupération API
+    //*Récupération API
     const response = await fetch("http://localhost:5678/api/categories");
     const data = await response.json();
     categories = data;
-    //option par défaut visible
+    //*Option par défaut visible
     const choixVide = document.createElement("option");
     choixVide.innerText = "Sélectionnez une catégorie";
     choixVide.value = "";
     selectCategories.appendChild(choixVide);
-    //option choix de catégorie
+    //*Option choix de catégorie
     categories.forEach(category => {
         const choixOption = document.createElement("option");
         choixOption.innerText = category.name;
@@ -345,8 +328,9 @@ let file = [];
 
 //** Image
 function fileType() {
-    const fileTypes = ["image/jpeg", "image/pjpeg", "image/png"];
-    for(let i = 0; i < file.length; i++) { // Ajout d'une boucle pour parcourir chaque fichier dans le tableau
+    const fileTypes = ["image/jpeg", "image/pjpeg", "image/png"]; 
+    //*Ajout d'une boucle pour parcourir chaque fichier dans le tableau
+    for(let i = 0; i < file.length; i++) {
         if(!fileTypes.includes(file[i].type)) {
             const typeWarning = document.createElement("p");
             typeWarning.innerText = "Le format n'est pas valide !";
@@ -357,8 +341,9 @@ function fileType() {
 };
 fileType();
 
- function fileSize(number) {
-    for(let i = 0; i < file.length; i++) { // Ajout d'une boucle pour parcourir chaque fichier dans le tableau
+function fileSize(number) {
+    //*Ajout d'une boucle pour parcourir chaque fichier dans le tableau
+    for(let i = 0; i < file.length; i++) {
         number = file[i].size;
         if(number > 4000000 /*octets*/) {
             return true;
@@ -375,16 +360,17 @@ fileSize();
 function verifFile() {
     if(fileType(fileTypes[i].ok) && fileSize(number.ok)) {
         console.log("L'image est valide.");
+        return true;
     } else {
         imgPhoto.style = "color: red";
         console.log("L'image est invalide.");
+        return false;
     }
 }
 
 //** Titre
 function conformTitle() {
-    //conformité titre
-    let titleRegExp = new RegExp("[a-z._-]+");
+    let titleRegExp = new RegExp("[a-z._-]+"); //conformité titre
     if(choixTitle !== titleRegExp) {
         choixTitle.classList.add(".errorTitle");
     } else {
@@ -394,34 +380,36 @@ function conformTitle() {
 conformTitle();
 
 function verifTitle() {
-    if(conformTitle()) {
+    if(conformTitle() === true) {
         console.log("le titre est valide.");
         return true;
     } else {
         choixTitle.classList.add("errorTilte");
         console.log("Le titre n'est pas valide.");
         return false;
-    }
-}
+    };
+};
 
 //** Catégorie
 function verifCategory() {
     if(choixSelectCategory() === choixOption.value) {
         console.log("La catégorie " + choixOption.value + " a été choisie.");
+        return true;
     };
 };
 
 
 //***** Envoie form ajout photo **********************************************
-
 const btnValider = document.getElementById("btnValider");
+btnValider.disabled = true //btn non-cliquable
 
-//vérif formulaire rempli
+//** Vérif formulaire rempli
 function verifForm() {
-    console.log("launch verifForm");
-    if(verifTitle() && verifFile() && verifCategory()) {
-        btnValider.style.backgroundColor = "#1D6154"; //change color du grisé au vert
-        console.log("le formulaire est correctement rempli.")
+    console.log("lancement de verifForm()");
+    if(verifTitle() === true && verifFile() === true && verifCategory() === true) {
+        btnValider.classList.remove("uncheck");
+        btnValider.classList.add("check");
+        btnValider.disabled = false //btn cliquable
         return true;
     } else {
         if(!verifTitle()) {
@@ -436,59 +424,53 @@ function verifForm() {
             selectCategories.classList.add("errorSelect");
             console.log("La catégorie n'a pas été choisie.");
         };
+        btnValider.disabled = true //btn non-cliquable
         return false;
     };
-}
-
-//assemblage objet formData
-/*function createFormData() {
-    
-    return formData;
-};*/
+};
 
 //envoie formulaire à API
 document.addEventListener("DOMContentLoaded", () => {
     const modalForm = document.querySelector("#form-modal");
+    
     const createWork = () => {
-    modalForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    //verifForm();
-    //if (1=1) {
-       //createFormData();
-       console.log("choixTitle", choixTitle.value);
-    console.log("category", selectCategories.value);
-    console.log("image", ajoutPhoto.files[0]);
-       let formData = new FormData();
-    formData.append("title", choixTitle.value);
-    formData.append("category", selectCategories.value);
-    formData.append("image", ajoutPhoto.files[0]);
-        //try {
-            fetch("http://localhost:5678/api/works", {
-                method: "POST",
-                headers: {Authorization: `Bearer ${online}`},
-                body: formData,
-            })
-            .then(async response => {
-                //const works = await response.json();
-                console.log(response.status);
-                //if response.status = 201
-                //faire alert de réponse (esle 400 et 401)
-            })
-            gallery.innerHTML = "";
-            afficherWorks(works);
-            modifWorks();
-            console.log("Projet ajouté avec succès !");
-            windowTwo.style.display = "none";
-            windowOne.style.display = "block";
-        } //catch (error) {
-            //console.error("Une erreur s'est produite :", error);
-          //}
-   // } //else {
-          //console.log("Le formulaire n'est pas correctement rempli.");
-    //};
-//}
-)};
-createWork();
+        modalForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            verifForm();
+            if (verifForm()) {
+                console.log("choixTitle", choixTitle.value);
+                console.log("category", selectCategories.value);
+                console.log("image", ajoutPhoto.files[0]);
+                //*Création object formData
+                let formData = new FormData();
+                formData.append("title", choixTitle.value);
+                formData.append("category", selectCategories.value);
+                formData.append("image", ajoutPhoto.files[0]);
+
+                try {
+                    fetch("http://localhost:5678/api/works", {
+                        method: "POST",
+                        headers: {Authorization: `Bearer ${online}`},
+                        body: formData,
+                    })
+                    .then(async response => {
+                        //const works = await response.json();
+                        console.log(response.status);
+                        //if response.status = 201
+                        //faire alert de réponse (esle 400 et 401)
+                    })
+                    gallery.innerHTML = "";
+                    afficherWorks(works);
+                    modifWorks();
+                    alert("Projet ajouté avec succès !");
+                    windowTwo.style.display = "none";
+                    windowOne.style.display = "block";
+                }
+                catch {
+                    console.error("Une erreur s'est produite : ", error);
+                };
+            };
+        });
+        createWork();
+    };
 });
-//message du sccés envoie
-//appandchid pour img dans liste projet
