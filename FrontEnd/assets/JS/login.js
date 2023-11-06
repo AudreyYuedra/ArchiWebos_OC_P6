@@ -32,9 +32,9 @@ function verifLogin() {
 
 
 //****** Connection Login *****************************************
-const form = document.querySelector("form");
+const formLogin = document.querySelector("formLogin");
 
-form.addEventListener("submit", async (event) => {
+formLogin.addEventListener("submit", async (event) => {
     //empêcher comportement par défaut
     event.preventDefault();
 

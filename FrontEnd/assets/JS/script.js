@@ -319,26 +319,6 @@ function resetMiniPhoto() {
 //***** Affiche catégories dans menu déroulant **********************************
 const selectCategories = document.getElementById("selectCategories");
 
-/*function choixSelectCategory(categories) {
-    //option par défaut visible
-    const choixVide = document.createElement("option");
-    choixVide.innerText = "Sélectionnez une catégorie";
-    choixVide.value = "";
-    selectCategories.appendChild(choixVide);
-    //option choix de catégorie
-    categories.forEach(category => {
-        const choixOption = document.createElement("option");
-        choixOption.innerText = category.name;
-        choixOption.value = category.id;
-        selectCategories.appendChild(choixOption);
-        choixOption.style.display = "block";
-    });
-};
-
-selectCategories.addEventListener("change", () => {
-    choixSelectCategory(categories);
-})*/
-
 const choixSelectCategory = async () => {
     //récupération API
     const response = await fetch("http://localhost:5678/api/categories");
@@ -414,11 +394,13 @@ function conformTitle() {
 conformTitle();
 
 function verifTitle() {
-    if(conformTitle() === choixTitle.ok) {
+    if(conformTitle()) {
         console.log("le titre est valide.");
+        return true;
     } else {
         choixTitle.classList.add("errorTilte");
         console.log("Le titre n'est pas valide.");
+        return false;
     }
 }
 
@@ -431,12 +413,13 @@ function verifCategory() {
 
 
 //***** Envoie form ajout photo **********************************************
-const modalForm = document.querySelector(".form-modal");
+
 const btnValider = document.getElementById("btnValider");
 
 //vérif formulaire rempli
 function verifForm() {
-    if(verifTitle() && verifFile() && verifCateory()) {
+    console.log("launch verifForm");
+    if(verifTitle() && verifFile() && verifCategory()) {
         btnValider.style.backgroundColor = "#1D6154"; //change color du grisé au vert
         console.log("le formulaire est correctement rempli.")
         return true;
@@ -458,38 +441,54 @@ function verifForm() {
 }
 
 //assemblage objet formData
-function createFormData() {
-    const formData = new FormData();
+/*function createFormData() {
+    
+    return formData;
+};*/
+
+//envoie formulaire à API
+document.addEventListener("DOMContentLoaded", () => {
+    const modalForm = document.querySelector("#form-modal");
+    const createWork = () => {
+    modalForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    //verifForm();
+    //if (1=1) {
+       //createFormData();
+       console.log("choixTitle", choixTitle.value);
+    console.log("category", selectCategories.value);
+    console.log("image", ajoutPhoto.files[0]);
+       let formData = new FormData();
     formData.append("title", choixTitle.value);
     formData.append("category", selectCategories.value);
     formData.append("image", ajoutPhoto.files[0]);
-    return formData;
-};
-
-//envoie formulaire à API
-modalForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const online = localStorage.getItem("Token");
-
-    if (verifForm()) {
-        const formData = createFormData();
-        try {
-            const response = await fetch("http://localhost:5678/api/works", {
+        //try {
+            fetch("http://localhost:5678/api/works", {
                 method: "POST",
                 headers: {Authorization: `Bearer ${online}`},
                 body: formData,
-            });
-            const works = await response.json();
+            })
+            .then(async response => {
+                //const works = await response.json();
+                console.log(response.status);
+                //if response.status = 201
+                //faire alert de réponse (esle 400 et 401)
+            })
             gallery.innerHTML = "";
             afficherWorks(works);
             modifWorks();
             console.log("Projet ajouté avec succès !");
             windowTwo.style.display = "none";
             windowOne.style.display = "block";
-        } catch (error) {
-            console.error("Une erreur s'est produite :", error);
-          }
-    } else {
-          console.log("Le formulaire n'est pas correctement rempli.");
-    };
+        } //catch (error) {
+            //console.error("Une erreur s'est produite :", error);
+          //}
+   // } //else {
+          //console.log("Le formulaire n'est pas correctement rempli.");
+    //};
+//}
+)};
+createWork();
 });
+//message du sccés envoie
+//appandchid pour img dans liste projet
