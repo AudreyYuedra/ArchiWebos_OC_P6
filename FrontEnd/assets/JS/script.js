@@ -28,7 +28,7 @@ let works = [];
 
 function afficherWorks(works) {
     gallery.innerHTML = ""; //efface le contenu html
-    console.log("works", works);
+    //console.log("works", works);
     //*Création éléments via boucle
     works.forEach((work) => {   //mettre les parenthèses par défaut
         const figure = document.createElement("figure");
@@ -51,7 +51,7 @@ const filters = document.querySelector(".filters");
 let categories = [];
 
 function afficherCategories(categories) {
-    console.log("catégories", categories);
+    //console.log("catégories", categories);
     
     const filterAll = document.createElement("button"); //création élements
     filters.appendChild(filterAll); //position élément
@@ -157,8 +157,8 @@ const modalWorks = document.querySelector(".modal-works");
 
 //** Suppr works via icone trash
 function deleteWork(workId, deleteIcon) {
-    console.log("workId => deleteWork", workId);
-    console.log("token", online);
+    //console.log("workId => deleteWork", workId);
+    //console.log("token", online);
 
     fetch(`http://localhost:5678/api/works/${workId}`, {
         method: "DELETE",
@@ -192,9 +192,9 @@ function modifWorks() {
 
         //*Suppression works
         deleteIcon.addEventListener("click", (event) => {
-            console.log("deleteIcon", deleteIcon);
+            //console.log("deleteIcon", deleteIcon);
             const workId = event.target.getAttribute("data-id"); //récupére attribut icône suppr
-            console.log("workId", workId);
+            //console.log("workId", workId);
             deleteWork(workId, deleteIcon);
         });
     });
@@ -321,7 +321,7 @@ const choixSelectCategory = async () => {
     categories.forEach((category) => {
         const choixOption = document.createElement("option");
         choixOption.innerText = category.name;
-        choixOption.value = category.name;
+        choixOption.value = category.id;
         selectCategories.add(choixOption);
     });
 };
@@ -398,8 +398,8 @@ function verifTitle() {
 //** Catégorie
 function verifCategory() {
     for (category of categories) {
-        if (category.name === selectCategories.value) {
-            console.log("La catégorie est valide.")
+        if (category.id === parseInt(selectCategories.value)) { //parseInt permet de changer une string en nb
+            //console.log("La catégorie est valide.")
             return true
         }
     }
@@ -415,7 +415,7 @@ btnValider.disabled = true //btn non-cliquable
 
 //** Vérif formulaire rempli
 function verifForm() {
-    console.log("lancement de verifForm()");
+    //console.log("lancement de verifForm()");
     if(verifTitle() && verifFile() && verifCategory()) {
         btnValider.classList.remove("uncheck");
         btnValider.classList.add("check");
@@ -424,15 +424,15 @@ function verifForm() {
     } else {
         if(!verifTitle()) {
             choixTitle.classList.add("errorTilte");
-            console.log("Le champ Titre est vide.");
+            //console.log("Le champ Titre est vide.");
         };
         if(!verifFile()) {
             imgPhoto.style.color = "red";
-        console.log("L'image n'a pas été choisie.");
+            //console.log("L'image n'a pas été choisie.");
         };
         if(!verifCategory()) {
             selectCategories.classList.add("errorSelect");
-            console.log("La catégorie n'a pas été choisie.");
+            //console.log("La catégorie n'a pas été choisie.");
         };
         btnValider.disabled = true //btn non-cliquable
         return false;
@@ -448,13 +448,10 @@ document.addEventListener("DOMContentLoaded", () => {
     modalForm.addEventListener("submit", (event) => {
         event.preventDefault();
         if (verifForm()) {
-            console.log("choixTitle", choixTitle.value);
-            console.log("category", selectCategories.value);
-            console.log("image", ajoutPhoto.files[0]);
             //*Création object formData
             let formData = new FormData();
             formData.append("title", choixTitle.value);
-            formData.append("category", selectCategories.value);
+            formData.append("category", parseInt(selectCategories.value));
             formData.append("image", ajoutPhoto.files[0]);
 
             try {
@@ -464,7 +461,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     body: formData,
                 })
                 .then( response => {
-                    console.log(response.status);
+                    //console.log("choixTitle", choixTitle.value);
+                    //console.log("category", selectCategories.value);
+                    //console.log("image", ajoutPhoto.files[0]);
+                    //console.log(response.status);
                 })
                 gallery.innerHTML = "";
                 afficherWorks(works);
