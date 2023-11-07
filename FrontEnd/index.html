@@ -63,7 +63,7 @@
 				</a>
 			</div>
 			<h3>Ajout photo</h3>
-			<form method="post" id="form-modal" class="cadre-modal" action="" enctype="multipart/form-data">
+			<form method="post" id="form-modal" class="cadre-modal" enctype="multipart/form-data">
 				<div class="choixPhoto">
 					<i class="fa-regular fa-image"></i>
 					<label for="ajoutPhoto" id="labelPhoto">+ Ajouter photo</label>
@@ -73,9 +73,9 @@
 					<img id="miniPhoto" src="" alt="" style="display: none;">
 				</div>
 				<div>
-					<label for="title">Titre</label>
+					<label for="choixTitle">Titre</label>
 					<input type="text" id="choixTitle" name="title">
-					<label for="category">Catégorie</label>
+					<label id="category" for="selectCategories">Catégorie</label>
 					<select id="selectCategories" name="category">
 						<!-- options ajoutés en JS -->
 					</select>
@@ -139,7 +139,6 @@
 </footer>
 
 <!-- Lien JS -->
-<script type="module" src="./assets/JS/script.js" defer></script>
-<script type="module" src="./assets/JS/login.js" defer></script>
+<script src="./assets/JS/script.js" defer></script>
 </body>
 </html>

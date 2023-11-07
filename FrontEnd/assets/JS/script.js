@@ -2,20 +2,22 @@
         /******************** INDEX ********************/
 
 //****** Appels récupération API ***************************************
-function fetchWorks(){
-    return fetch("http://localhost:5678/api/works")
-        .then(response => response.json()) //mettre parenthèses pour contenu
-        .catch(error => {
-            console.error("Erreur de récupération de travaux.", error)
-        });
+async function fetchWorks(){
+    try {
+        const response = await fetch("http://localhost:5678/api/works");
+        return await response.json();
+    } catch (error) {
+        console.error("Erreur de récupération de travaux.", error);
+    }
 };
 
-function fetchCategories(){
-    return fetch("http://localhost:5678/api/categories")
-        .then(response => response.json()) //mettre parenthèses pour contenu
-        .catch(error => {
-            console.error("Erreur de récupération des catégories.", error)
-        });
+async function fetchCategories(){
+    try {
+        const response = await fetch("http://localhost:5678/api/categories");
+        return await response.json();
+    } catch (error) {
+        console.error("Erreur de récupération des catégories.", error);
+    }
 };
 
 
@@ -33,9 +35,9 @@ function afficherWorks(works) {
         const img = document.createElement("img");
         const figcaption = document.createElement("figcaption");
         //*Assignements
-        img.src = work.imageUrl
-        img.alt = work.title
-        figcaption.innerText = work.title
+        img.src = work.imageUrl;
+        img.alt = work.title;
+        figcaption.innerText = work.title;
         //*Position éléments
         figure.appendChild(img);
         figure.appendChild(figcaption);
@@ -91,12 +93,14 @@ filters.addEventListener("click", (event) => {
 
 
 //****** Chargement works et categories ************************************
-document.addEventListener("DOMContentLoaded", () => {
-    fetchWorks()
-        .then((data) => {
-            works = data;   //
-            afficherWorks(works);
-        });
+document.addEventListener("DOMContentLoaded", (event) => {
+    if(works < 1) {
+        fetchWorks()
+            .then((data) => {
+                works = data;
+                afficherWorks(works);
+            });
+    }
     fetchCategories()
         .then(categories => {
             afficherCategories(categories);
@@ -277,6 +281,7 @@ const limiteFormat = document.getElementById("limiteFormat"); //p
 ajoutPhoto.addEventListener("change", () => {
     //*Récupération fichier
     const selectedPhoto = ajoutPhoto.files[0];
+    file = selectedPhoto
     const photo = document.createElement("img");
     photo.src = URL.createObjectURL(selectedPhoto);
     miniPhoto.src = photo.src;
@@ -313,10 +318,10 @@ const choixSelectCategory = async () => {
     choixVide.value = "";
     selectCategories.appendChild(choixVide);
     //*Option choix de catégorie
-    categories.forEach(category => {
+    categories.forEach((category) => {
         const choixOption = document.createElement("option");
         choixOption.innerText = category.name;
-        choixOption.value = category.id;
+        choixOption.value = category.name;
         selectCategories.add(choixOption);
     });
 };
@@ -324,41 +329,42 @@ const choixSelectCategory = async () => {
 
 //***** Vérif champs remplis ************************************************
 const choixTitle = document.getElementById("choixTitle");
-let file = [];
+let file;
 
 //** Image
 function fileType() {
-    const fileTypes = ["image/jpeg", "image/pjpeg", "image/png"]; 
-    //*Ajout d'une boucle pour parcourir chaque fichier dans le tableau
-    for(let i = 0; i < file.length; i++) {
-        if(!fileTypes.includes(file[i].type)) {
-            const typeWarning = document.createElement("p");
-            typeWarning.innerText = "Le format n'est pas valide !";
-            limiteFormat.appendChild(typeWarning);
-            typeWarning.classList.add("errorPhoto");
-        };
-    };
-};
-fileType();
+    if(!file) {
+        return false
+    }
+    const fileTypes = ["image/jpeg", "image/pjpeg", "image/png"] 
+    console.log("fileTypes", fileTypes)
+    console.log("file type", file)
+    if(fileTypes.includes(file.type)) {
+        return true
+    } else {
+        const typeWarning = document.createElement("p")
+        typeWarning.innerText = "Le format n'est pas valide !"
+        limiteFormat.appendChild(typeWarning)
+        typeWarning.classList.add("errorPhoto")
+        return false
+    }
+}
 
-function fileSize(number) {
-    //*Ajout d'une boucle pour parcourir chaque fichier dans le tableau
-    for(let i = 0; i < file.length; i++) {
-        number = file[i].size;
-        if(number > 4000000 /*octets*/) {
-            return true;
-        } else {
-            const sizeWarning = createElement("p");
-            sizeWarning.innerText = "La taille est trop grande !"
-            limiteFormat.appendChild(sizeWarning);
-            sizeWarning.classList.add("errorPhoto");
-        };
-    };
-};
-fileSize();
+function fileSize() {
+    const number = file.size
+    if(number < 4000000 /*octets*/) {
+        return true
+    } else {
+        const sizeWarning = document.createElement("p")
+        sizeWarning.innerText = "La taille est trop grande !"
+        limiteFormat.appendChild(sizeWarning)
+        sizeWarning.classList.add("errorPhoto")
+        return false
+    }
+}
 
 function verifFile() {
-    if(fileType(fileTypes[i].ok) && fileSize(number.ok)) {
+    if(fileType() && fileSize()) {
         console.log("L'image est valide.");
         return true;
     } else {
@@ -370,43 +376,47 @@ function verifFile() {
 
 //** Titre
 function conformTitle() {
-    let titleRegExp = new RegExp("[a-z._-]+"); //conformité titre
-    if(choixTitle !== titleRegExp) {
-        choixTitle.classList.add(".errorTitle");
+    let titleRegExp = new RegExp("[A-z._-]+") //conformité titre
+    console.log(choixTitle.value)
+    if(!choixTitle.value.match(titleRegExp)) {
+        choixTitle.classList.add("errorTitle")
     } else {
-        return true;
+        return true
     }
-};
-conformTitle();
+}
+
 
 function verifTitle() {
     if(conformTitle() === true) {
         console.log("le titre est valide.");
         return true;
     } else {
-        choixTitle.classList.add("errorTilte");
-        console.log("Le titre n'est pas valide.");
         return false;
     };
 };
 
 //** Catégorie
 function verifCategory() {
-    if(choixSelectCategory() === choixOption.value) {
-        console.log("La catégorie " + choixOption.value + " a été choisie.");
-        return true;
-    };
-};
-
+    for (category of categories) {
+        if (category.name === selectCategories.value) {
+            console.log("La catégorie est valide.")
+            return true
+        }
+    }
+    console.log("La catégorie n'est pas valide.")
+    return false
+}
 
 //***** Envoie form ajout photo **********************************************
 const btnValider = document.getElementById("btnValider");
+const modalForm = document.querySelector("#form-modal");
+
 btnValider.disabled = true //btn non-cliquable
 
 //** Vérif formulaire rempli
 function verifForm() {
     console.log("lancement de verifForm()");
-    if(verifTitle() === true && verifFile() === true && verifCategory() === true) {
+    if(verifTitle() && verifFile() && verifCategory()) {
         btnValider.classList.remove("uncheck");
         btnValider.classList.add("check");
         btnValider.disabled = false //btn cliquable
@@ -431,46 +441,41 @@ function verifForm() {
 
 //envoie formulaire à API
 document.addEventListener("DOMContentLoaded", () => {
-    const modalForm = document.querySelector("#form-modal");
-    
-    const createWork = () => {
-        modalForm.addEventListener("submit", async (event) => {
-            event.preventDefault();
-            verifForm();
-            if (verifForm()) {
-                console.log("choixTitle", choixTitle.value);
-                console.log("category", selectCategories.value);
-                console.log("image", ajoutPhoto.files[0]);
-                //*Création object formData
-                let formData = new FormData();
-                formData.append("title", choixTitle.value);
-                formData.append("category", selectCategories.value);
-                formData.append("image", ajoutPhoto.files[0]);
+    modalForm.addEventListener("change", () => {
+        verifForm();
+    });
 
-                try {
-                    fetch("http://localhost:5678/api/works", {
-                        method: "POST",
-                        headers: {Authorization: `Bearer ${online}`},
-                        body: formData,
-                    })
-                    .then(async response => {
-                        //const works = await response.json();
-                        console.log(response.status);
-                        //if response.status = 201
-                        //faire alert de réponse (esle 400 et 401)
-                    })
-                    gallery.innerHTML = "";
-                    afficherWorks(works);
-                    modifWorks();
-                    alert("Projet ajouté avec succès !");
-                    windowTwo.style.display = "none";
-                    windowOne.style.display = "block";
-                }
-                catch {
-                    console.error("Une erreur s'est produite : ", error);
-                };
+    modalForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (verifForm()) {
+            console.log("choixTitle", choixTitle.value);
+            console.log("category", selectCategories.value);
+            console.log("image", ajoutPhoto.files[0]);
+            //*Création object formData
+            let formData = new FormData();
+            formData.append("title", choixTitle.value);
+            formData.append("category", selectCategories.value);
+            formData.append("image", ajoutPhoto.files[0]);
+
+            try {
+                fetch("http://localhost:5678/api/works", {
+                    method: "POST",
+                    headers: {Authorization: `Bearer ${online}`},
+                    body: formData,
+                })
+                .then( response => {
+                    console.log(response.status);
+                })
+                gallery.innerHTML = "";
+                afficherWorks(works);
+                modifWorks();
+                //alert("Projet ajouté avec succès !");
+                windowTwo.style.display = "none";
+                windowOne.style.display = "block";
+            }
+            catch {
+                console.error("Une erreur s'est produite : ", error);
             };
-        });
-        createWork();
-    };
+        };
+    });
 });

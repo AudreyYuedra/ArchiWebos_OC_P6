@@ -325,9 +325,9 @@ dialog::backdrop {
   top: 80px;
   left: 85px;
 }
-#form-modal div #btnValider .uncheck {
+#form-modal div #btnValider.uncheck {
   background-color: #A7A7A7;
 }
-#form-modal div #btnValider .check {
+#form-modal div #btnValider.check {
   background-color: #1D6154;
 }/*# sourceMappingURL=index.css.map */

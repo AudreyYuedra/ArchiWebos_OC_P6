@@ -350,10 +350,10 @@ dialog {
             position: relative;
             top: 80px;
             left: 85px;
-            & .uncheck {
+            &.uncheck {
                 background-color: #A7A7A7;
             }
-            & .check {
+            &.check {
                 background-color: #1D6154;
             }
         }
