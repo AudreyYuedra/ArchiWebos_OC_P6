@@ -32,10 +32,6 @@ form input {
   background: transparent;
   box-shadow: 0 2px 5px rgba(177, 102, 60, 0.3);
 }
-form input .error {
-  background-color: red;
-  opacity: 0.6;
-}
 form .centerForm {
   display: flex;
   flex-direction: column;
@@ -52,6 +48,16 @@ form .centerForm input[type=submit] {
 }
 form .centerForm a {
   color: #000000;
+}
+
+.errorEmail {
+  background-color: red;
+  opacity: 0.6;
+}
+
+.errorPassword {
+  background-color: red;
+  opacity: 0.6;
 }
 
 .txt_error {

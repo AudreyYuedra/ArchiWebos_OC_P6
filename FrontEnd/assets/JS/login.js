@@ -1,32 +1,26 @@
 //****** Vérification des champs *********************************
-const email = document.querySelector("#email");
-const password = document.querySelector("#password");
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+const txtError = document.getElementById("txtError");
 
 function verifEmail() {
-    //conformité email
-    let emailRegExp = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\.[a-z0-9._-]+");
-
-    if (email !== email.value || email !== emailRegExp) {
-        email.classList.add("error");
+    let emailRegExp = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\.[a-z0-9._-]+"); //conformité email
+    if(email !== emailRegExp || email !== email.value) {
+        txtError.innerText = "L'email n'est pas valide !";
+        email.classList.add("errorEmail");
+        return false;
     } else {
-        console.log("L'email est valide !");
+        return true;
     }
 };
 
 function verifPassword() {
     if (password !== password.value) {
-        password.classList.add("error");
+        txtError.innerText = "Le mot de passe n'est pas valide !";
+        password.classList.add("errorPassword");
+        return false;
     } else {
-        console.log("Le mot de passe est valide !");
-    }
-};
-
-function verifLogin() {
-    if (email !== email.value && password !== password.value) {
-        email.classList.add("error");
-        password.classList.add("error");
-    } else {
-        console.log("Le login est valide !")
+        return true;
     }
 };
 
@@ -38,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     formLogin.addEventListener("submit", async (event) => {
         event.preventDefault(); //empêche comportement par défaut
     
-        // requête API envoie login
+        // Requête API envoie login
         fetch ("http://localhost:5678/api/users/login", {
         method: "POST",
         headers: {"Content-type": "application/json"},
@@ -49,15 +43,13 @@ document.addEventListener("DOMContentLoaded", () => {
         .then (data => {
             const token = data.token; //récupération token dans API
             localStorage.setItem("Token", token); //stockage token dans navigateur
-            //changement de page
+            // Changement de page
             if (token) {
                 window.location.replace("index.html");
+            } else {
+                verifEmail();
+                verifPassword();
             }
-    
-            //vérification email & password
-            verifEmail();
-            verifPassword();
-            verifLogin();
         });
     });
 });

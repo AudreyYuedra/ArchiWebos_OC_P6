@@ -51,10 +51,6 @@ form {
         border: none;
         background: transparent;
         box-shadow: 0 2px 5px rgba($third-title-color, 0.3);
-        & .error {
-            background-color: $error-color;
-            opacity: 0.6;
-        }
     }
     & .centerForm {
         display: flex;
@@ -73,6 +69,16 @@ form {
             color: $main-color;
         }
     }
+}
+
+.errorEmail {
+    background-color: $error-color;
+    opacity: 0.6;
+}
+
+.errorPassword {
+    background-color: $error-color;
+    opacity: 0.6;
 }
 
 .txt_error {
