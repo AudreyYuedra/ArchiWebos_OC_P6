@@ -3,27 +3,12 @@ const email = document.getElementById("email");
 const password = document.getElementById("password");
 const txtError = document.getElementById("txtError");
 
-function verifEmail() {
-    let emailRegExp = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\.[a-z0-9._-]+"); //conformité email
-    if(email !== emailRegExp || email !== email.value) {
-        txtError.innerText = "L'email n'est pas valide !";
-        email.classList.add("errorEmail");
-        return false;
-    } else {
-        return true;
+function verifLogin() {
+    //let emailRegExp = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\.[a-z0-9._-]+"); //conformité email
+    if(email !== email.value || password !== password.value) {
+        txtError.innerText = "L'identifiant n'est pas valide !";
     }
-};
-
-function verifPassword() {
-    if (password !== password.value) {
-        txtError.innerText = "Le mot de passe n'est pas valide !";
-        password.classList.add("errorPassword");
-        return false;
-    } else {
-        return true;
-    }
-};
-
+}
 
 //****** Connection Login *****************************************
 document.addEventListener("DOMContentLoaded", () => {
@@ -47,8 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (token) {
                 window.location.replace("index.html");
             } else {
-                verifEmail();
-                verifPassword();
+                verifLogin();
             }
         });
     });
