@@ -162,16 +162,20 @@ function deleteWork(workId, deleteIcon) {
 
     fetch(`http://localhost:5678/api/works/${workId}`, {
         method: "DELETE",
-        headers: {"Authorization" : `Bearer ${online}`}
+        headers: {
+            "Accept": "*/*",
+            "Authorization" : `Bearer ${online}`
+        },
         }).then(response => {
             if (response.ok) {
                 deleteIcon.parentElement.remove();
-                works = works.filter(work => work.id !== workId);
+                /*works =*/ works.filter((work) => work.id !== workId);
+                afficherWorks();
                 alert("Projet supprimé avec succès !")
             }
         }).catch(error => {
-                    console.error("Erreur de récupération de travaux.", error)
-            });
+            console.error(error, works + " n'a pas été supprimé.");
+        });
 };
 
 //** Afficher works dans gallery-modale
