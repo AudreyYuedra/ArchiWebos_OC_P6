@@ -282,6 +282,8 @@ const ajoutPhoto = document.getElementById("ajoutPhoto"); //input
 const miniPhoto = document.getElementById("miniPhoto"); //img (vide)
 const limiteFormat = document.getElementById("limiteFormat"); //p
 
+let file;
+
 //*Vérification taille et format photo
 function fileType() {
     if(!file) {
@@ -363,10 +365,22 @@ const choixSelectCategory = async () => {
     });
 };
 
+//** Vérifier catégorie bien sélectionnée
+function verifCategory() {
+    for (category of categories) {
+        if (category.id === parseInt(selectCategories.value)) { //parseInt permet de changer une string en nb
+            //console.log("La catégorie est valide.")
+            return true
+        }
+    }
+    //console.log("La catégorie n'est pas valide.")
+    return false
+}
+
 
 //***** Vérif champs remplis ************************************************
 const choixTitle = document.getElementById("choixTitle");
-let file;
+
 
 //** Titre
 function conformTitle() {
@@ -388,17 +402,7 @@ function conformTitle() {
     };
 };*/
 
-//** Catégorie
-function verifCategory() {
-    for (category of categories) {
-        if (category.id === parseInt(selectCategories.value)) { //parseInt permet de changer une string en nb
-            //console.log("La catégorie est valide.")
-            return true
-        }
-    }
-    //console.log("La catégorie n'est pas valide.")
-    return false
-}
+
 
 //***** Envoie form ajout photo **********************************************
 const btnValider = document.getElementById("btnValider");
@@ -408,6 +412,16 @@ btnValider.disabled = true //btn non-cliquable
 
 //** Vérif formulaire rempli
 function verifForm() {
+    if(ajoutPhoto && choixTitle && verifCategory()) {
+        btnValider.classList.remove("uncheck");
+        btnValider.classList.add("check");
+        btnValider.disabled = false //btn cliquable
+        return true;
+    } else {
+        return false;
+    }
+}
+/*function verifForm() {
     //console.log("lancement de verifForm()");
     if(verifTitle() && verifFile() && verifCategory()) {
         btnValider.classList.remove("uncheck");
@@ -430,7 +444,7 @@ function verifForm() {
         btnValider.disabled = true //btn non-cliquable
         return false;
     };
-};
+};*/
 
 //envoie formulaire à API
 document.addEventListener("DOMContentLoaded", () => {
