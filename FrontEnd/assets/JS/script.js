@@ -152,59 +152,6 @@ document.addEventListener("DOMContentLoaded", () => {
         /////////////////////////////////////////////////
         /******************* MODALE ********************/
 
-//***** Affichage et Suppression works dans modale *********************************
-const modalWorks = document.querySelector(".modal-works");
-
-//** Suppr works via icone trash
-function deleteWork(workId, deleteIcon) {
-    //console.log("workId => deleteWork", workId);
-    //console.log("token", online);
-
-    fetch(`http://localhost:5678/api/works/${workId}`, {
-        method: "DELETE",
-        headers: {
-            "Accept": "*/*",
-            "Authorization" : `Bearer ${online}`
-        },
-        }).then(response => {
-            if (response.ok) {
-                deleteIcon.parentElement.remove();
-                /*works =*/ works.filter((work) => work.id !== workId);
-                afficherWorks();
-                alert("Projet supprimé avec succès !")
-            }
-        }).catch(error => {
-            console.error(error, works + " n'a pas été supprimé.");
-        });
-};
-
-//** Afficher works dans gallery-modale
-function modifWorks() {
-    modalWorks.innerHTML = "";
-    works.forEach((work) => {
-        const figureModal = document.createElement("figure");
-        const img = document.createElement("img");
-        img.src = work.imageUrl
-        img.alt = work.title
-        figureModal.appendChild(img);
-        modalWorks.appendChild(figureModal);
-        //*Ajout btn suppr
-        const deleteIcon = document.createElement("a");
-        deleteIcon.innerHTML = `<i class="fa-solid fa-trash-can data-id="${work.id}""></i>`;
-        figureModal.appendChild(deleteIcon);
-        deleteIcon.classList.add("delete");
-
-        //*Suppression works
-        deleteIcon.addEventListener("click", (event) => {
-            //console.log("deleteIcon", deleteIcon);
-            const workId = event.target.getAttribute("data-id"); //récupére attribut icône suppr
-            //console.log("workId", workId);
-            deleteWork(workId, deleteIcon);
-        });
-    });
-};
-
-
 //***** Ouverture et Fermeture et Switch de la modale ****************************************
 const jsModal = document.getElementById("js-modal"); //lien bandeau edit
 const jsModal2 = document.getElementById("js-modal2"); // lien titre portfolio
@@ -274,6 +221,59 @@ arrowLeft.addEventListener("click", () => {
 });
 
 
+        //***** Affichage et Suppression works dans modale *********************************
+const modalWorks = document.querySelector(".modal-works");
+
+//** Suppr works via icone trash
+function deleteWork(workId, deleteIcon) {
+    //console.log("workId => deleteWork", workId);
+    //console.log("token", online);
+
+    fetch(`http://localhost:5678/api/works/${workId}`, {
+        method: "DELETE",
+        headers: {
+            "Accept": "*/*",
+            "Authorization" : `Bearer ${online}`
+        },
+        }).then(response => {
+            if (response.ok) {
+                deleteIcon.parentElement.remove();
+                /*works =*/ works.filter((work) => work.id !== workId);
+                afficherWorks();
+                alert("Projet supprimé avec succès !")
+            }
+        }).catch(error => {
+            console.error(error, works + " n'a pas été supprimé.");
+        });
+};
+
+//** Afficher works dans gallery-modale
+function modifWorks() {
+    modalWorks.innerHTML = "";
+    works.forEach((work) => {
+        const figureModal = document.createElement("figure");
+        const img = document.createElement("img");
+        img.src = work.imageUrl
+        img.alt = work.title
+        figureModal.appendChild(img);
+        modalWorks.appendChild(figureModal);
+        //*Ajout btn suppr
+        const deleteIcon = document.createElement("a");
+        deleteIcon.innerHTML = `<i class="fa-solid fa-trash-can data-id="${work.id}""></i>`;
+        figureModal.appendChild(deleteIcon);
+        deleteIcon.classList.add("delete");
+
+        //*Suppression works
+        deleteIcon.addEventListener("click", (event) => {
+            //console.log("deleteIcon", deleteIcon);
+            const workId = event.target.getAttribute("data-id"); //récupére attribut icône suppr
+            //console.log("workId", workId);
+            deleteWork(workId, deleteIcon);
+        });
+    });
+};
+
+
 //***** Ajouter photo (window-modal-2) ******************************************
 const choixPhoto = document.querySelector(".choixPhoto"); //container
 const imgPhoto = document.querySelector(".fa-image"); //icone
@@ -282,30 +282,63 @@ const ajoutPhoto = document.getElementById("ajoutPhoto"); //input
 const miniPhoto = document.getElementById("miniPhoto"); //img (vide)
 const limiteFormat = document.getElementById("limiteFormat"); //p
 
+//*Vérification taille et format photo
+function fileType() {
+    if(!file) {
+        return false
+    }
+    const fileTypes = ["image/jpeg", "image/pjpeg", "image/png"] 
+    //console.log("fileTypes", fileTypes)
+    //console.log("file type", file)
+    if(fileTypes.includes(file.type)) {
+        console.log("le format est bon")
+        return true
+    } else {
+        alert("Le format n'est pas valide !")
+    }
+}
+
+function fileSize() {
+    const number = file.size
+    const MAX_IMG_SIZE = 4; //Mo
+    const fileSizeMo = number / 1024 ** 2;
+
+    if(fileSizeMo < MAX_IMG_SIZE) {
+        console.log("la taille est bonne")
+        return true
+    } else {
+        alert("La taille est trop grande !")
+    }
+}
+
 ajoutPhoto.addEventListener("change", () => {
     //*Récupération fichier
     const selectedPhoto = ajoutPhoto.files[0];
     file = selectedPhoto
-    const photo = document.createElement("img");
-    photo.src = URL.createObjectURL(selectedPhoto);
-    miniPhoto.src = photo.src;
+    miniPhoto.src = URL.createObjectURL(selectedPhoto);
 
     //*Afficher photo dans choixPhoto
+    if(fileType() && fileSize()) {
     imgPhoto.style.display = "none";
     labelAjoutPhoto.style.display = "none";
     ajoutPhoto.style.display = "none";
     limiteFormat.style.display = "none";
     miniPhoto.style.display = "block";
+    } else {
+        miniPhoto.style.display = "none";
+        console.log("L'image est invalide.");
+        return false;
+    }
 });
 
-//** Reset miniPhoto
+/* //** Reset miniPhoto
 function resetMiniPhoto() {
     imgPhoto.style.display = "block";
     labelAjoutPhoto.style.display = "block";
     ajoutPhoto.style.display = "block";
     limiteFormat.style.display = "block";
     miniPhoto.style.display = "none";
-};
+};*/
 
 
 //***** Affiche catégories dans menu déroulant **********************************
@@ -335,49 +368,6 @@ const choixSelectCategory = async () => {
 const choixTitle = document.getElementById("choixTitle");
 let file;
 
-//** Image
-function fileType() {
-    if(!file) {
-        return false
-    }
-    const fileTypes = ["image/jpeg", "image/pjpeg", "image/png"] 
-    console.log("fileTypes", fileTypes)
-    console.log("file type", file)
-    if(fileTypes.includes(file.type)) {
-        return true
-    } else {
-        const typeWarning = document.createElement("p")
-        typeWarning.innerText = "Le format n'est pas valide !"
-        limiteFormat.appendChild(typeWarning)
-        typeWarning.classList.add("errorPhoto")
-        return false
-    }
-}
-
-function fileSize() {
-    const number = file.size
-    if(number < 4000000 /*octets*/) {
-        return true
-    } else {
-        const sizeWarning = document.createElement("p")
-        sizeWarning.innerText = "La taille est trop grande !"
-        limiteFormat.appendChild(sizeWarning)
-        sizeWarning.classList.add("errorPhoto")
-        return false
-    }
-}
-
-function verifFile() {
-    if(fileType() && fileSize()) {
-        console.log("L'image est valide.");
-        return true;
-    } else {
-        imgPhoto.style = "color: red";
-        console.log("L'image est invalide.");
-        return false;
-    }
-}
-
 //** Titre
 function conformTitle() {
     let titleRegExp = new RegExp("[A-z._-]+") //conformité titre
@@ -389,15 +379,14 @@ function conformTitle() {
     }
 }
 
-
-function verifTitle() {
+/*function verifTitle() {
     if(conformTitle() === true) {
         console.log("le titre est valide.");
         return true;
     } else {
         return false;
     };
-};
+};*/
 
 //** Catégorie
 function verifCategory() {
@@ -407,7 +396,7 @@ function verifCategory() {
             return true
         }
     }
-    console.log("La catégorie n'est pas valide.")
+    //console.log("La catégorie n'est pas valide.")
     return false
 }
 

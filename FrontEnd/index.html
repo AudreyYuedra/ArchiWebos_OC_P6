@@ -67,16 +67,16 @@
 				<div class="choixPhoto">
 					<i class="fa-regular fa-image"></i>
 					<label for="ajoutPhoto" id="labelPhoto">+ Ajouter photo</label>
-					<input type="file" id="ajoutPhoto" name="Photo" 
-						accept="image/*" style="visibility: hidden;"> <!-- ouvre fenêtre Windows -->
+					<input type="file" id="ajoutPhoto" name="Photo" accept="image/*" 
+					required="required" style="visibility: hidden;"> <!-- ouvre fenêtre Windows -->
 					<p id="limiteFormat">jpg, png : 4mo max</p>
 					<img id="miniPhoto" src="" alt="" style="display: none;">
 				</div>
 				<div>
 					<label for="choixTitle">Titre</label>
-					<input type="text" id="choixTitle" name="title">
+					<input type="text" id="choixTitle" name="title" required="required">
 					<label id="category" for="selectCategories">Catégorie</label>
-					<select id="selectCategories" name="category">
+					<select id="selectCategories" name="category" required="required">
 						<!-- options ajoutés en JS -->
 					</select>
 					<input type="submit" value="Valider" id="btnValider" class="uncheck">
