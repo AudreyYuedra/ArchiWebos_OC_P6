@@ -221,10 +221,10 @@ arrowLeft.addEventListener("click", () => {
 });
 
 
-        //***** Affichage et Suppression works dans modale *********************************
+//***** Affichage et Suppression works dans modale *********************************
 const modalWorks = document.querySelector(".modal-works");
 
-//** Suppr works via icone trash
+//*Suppr works via icone trash
 function deleteWork(workId, deleteIcon) {
     //console.log("workId => deleteWork", workId);
     //console.log("token", online);
@@ -247,7 +247,7 @@ function deleteWork(workId, deleteIcon) {
         });
 };
 
-//** Afficher works dans gallery-modale
+//*Afficher works dans gallery-modale
 function modifWorks() {
     modalWorks.innerHTML = "";
     works.forEach((work) => {
@@ -333,15 +333,6 @@ ajoutPhoto.addEventListener("change", () => {
     }
 });
 
-/* //** Reset miniPhoto
-function resetMiniPhoto() {
-    imgPhoto.style.display = "block";
-    labelAjoutPhoto.style.display = "block";
-    ajoutPhoto.style.display = "block";
-    limiteFormat.style.display = "block";
-    miniPhoto.style.display = "none";
-};*/
-
 
 //***** Affiche catégories dans menu déroulant **********************************
 const selectCategories = document.getElementById("selectCategories");
@@ -378,39 +369,14 @@ function verifCategory() {
 }
 
 
-//***** Vérif champs remplis ************************************************
-const choixTitle = document.getElementById("choixTitle");
-
-
-//** Titre
-function conformTitle() {
-    let titleRegExp = new RegExp("[A-z._-]+") //conformité titre
-    console.log(choixTitle.value)
-    if(!choixTitle.value.match(titleRegExp)) {
-        choixTitle.classList.add("errorTitle")
-    } else {
-        return true
-    }
-}
-
-/*function verifTitle() {
-    if(conformTitle() === true) {
-        console.log("le titre est valide.");
-        return true;
-    } else {
-        return false;
-    };
-};*/
-
-
-
 //***** Envoie form ajout photo **********************************************
 const btnValider = document.getElementById("btnValider");
 const modalForm = document.querySelector("#form-modal");
+const choixTitle = document.getElementById("choixTitle");
 
 btnValider.disabled = true //btn non-cliquable
 
-//** Vérif formulaire rempli
+//*Vérif formulaire bien rempli
 function verifForm() {
     if(ajoutPhoto && choixTitle && verifCategory()) {
         btnValider.classList.remove("uncheck");
@@ -421,33 +387,110 @@ function verifForm() {
         return false;
     }
 }
-/*function verifForm() {
-    //console.log("lancement de verifForm()");
-    if(verifTitle() && verifFile() && verifCategory()) {
-        btnValider.classList.remove("uncheck");
-        btnValider.classList.add("check");
-        btnValider.disabled = false //btn cliquable
-        return true;
-    } else {
-        if(!verifTitle()) {
-            choixTitle.classList.add("errorTilte");
-            //console.log("Le champ Titre est vide.");
-        };
-        if(!verifFile()) {
-            imgPhoto.style.color = "red";
-            //console.log("L'image n'a pas été choisie.");
-        };
-        if(!verifCategory()) {
-            selectCategories.classList.add("errorSelect");
-            //console.log("La catégorie n'a pas été choisie.");
-        };
-        btnValider.disabled = true //btn non-cliquable
-        return false;
+
+modalForm.addEventListener("change", () => {
+    verifForm();
+});
+
+//*Envoi formulaire
+modalForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (verifForm()) {
+        //*Création object formData
+        const formData = new FormData(); //création objet pour envoie form
+        formData.append("title", choixTitle.value);
+        formData.append("category", parseInt(selectCategories.value));
+        formData.append("image", ajoutPhoto.files[0]);
+        console.log(formData.value);
+
+        await fetch("http://localhost:5678/api/works", {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${online}`,
+                Accept: "application/json"
+            },
+            body: formData
+        })
+        .then(response => {
+            response.json();
+            if(response.ok) {
+                event.preventDefault();
+                //*Mise à jour works
+                document.addEventListener("DOMContentLoaded", (event) => {
+                    event.preventDefault();
+                    afficherWorks(works);
+                    modifWorks();
+                });
+            } else {
+                alert(response.status);
+            }
+        })
     };
-};*/
+});
+
+
+/*document.addEventListener("DOMContentLoaded", () => {
+    modalForm.addEventListener("change", () => {
+        verifForm();
+    });
+    if(verifForm()) {
+    modalForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(modalForm);
+        const data = Object.fromEntries(formData);
+        console.log(data);
+        
+        //*Création object formData
+        const formData = new FormData();
+        formData.append("title", choixTitle.value);
+        formData.append("category", parseInt(selectCategories.value));
+        formData.append("image", ajoutPhoto.files[0]);
+
+        console.log("choixTitle", choixTitle.value);
+        console.log("category", selectCategories.value);
+        console.log("image", ajoutPhoto.files[0]);
+        console.log(response.status);
+        
+
+        //*Appel API
+        fetch("http://localhost:5678/api/works", {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: "application/json"
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            localStorage.getItem("Token", token)
+        })
+        .catch(error => console.log(error));
+        /*.then(response => {
+            if(response.ok) {
+                //*Mise à jour works
+                gallery.innerHTML = "";
+                afficherWorks(works);
+                modalWorks.innerHTML = "";
+                modifWorks();
+                //Changement fenêtre modale
+                windowTwo.style.display = "none";
+                windowOne.style.display = "block";
+            } else {
+                alert(response.status)
+            }
+        })
+    });
+    } else {
+        console.log("l'envoie a échoué")
+        return false
+    }
+})*/
 
 //envoie formulaire à API
-document.addEventListener("DOMContentLoaded", () => {
+/*document.addEventListener("DOMContentLoaded", () => {
     modalForm.addEventListener("change", () => {
         verifForm();
     });
@@ -475,6 +518,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
                 gallery.innerHTML = "";
                 afficherWorks(works);
+                modalWorks.innerHTML = "";
                 modifWorks();
                 //alert("Projet ajouté avec succès !");
                 windowTwo.style.display = "none";
@@ -486,3 +530,4 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     });
 });
+*/
