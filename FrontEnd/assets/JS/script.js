@@ -169,14 +169,14 @@ const arrowLeft = document.getElementById("arrowLeft"); //flèche page 2 modale
 jsModal.addEventListener("click", () => {
     modal.showModal();
     windowOne.style.display = "block";
-    modifWorks(works);
+    galleryWorksModal(works);
     console.log("Ouverture de la première fenêtre de la modale.")
 });
 
 jsModal2.addEventListener("click", () => {
     modal.showModal();
     windowOne.style.display = "block";
-    modifWorks(works);
+    galleryWorksModal(works);
     console.log("Ouverture de la première fenêtre de la modale.")
 });
 
@@ -224,41 +224,93 @@ arrowLeft.addEventListener("click", () => {
 //***** Affichage et Suppression works dans modale *********************************
 const modalWorks = document.querySelector(".modal-works");
 
-//*Suppr works via icone trash
-function deleteWork(workId, deleteIcon) {
+//*Suppr works
+/*function deleteWork(workId, deleteIcon) {
     //console.log("workId => deleteWork", workId);
     //console.log("token", online);
 
     fetch(`http://localhost:5678/api/works/${workId}`, {
         method: "DELETE",
         headers: {
-            "Accept": "*/*",
+            "Accept": "",
             "Authorization" : `Bearer ${online}`
         },
-        }).then(response => {
-            if (response.ok) {
-                deleteIcon.parentElement.remove();
-                /*works =*/ works.filter((work) => work.id !== workId);
-                afficherWorks();
-                alert("Projet supprimé avec succès !")
-            }
-        }).catch(error => {
-            console.error(error, works + " n'a pas été supprimé.");
-        });
-};
+    }).then(response => {
+        if (response.ok) {
+            deleteIcon.parentElement.remove();
+            works = works.filter((work) => work.id !== workId);
+            afficherWorks();
+            alert("Projet supprimé avec succès !")
+        }
+    }).catch(error => {
+        console.error(error, works + " n'a pas été supprimé.");
+    });
+};*/
 
-//*Afficher works dans gallery-modale
-function modifWorks() {
+//*Création gallerie works avec btn suppr
+function galleryWorksModal(works) {
     modalWorks.innerHTML = "";
     works.forEach((work) => {
         const figureModal = document.createElement("figure");
         const img = document.createElement("img");
         img.src = work.imageUrl
         img.alt = work.title
+        img.id = work.id
         figureModal.appendChild(img);
         modalWorks.appendChild(figureModal);
         //*Ajout btn suppr
         const deleteIcon = document.createElement("a");
+        deleteIcon.innerHTML = `<i class="fa-solid fa-trash-can data-id="${img.id}""></i>`;
+        figureModal.appendChild(deleteIcon);
+        deleteIcon.classList.add("delete");
+    
+        //* Suppr works
+        deleteIcon.addEventListener("click", (event) => {
+            const workIdSuppr = event.target.getAttribute(work.id); //récupére attribut icône suppr
+            console.log(workIdSuppr);  // !!! id non récupérer ou non associé à trash
+
+            fetch(`http://localhost:5678/api/works/${workIdSuppr}`, {
+                method: "DELETE",
+                headers: {"Authorization": `Bearer ${online}`,
+                          "Content-Type": "application/json"
+                        }
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.addEventListener("DOMContentLoaded", () => {
+                        deleteIcon.parentElement.remove();
+                        const newWorks = works.filter((work) => work.id);
+                        console.log(works);
+                        afficherWorks(works);
+                        galleryWorksModal(works);
+                        //alert("Projet supprimé avec succès !");
+                    })
+                }
+            })
+            .catch (error => {
+                console.error(error, workIdSuppr + " n'a pas été supprmé !");
+            })
+        })
+    })
+}
+
+//*Ajout btn suppr
+/*function btnSupprWork () {
+    
+}*/
+/*function modifWorks() {
+    /*modalWorks.innerHTML = "";
+    works.forEach((work) => {
+        const figureModal = document.createElement("figure");
+        const img = document.createElement("img");
+        img.src = work.imageUrl
+        img.alt = work.title
+        img.id = work.id
+        figureModal.appendChild(img);
+        modalWorks.appendChild(figureModal);
+
+        //*Ajout btn suppr
+        /*const deleteIcon = document.createElement("a");
         deleteIcon.innerHTML = `<i class="fa-solid fa-trash-can data-id="${work.id}""></i>`;
         figureModal.appendChild(deleteIcon);
         deleteIcon.classList.add("delete");
@@ -271,7 +323,7 @@ function modifWorks() {
             deleteWork(workId, deleteIcon);
         });
     });
-};
+};*/
 
 
 //***** Ajouter photo (window-modal-2) ******************************************
@@ -419,7 +471,7 @@ modalForm.addEventListener("submit", async (event) => {
                 document.addEventListener("DOMContentLoaded", (event) => {
                     event.preventDefault();
                     afficherWorks(works);
-                    modifWorks();
+                    galleryWorksModal();
                 });
             } else {
                 alert(response.status);
@@ -427,107 +479,3 @@ modalForm.addEventListener("submit", async (event) => {
         })
     };
 });
-
-
-/*document.addEventListener("DOMContentLoaded", () => {
-    modalForm.addEventListener("change", () => {
-        verifForm();
-    });
-    if(verifForm()) {
-    modalForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-
-        const formData = new FormData(modalForm);
-        const data = Object.fromEntries(formData);
-        console.log(data);
-        
-        //*Création object formData
-        const formData = new FormData();
-        formData.append("title", choixTitle.value);
-        formData.append("category", parseInt(selectCategories.value));
-        formData.append("image", ajoutPhoto.files[0]);
-
-        console.log("choixTitle", choixTitle.value);
-        console.log("category", selectCategories.value);
-        console.log("image", ajoutPhoto.files[0]);
-        console.log(response.status);
-        
-
-        //*Appel API
-        fetch("http://localhost:5678/api/works", {
-            method: "POST",
-            headers: {
-                Authorization: `Bearer ${token}`,
-                Accept: "application/json"
-            },
-            body: JSON.stringify(data),
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            localStorage.getItem("Token", token)
-        })
-        .catch(error => console.log(error));
-        /*.then(response => {
-            if(response.ok) {
-                //*Mise à jour works
-                gallery.innerHTML = "";
-                afficherWorks(works);
-                modalWorks.innerHTML = "";
-                modifWorks();
-                //Changement fenêtre modale
-                windowTwo.style.display = "none";
-                windowOne.style.display = "block";
-            } else {
-                alert(response.status)
-            }
-        })
-    });
-    } else {
-        console.log("l'envoie a échoué")
-        return false
-    }
-})*/
-
-//envoie formulaire à API
-/*document.addEventListener("DOMContentLoaded", () => {
-    modalForm.addEventListener("change", () => {
-        verifForm();
-    });
-
-    modalForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-        if (verifForm()) {
-            //*Création object formData
-            let formData = new FormData();
-            formData.append("title", choixTitle.value);
-            formData.append("category", parseInt(selectCategories.value));
-            formData.append("image", ajoutPhoto.files[0]);
-
-            try {
-                fetch("http://localhost:5678/api/works", {
-                    method: "POST",
-                    headers: {Authorization: `Bearer ${online}`},
-                    body: formData,
-                })
-                .then( response => {
-                    //console.log("choixTitle", choixTitle.value);
-                    //console.log("category", selectCategories.value);
-                    //console.log("image", ajoutPhoto.files[0]);
-                    //console.log(response.status);
-                })
-                gallery.innerHTML = "";
-                afficherWorks(works);
-                modalWorks.innerHTML = "";
-                modifWorks();
-                //alert("Projet ajouté avec succès !");
-                windowTwo.style.display = "none";
-                windowOne.style.display = "block";
-            }
-            catch {
-                console.error("Une erreur s'est produite : ", error);
-            };
-        };
-    });
-});
-*/
