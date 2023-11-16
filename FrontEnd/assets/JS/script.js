@@ -224,28 +224,31 @@ arrowLeft.addEventListener("click", () => {
 //***** Affichage et Suppression works dans modale *********************************
 const modalWorks = document.querySelector(".modal-works");
 
-async function deleteWork(deleteIcon, img) {
+function deleteWork(deleteIcon, img) {
     try {
-        const response = await fetch(`http://localhost:5678/api/works/${img.id}`, {
+        const response = fetch(`http://localhost:5678/api/works/${img.id}`, {
             method: "DELETE",
             headers: {
                 "Authorization": `Bearer ${online}`,
                 "Content-Type": "application/json"
             }
         });
+        console.log(response.status);
 
         if (response.ok) {
             console.log(response.status);
             deleteIcon.parentElement.remove();
-                const newWorks = works.filter((work) => work.id !== img.id);
-                console.log(newWorks);
-                afficherWorks(newWorks);
-                galleryWorksModal(newWorks);
+            document.addEventListener("DOMContentLoaded", () => {
+                const works = works.filter((work) => work.id !== img.id);
+                console.log(works);
+                afficherWorks(works);
+                galleryWorksModal(works);
                 alert("Projet supprimé avec succès !");
+            });
         } else if (response.status == "401") {
             alert('Session expirée, merci de vous reconnecter');
             document.location.href=("login.html"); 
-          } else {
+        } else {
             console.log(response.status);
         }
     } catch (error) {
@@ -271,8 +274,9 @@ function galleryWorksModal(works) {
         deleteIcon.classList.add("delete");
     
         //*Suppr works
-        deleteIcon.addEventListener("click", () => {
+        deleteIcon.addEventListener("click", (event) => {
             console.log("work.id = " + img.id);
+            //event.preventDefault();
             deleteWork(deleteIcon, img);
         })
     })
@@ -406,7 +410,6 @@ modalForm.addEventListener("submit", async (event) => {
         formData.append("title", choixTitle.value);
         formData.append("category", parseInt(selectCategories.value));
         formData.append("image", ajoutPhoto.files[0]);
-        console.log(formData.value);
 
         await fetch("http://localhost:5678/api/works", {
             method: "POST",
@@ -419,13 +422,15 @@ modalForm.addEventListener("submit", async (event) => {
         .then(response => {
             response.json();
             if(response.ok) {
-                event.preventDefault();
                 //*Mise à jour works
                 document.addEventListener("DOMContentLoaded", (event) => {
-                    event.preventDefault();
+                    //event.preventDefault();
                     afficherWorks(works);
                     galleryWorksModal();
                 });
+            } else if (response.status == "401") {
+                alert('Session expirée, merci de vous reconnecter');
+                document.location.href=("login.html");
             } else {
                 alert(response.status);
             }
