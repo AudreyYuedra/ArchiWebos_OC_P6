@@ -224,54 +224,33 @@ arrowLeft.addEventListener("click", () => {
 //***** Affichage et Suppression works dans modale *********************************
 const modalWorks = document.querySelector(".modal-works");
 
-//*Suppr works
-/*function deleteWork(workId, deleteIcon) {
-    //console.log("workId => deleteWork", workId);
-    //console.log("token", online);
+async function deleteWork(deleteIcon, img) {
+    try {
+        const response = await fetch(`http://localhost:5678/api/works/${img.id}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${online}`,
+                "Content-Type": "application/json"
+            }
+        });
 
-    fetch(`http://localhost:5678/api/works/${workId}`, {
-        method: "DELETE",
-        headers: {
-            "Accept": "",
-            "Authorization" : `Bearer ${online}`
-        },
-    }).then(response => {
-        if (response.ok) {
-            deleteIcon.parentElement.remove();
-            works = works.filter((work) => work.id !== workId);
-            afficherWorks();
-            alert("Projet supprimé avec succès !")
-        }
-    }).catch(error => {
-        console.error(error, works + " n'a pas été supprimé.");
-    });
-};*/
-
-async function deleteWork(deleteIcon, workIdSuppr) {
-    await fetch(`http://localhost:5678/api/works/${workIdSuppr}`, {
-        method: "DELETE",
-        headers: {"Authorization": `Bearer ${online}`,
-                  "Content-Type": "application/json"
-                }
-    })
-    .then(response => {
         if (response.ok) {
             console.log(response.status);
             deleteIcon.parentElement.remove();
-            document.addEventListener("change", () => {
-                const newWorks = works.filter((work) => work.id);
+                const newWorks = works.filter((work) => work.id !== img.id);
                 console.log(newWorks);
-                afficherWorks(works);
-                galleryWorksModal(works);
-                //alert("Projet supprimé avec succès !");
-            })
-        } else {
+                afficherWorks(newWorks);
+                galleryWorksModal(newWorks);
+                alert("Projet supprimé avec succès !");
+        } else if (response.status == "401") {
+            alert('Session expirée, merci de vous reconnecter');
+            document.location.href=("login.html"); 
+          } else {
             console.log(response.status);
         }
-    })
-    .catch (error => {
-        console.error(error, workIdSuppr + " n'a pas été supprmé !");
-    })
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 //*Création gallerie works avec btn suppr
@@ -287,49 +266,17 @@ function galleryWorksModal(works) {
         modalWorks.appendChild(figureModal);
         //*Ajout btn suppr
         const deleteIcon = document.createElement("a");
-        deleteIcon.innerHTML = `<i class="fa-solid fa-trash-can data-id="${img.id}""></i>`;
+        deleteIcon.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
         figureModal.appendChild(deleteIcon);
         deleteIcon.classList.add("delete");
     
         //*Suppr works
-        deleteIcon.addEventListener("click", (event) => {
-            const workIdSuppr = event.target.getAttribut("data-id"); //récupére attribut icône suppr cliqué
-            console.log(workIdSuppr);  // !!! prob => renvoie null
-            deleteWork(deleteIcon, workIdSuppr);
+        deleteIcon.addEventListener("click", () => {
+            console.log("work.id = " + img.id);
+            deleteWork(deleteIcon, img);
         })
     })
 }
-
-//*Ajout btn suppr
-/*function btnSupprWork () {
-    
-}*/
-/*function modifWorks() {
-    /*modalWorks.innerHTML = "";
-    works.forEach((work) => {
-        const figureModal = document.createElement("figure");
-        const img = document.createElement("img");
-        img.src = work.imageUrl
-        img.alt = work.title
-        img.id = work.id
-        figureModal.appendChild(img);
-        modalWorks.appendChild(figureModal);
-
-        //*Ajout btn suppr
-        /*const deleteIcon = document.createElement("a");
-        deleteIcon.innerHTML = `<i class="fa-solid fa-trash-can data-id="${work.id}""></i>`;
-        figureModal.appendChild(deleteIcon);
-        deleteIcon.classList.add("delete");
-
-        //*Suppression works
-        deleteIcon.addEventListener("click", (event) => {
-            //console.log("deleteIcon", deleteIcon);
-            const workId = event.target.getAttribute("data-id"); //récupére attribut icône suppr
-            //console.log("workId", workId);
-            deleteWork(workId, deleteIcon);
-        });
-    });
-};*/
 
 
 //***** Ajouter photo (window-modal-2) ******************************************
