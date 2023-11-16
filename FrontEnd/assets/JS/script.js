@@ -247,6 +247,33 @@ const modalWorks = document.querySelector(".modal-works");
     });
 };*/
 
+async function deleteWork(deleteIcon, workIdSuppr) {
+    await fetch(`http://localhost:5678/api/works/${workIdSuppr}`, {
+        method: "DELETE",
+        headers: {"Authorization": `Bearer ${online}`,
+                  "Content-Type": "application/json"
+                }
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log(response.status);
+            deleteIcon.parentElement.remove();
+            document.addEventListener("change", () => {
+                const newWorks = works.filter((work) => work.id);
+                console.log(newWorks);
+                afficherWorks(works);
+                galleryWorksModal(works);
+                //alert("Projet supprimé avec succès !");
+            })
+        } else {
+            console.log(response.status);
+        }
+    })
+    .catch (error => {
+        console.error(error, workIdSuppr + " n'a pas été supprmé !");
+    })
+}
+
 //*Création gallerie works avec btn suppr
 function galleryWorksModal(works) {
     modalWorks.innerHTML = "";
@@ -264,32 +291,11 @@ function galleryWorksModal(works) {
         figureModal.appendChild(deleteIcon);
         deleteIcon.classList.add("delete");
     
-        //* Suppr works
+        //*Suppr works
         deleteIcon.addEventListener("click", (event) => {
-            const workIdSuppr = event.target.getAttribute(work.id); //récupére attribut icône suppr
-            console.log(workIdSuppr);  // !!! id non récupérer ou non associé à trash
-
-            fetch(`http://localhost:5678/api/works/${workIdSuppr}`, {
-                method: "DELETE",
-                headers: {"Authorization": `Bearer ${online}`,
-                          "Content-Type": "application/json"
-                        }
-            })
-            .then(response => {
-                if (response.ok) {
-                    document.addEventListener("DOMContentLoaded", () => {
-                        deleteIcon.parentElement.remove();
-                        const newWorks = works.filter((work) => work.id);
-                        console.log(works);
-                        afficherWorks(works);
-                        galleryWorksModal(works);
-                        //alert("Projet supprimé avec succès !");
-                    })
-                }
-            })
-            .catch (error => {
-                console.error(error, workIdSuppr + " n'a pas été supprmé !");
-            })
+            const workIdSuppr = event.target.getAttribut("data-id"); //récupére attribut icône suppr cliqué
+            console.log(workIdSuppr);  // !!! prob => renvoie null
+            deleteWork(deleteIcon, workIdSuppr);
         })
     })
 }
