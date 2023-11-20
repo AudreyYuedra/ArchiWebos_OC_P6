@@ -23,7 +23,6 @@ async function fetchCategories(){
 
 //****** Ajout works dans portfolio ***************************************
 const gallery = document.querySelector(".gallery");
-const categoriesFilters = null;
 let works = [];
 
 function afficherWorks(works) {
@@ -48,6 +47,7 @@ function afficherWorks(works) {
 
 //****** Ajout filtres pour les catégories ********************************
 const filters = document.querySelector(".filters");
+const categoriesFilters = null;
 let categories = [];
 
 function afficherCategories(categories) {
@@ -93,7 +93,7 @@ filters.addEventListener("click", (event) => {
 
 
 //****** Chargement works et categories ************************************
-document.addEventListener("DOMContentLoaded", (event) => {
+document.addEventListener("DOMContentLoaded", () => {
     if(works < 1) {
         fetchWorks()
             .then((data) => {
@@ -170,45 +170,45 @@ jsModal.addEventListener("click", () => {
     modal.showModal();
     windowOne.style.display = "block";
     galleryWorksModal(works);
-    console.log("Ouverture de la première fenêtre de la modale.")
+    //console.log("Ouverture de la première fenêtre de la modale.")
 });
 
 jsModal2.addEventListener("click", () => {
     modal.showModal();
     windowOne.style.display = "block";
     galleryWorksModal(works);
-    console.log("Ouverture de la première fenêtre de la modale.")
+    //console.log("Ouverture de la première fenêtre de la modale.")
 });
 
 //** Fermeture modale
 modal.addEventListener("click", (event) => {
     if (event.target === modal) {
         modal.close();
-        console.log("Fermeture de la modale.")
+        //console.log("Fermeture de la modale.")
     };
 });
 
 closeMark.addEventListener("click", () => {
     modal.close();
-    console.log("Fermeture de la modale.")
+    //console.log("Fermeture de la modale.")
 });
 
 closeMark2.addEventListener("click", () => {
     modal.close();
-    console.log("Fermeture de la modale.")
+    //console.log("Fermeture de la modale.")
 });
 
 //** Switch window-modal
 function openModalTwo() {
     windowOne.style.display = "none";
     windowTwo.style.display = "block";
-    console.log("Ouverture de la seconde fenêtre de la modale.")
+    //console.log("Ouverture de la seconde fenêtre de la modale.")
 };
 
 function precedentModal() {
     windowOne.style.display = "block";
-   windowTwo.style.display = "none";
-   console.log("Ouverture de la première fenêtre de la modale.")
+    windowTwo.style.display = "none";
+    //console.log("Ouverture de la première fenêtre de la modale.")
 };
 
 btnAjouter.addEventListener("click", () => {
@@ -223,6 +223,7 @@ arrowLeft.addEventListener("click", () => {
 
 //***** Affichage et Suppression works dans modale *********************************
 const modalWorks = document.querySelector(".modal-works");
+const newWorks = works.filter((work) => work.id !== img.id);
 
 function deleteWork(deleteIcon, img) {
     try {
@@ -233,20 +234,13 @@ function deleteWork(deleteIcon, img) {
                 "Content-Type": "application/json"
             }
         });
-        console.log(response.status);
 
-        if (response.ok) {
-            console.log(response.status);
+        if (response) {
             deleteIcon.parentElement.remove();
-            document.addEventListener("DOMContentLoaded", () => {
-                const works = works.filter((work) => work.id !== img.id);
-                console.log(works);
-                afficherWorks(works);
-                galleryWorksModal(works);
-                alert("Projet supprimé avec succès !");
-            });
+            afficherWorks(works);
+
         } else if (response.status == "401") {
-            alert('Session expirée, merci de vous reconnecter');
+            alert("Session expirée, veuillez vous reconnecter.");
             document.location.href=("login.html"); 
         } else {
             console.log(response.status);
@@ -272,11 +266,10 @@ function galleryWorksModal(works) {
         deleteIcon.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
         figureModal.appendChild(deleteIcon);
         deleteIcon.classList.add("delete");
-    
+
         //*Suppr works
-        deleteIcon.addEventListener("click", (event) => {
+        deleteIcon.addEventListener("click", () => {
             console.log("work.id = " + img.id);
-            //event.preventDefault();
             deleteWork(deleteIcon, img);
         })
     })
@@ -391,6 +384,7 @@ function verifForm() {
         btnValider.classList.remove("uncheck");
         btnValider.classList.add("check");
         btnValider.disabled = false //btn cliquable
+        btnValider.style.cursor = "pointer";
         return true;
     } else {
         return false;
@@ -400,6 +394,25 @@ function verifForm() {
 modalForm.addEventListener("change", () => {
     verifForm();
 });
+
+//*Reset formulaire
+function resetForm() {
+    //*photo
+    imgPhoto.style.display = "flex";
+    labelAjoutPhoto.style.display = "flex";
+    ajoutPhoto.style.display = "flex";
+    limiteFormat.style.display = "flex";
+    miniPhoto.style.display = "none";
+    //*titre
+    choixTitle.value = "";
+    //*catégorie
+    selectCategories.value = "";
+    //*btn valider
+    btnValider.classList.remove("check");
+    btnValider.classList.add("uncheck");
+    btnValider.disabled = true //btn non-cliquable
+    btnValider.style.cursor = "auto";
+}
 
 //*Envoi formulaire
 modalForm.addEventListener("submit", async (event) => {
@@ -421,15 +434,16 @@ modalForm.addEventListener("submit", async (event) => {
         })
         .then(response => {
             response.json();
-            if(response.ok) {
+            if(response) {
                 //*Mise à jour works
-                document.addEventListener("DOMContentLoaded", (event) => {
+                resetForm();
+                document.addEventListener("change", () => {
                     //event.preventDefault();
                     afficherWorks(works);
-                    galleryWorksModal();
+                    galleryWorksModal(works);
                 });
             } else if (response.status == "401") {
-                alert('Session expirée, merci de vous reconnecter');
+                alert("Session expirée, veuillez vous reconnecter.");
                 document.location.href=("login.html");
             } else {
                 alert(response.status);
