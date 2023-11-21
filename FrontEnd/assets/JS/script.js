@@ -237,6 +237,7 @@ function deleteWork(deleteIcon, img) {
 
         if (response) {
             deleteIcon.parentElement.remove();
+            fetchWorks();  //appel API
             afficherWorks(works);
 
         } else if (response.status == "401") {
@@ -439,6 +440,7 @@ modalForm.addEventListener("submit", async (event) => {
                 resetForm();
                 document.addEventListener("change", () => {
                     //event.preventDefault();
+                    fetchWorks();
                     afficherWorks(works);
                     galleryWorksModal(works);
                 });
