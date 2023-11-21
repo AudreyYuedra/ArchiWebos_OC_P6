@@ -27,7 +27,6 @@ let works = [];
 
 function afficherWorks(works) {
     gallery.innerHTML = ""; //efface le contenu html
-    //console.log("works", works);
     //*Création éléments via boucle
     works.forEach((work) => {   //mettre les parenthèses par défaut
         const figure = document.createElement("figure");
@@ -94,13 +93,13 @@ filters.addEventListener("click", (event) => {
 
 //****** Chargement works et categories ************************************
 document.addEventListener("DOMContentLoaded", () => {
-    if(works < 1) {
-        fetchWorks()
-            .then((data) => {
-                works = data;
-                afficherWorks(works);
-            });
-    }
+    fetchWorks()
+        .then((data) => {
+            works = data;
+            afficherWorks(works);
+            //console.log("gallery site : " + works);
+        });
+
     fetchCategories()
         .then(categories => {
             afficherCategories(categories);
@@ -168,9 +167,10 @@ const arrowLeft = document.getElementById("arrowLeft"); //flèche page 2 modale
 //** Ouverture modale
 jsModal.addEventListener("click", () => {
     modal.showModal();
+    //console.log("Ouverture de la première fenêtre de la modale.");
     windowOne.style.display = "block";
     galleryWorksModal(works);
-    //console.log("Ouverture de la première fenêtre de la modale.")
+    //console.log("gallery modale : " + works);
 });
 
 jsModal2.addEventListener("click", () => {
@@ -232,17 +232,22 @@ function deleteWork(deleteIcon, img) {
             headers: {
                 "Authorization": `Bearer ${online}`,
                 "Content-Type": "application/json"
-            }
+            },
+            //mode: "cors",
+            //credentials: "same-origin",
         });
 
         if (response) {
             deleteIcon.parentElement.remove();
-            fetchWorks();  //appel API
-            afficherWorks(works);
-
+            fetchWorks()
+                .then((newWorks) => {
+                    works = newWorks;
+                afficherWorks(works);
+                galleryWorksModal(works);
+            });
         } else if (response.status == "401") {
             alert("Session expirée, veuillez vous reconnecter.");
-            document.location.href=("login.html"); 
+            document.location.href = ("login.html"); 
         } else {
             console.log(response.status);
         }
@@ -436,14 +441,16 @@ modalForm.addEventListener("submit", async (event) => {
         .then(response => {
             response.json();
             if(response) {
-                //*Mise à jour works
+                console.log(response);
                 resetForm();
-                document.addEventListener("change", () => {
-                    //event.preventDefault();
-                    fetchWorks();
-                    afficherWorks(works);
-                    galleryWorksModal(works);
-                });
+                //*Mise à jour works
+                fetchWorks()
+                    .then((data) => {
+                        works = data;
+                        afficherWorks(works);
+                        galleryWorksModal(works);
+                        console.log("works : " + works);
+            });
             } else if (response.status == "401") {
                 alert("Session expirée, veuillez vous reconnecter.");
                 document.location.href=("login.html");
