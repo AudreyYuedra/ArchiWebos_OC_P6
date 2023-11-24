@@ -223,7 +223,7 @@ arrowLeft.addEventListener("click", () => {
 
 //***** Affichage et Suppression works dans modale *********************************
 const modalWorks = document.querySelector(".modal-works");
-const newWorks = works.filter((work) => work.id !== img.id);
+const newWorks = works.filter((work) => work.id !== img.id); //créer nouveau tableau avec condition déterminée
 
 function deleteWork(deleteIcon, img) {
     try {
@@ -233,18 +233,18 @@ function deleteWork(deleteIcon, img) {
                 "Authorization": `Bearer ${online}`,
                 "Content-Type": "application/json"
             },
-            //mode: "cors",
-            //credentials: "same-origin",
         });
 
         if (response) {
             deleteIcon.parentElement.remove();
+            //*Mise à jour works
             fetchWorks()
-                .then((newWorks) => {
-                    works = newWorks;
-                afficherWorks(works);
-                galleryWorksModal(works);
-            });
+                .then((data) => {
+                    works = data;
+                    afficherWorks(works);
+                    galleryWorksModal(works);
+                    console.log("works : " + works);
+                });
         } else if (response.status == "401") {
             alert("Session expirée, veuillez vous reconnecter.");
             document.location.href = ("login.html"); 
@@ -450,7 +450,7 @@ modalForm.addEventListener("submit", async (event) => {
                         afficherWorks(works);
                         galleryWorksModal(works);
                         console.log("works : " + works);
-            });
+                    });
             } else if (response.status == "401") {
                 alert("Session expirée, veuillez vous reconnecter.");
                 document.location.href=("login.html");
